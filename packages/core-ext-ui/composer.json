@@ -1,0 +1,63 @@
+{
+  "name": "modette/core-ext-ui",
+  "description": "UI layer for Modette applications",
+  "type": "library",
+  "license": "MPL-2.0",
+  "keywords": [
+    "controls",
+    "forms",
+    "presenters",
+    "ui"
+  ],
+  "homepage": "https://github.com/modette/modette",
+  "authors": [
+    {
+      "name": "Marek Bartoš",
+      "homepage": "https://marek-bartos.cz"
+    }
+  ],
+  "require": {
+    "php": ">=7.2.0",
+    "contributte/application": "^0.3.1",
+    "contributte/event-dispatcher-extra": "^0.4.1",
+    "contributte/forms": "^0.3.0",
+    "modette/core": "^1.0.0",
+    "modette/core-ext-http": "^1.0.0",
+    "modette/core-ext-templates": "^1.0.0",
+    "nette/component-model": "^2.4.0",
+    "nette/security": "^2.4.3"
+  },
+  "require-dev": {
+    "ninjify/nunjuck": "^0.2.1"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "autoload": {
+    "psr-4": {
+      "Modette\\UI\\": "src"
+    }
+  },
+  "scripts": {
+    "tests": [
+      "tester -s -p php --colors 1 -C tests/cases"
+    ],
+    "phpstan-install": [
+      "mkdir -p temp/phpstan",
+      "composer require -d temp/phpstan phpstan/phpstan:^0.10",
+      "composer require -d temp/phpstan phpstan/phpstan-deprecation-rules:^0.10",
+      "composer require -d temp/phpstan phpstan/phpstan-nette:^0.10",
+      "composer require -d temp/phpstan phpstan/phpstan-strict-rules:^0.10"
+    ],
+    "phpstan": [
+      "temp/phpstan/vendor/bin/phpstan analyse -l max -c phpstan.neon src"
+    ]
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
+  }
+}

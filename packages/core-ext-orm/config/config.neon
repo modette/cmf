@@ -1,0 +1,14 @@
+extensions:
+	orm: Nextras\Orm\Bridges\NetteDI\OrmExtension
+	orm.events: Contributte\Nextras\Orm\Events\DI\NextrasOrmEventsExtension
+
+orm:
+	model: Nextras\Orm\Model\Model
+	repositoryFinder: Nextras\Orm\Bridges\NetteDI\DIRepositoryFinder
+
+services:
+	modette.orm.listeners.updatedAtListener: Modette\Orm\Listeners\UpdatedAtListener
+
+#TODO - podpora trait v eventech
+#	- https://github.com/contributte/nextras-orm-events/blob/master/src/DI/NextrasOrmEventsExtension.php#L117-L129
+#	- https://github.com/nextras/orm/pull/318/files

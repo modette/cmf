@@ -1,0 +1,8 @@
+extensions:
+	mail: Contributte\Mail\DI\MailExtension
+
+mail:
+	debug: %debugMode%
+	mode: standalone
+	mailer:
+		factory: Contributte\Mail\Mailer\SendmailMailer

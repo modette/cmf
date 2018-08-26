@@ -1,0 +1,42 @@
+extensions:
+	api: Apitte\Core\DI\ApiExtension
+	http.psr7: Contributte\Psr7\DI\Psr7HttpExtension
+	middlewares: Contributte\Middlewares\DI\MiddlewaresExtension
+
+api:
+	debug: %debugMode%
+	plugins:
+		Apitte\Core\DI\Plugin\CoreSchemaPlugin:
+		Apitte\Core\DI\Plugin\CoreServicesPlugin:
+		Apitte\Core\DI\Plugin\CoreDecoratorPlugin:
+		Apitte\Core\DI\Plugin\CoreMappingPlugin:
+			request:
+				validator: Apitte\Core\Mapping\Validator\SymfonyValidator(@phpdoc.reader)
+		Apitte\Console\DI\ConsolePlugin:
+		Apitte\Debug\DI\DebugPlugin:
+			debug: %debugMode%
+		Apitte\Middlewares\DI\MiddlewaresPlugin:
+			autobasepath: true
+			tracy: false
+		Apitte\Negotiation\DI\NegotiationPlugin:
+			unification: true
+			catchException: true
+		Apitte\OpenApi\DI\OpenApiPlugin:
+
+middlewares:
+	debug: %debugMode%
+
+services:
+	middleware.tryCatch:
+		factory: Contributte\Middlewares\TryCatchMiddleware
+		tags: [middleware: [priority: 1]]
+		setup:
+			- setDebugMode(%debugMode%)
+			- setCatchExceptions(false) # affect only debug mode
+	middlewares.logging:
+		factory: Contributte\Middlewares\LoggingMiddleware
+		arguments: [@monolog.logger.default]
+		tags: [middleware: [priority: 100]]
+	middleware.methodOverride:
+		factory: Contributte\Middlewares\MethodOverrideMiddleware
+		tags: [middleware: [priority: 150]]

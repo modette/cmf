@@ -1,0 +1,18 @@
+{block content}
+<style n:syntax="off" n:nonce>
+	.error-template {padding: 40px 15px;text-align: center;} .error-actions {margin-top:15px;margin-bottom:15px;} .error-actions .btn {
+		margin-right: 10px;
+	}
+</style>
+<div class="container">
+	<div class="row">
+		<div class="error-template">
+			<h1>{_'modette.ui.presenter.error.410.title'}</h1>
+			<div class="error-details">{_'modette.ui.presenter.error.410.message'}</div>
+			<div class="error-actions">
+				<a href="{$baseUrl}" class="btn btn-primary">
+					<i class="mdi mdi-home"></i> {_'modette.ui.presenter.error.homeButton'} </a>
+			</div>
+		</div>
+	</div>
+</div>

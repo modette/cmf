@@ -1,0 +1,12 @@
+includes:
+	- temp/phpstan/vendor/phpstan/phpstan-deprecation-rules/rules.neon
+	- temp/phpstan/vendor/phpstan/phpstan-nette/extension.neon
+	- temp/phpstan/vendor/phpstan/phpstan-nette/rules.neon
+	- temp/phpstan/vendor/phpstan/phpstan-strict-rules/rules.neon
+
+parameters:
+	ignoreErrors:
+		# Created dynamically when container is compiled
+		- '#^Call to an undefined method Nette\\DI\\Container\:\:initialize\(\)\.$#'
+		# Cannot install packages, cyclical dependency
+		- '#^Class .*Extension not found\.$#'

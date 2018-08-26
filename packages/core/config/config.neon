@@ -1,0 +1,87 @@
+extensions:
+	cache.factory: Contributte\Cache\DI\CacheFactoryExtension
+	console: Contributte\Console\DI\ConsoleExtension(%consoleMode%)
+	console.cache: Contributte\Console\Extra\DI\AdvancedCacheConsoleExtension
+	events: Contributte\EventDispatcher\DI\EventDispatcherExtension
+	flysystem: Contributte\Flysystem\DI\FlysystemExtension
+	monolog: Contributte\Monolog\DI\MonologExtension
+	tracy.bluescreens: Contributte\Tracy\DI\TracyBlueScreensExtension
+	setup: Modette\Core\Setup\DI\SetupExtension
+
+console:
+	lazy: true
+
+console.cache:
+	cleaners:
+		localFilesystem: Contributte\Console\Extra\Cache\Cleaners\LocalFilesystemCleaner([%tempDir%])
+	generators:
+		diContainers: Modette\Core\Cache\Generator\DiContainersCacheGenerator(
+			"?->getService('configurator')"(@container)
+		)
+
+flysystem:
+	filesystem:
+		internal:
+			adapter:
+				type: League\Flysystem\AdapterInterface
+				factory: League\Flysystem\Adapter\Local
+				arguments: [%storage.internalDir%]
+			autowired: true
+
+monolog:
+	holder:
+		enabled: true
+	tracy:
+		hook: true
+	channel:
+		default:
+			handlers:
+				file:
+					type: Monolog\Handler\HandlerInterface
+					factory: Monolog\Handler\RotatingFileHandler
+					arguments: [%logDir%/syslog.log, 30]
+			processors:
+				web:
+					type: Monolog\Processor\ProcessorInterface
+					factory: Monolog\Processor\WebProcessor
+				introspection:
+					type: Monolog\Processor\ProcessorInterface
+					factory: Monolog\Processor\IntrospectionProcessor
+				memoryPeakUsage:
+					type: Monolog\Processor\ProcessorInterface
+					factory: Monolog\Processor\MemoryPeakUsageProcessor
+				processId:
+					type: Monolog\Processor\ProcessorInterface
+					factory: Monolog\Processor\ProcessIdProcessor
+
+services:
+	cache.cache:
+		type: Nette\Caching\Cache
+		factory: Nette\Caching\Cache
+	container.parameters:
+		factory: Modette\Core\DI\Parameters
+		arguments: (@Nette\DI\Container::getParameters())
+	logger.accessor:
+		implement: Modette\Core\Logging\LoggerAccessor
+		factory: @Monolog\Logger
+
+setup:
+	drivers:
+		cleanCache:
+			driver: Modette\Core\Setup\Driver\CacheCleanDriver()
+			priority: 50
+		data:
+			driver: Modette\Core\Setup\Driver\DataDriver([])
+			#driver: Modette\Core\Setup\Driver\DataDriver(type(Modette\Core\Setup\DataProvider\DataProvider))
+			priority: 150
+		generateCache:
+		 	driver: Modette\Core\Setup\Driver\CacheGenerateDriver()
+		 	priority: 200
+
+tracy:
+	email: null
+	fromEmail: null
+	logSeverity: E_ALL
+	maxLen: 150
+	maxDepth: 3
+	strictMode: true

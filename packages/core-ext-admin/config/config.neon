@@ -1,0 +1,16 @@
+extensions:
+	modette.admin: Modette\Admin\DI\AdminExtension
+
+services:
+	# Dashboard
+	modette.admin.presenters.dashboard:
+		type: Modette\Admin\Presenters\Dashboard\DashboardPresenter
+		factory: Modette\Admin\Presenters\Dashboard\DashboardPresenter
+
+	# Error
+	modette.admin.presenters.error:
+		type: Modette\Admin\Presenters\Error\ErrorPresenter
+		factory: Modette\Admin\Presenters\Error\ErrorPresenter
+	modette.ui.presenters.internalError:
+		setup:
+			- addErrorPresenter(':Modette:Admin:Error:default', '#.*:(Admin|Administration):.*#')

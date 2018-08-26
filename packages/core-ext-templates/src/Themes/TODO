@@ -1,0 +1,27 @@
+TODO - themes
+
+$this->template->render($view = 'default')
+
+configurable views
+
+presenters
+controls
+everything other - render template for email, pdf, api, save to database, ...
+
+setFile is internal - define setView
+
+every template should be referenced via view
+
+possibility to get multiple files - e.g. for datagrid and latte renderer
+
+optional parameters with possible default values (language)
+
+runtime parameters (control, control_dir, view, language)
+
+Pro ikonky mít translate tables? Ať jdou uvádět v konfiguraci a je stále možné použít i jiné.
+Stejně tak pro flash messages
+Pokud translate table nemá hodnotu, tak vrací tu, kterou přijala
+
+cesty k šablonám napříč balíčky?
+	- jak co nejsnadnějí použít layout v jiném balíčku?
+	- zohlednit, že cesta není pevně daná? -> balík může být nainstalovaný skrze monorepo

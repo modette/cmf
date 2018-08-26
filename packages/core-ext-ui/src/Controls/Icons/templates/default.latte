@@ -1,0 +1,2 @@
+		<link n:if="$favicon !== null" rel="shortcut icon" href="{$favicon}">
+		<link n:foreach="$icons as $attrs" rel="{$attrs['rel']}" href="{$attrs['href']}"{if $attrs['sizes']} sizes="{$attrs['sizes']}"{/if}{if $attrs['type']} type="{$attrs['type']}"{/if}>

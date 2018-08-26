@@ -1,0 +1,7 @@
+- internally is always UTC
+- affected packages
+    - sql
+    - ui
+    - templates
+    - ???
+- https://zachholman.com/talk/utc-is-enough-for-everyone-right

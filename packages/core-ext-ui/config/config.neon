@@ -1,0 +1,70 @@
+extensions:
+	application: Nette\Bridges\ApplicationDI\ApplicationExtension(%debugMode%, [], %tempDir%/cache)
+	console.router: Contributte\Console\Extra\DI\RouterConsoleExtension
+	events.application: Contributte\Events\Extra\DI\EventApplicationBridgeExtension
+	events.security: Contributte\Events\Extra\DI\EventSecurityBridgeExtension
+	forms: Modette\UI\Forms\DI\FormsExtension
+	modette.routing: Modette\UI\Routing\DI\RoutingExtension
+	routing: Nette\Bridges\ApplicationDI\RoutingExtension(%debugMode%)
+	tracy.navigation: Contributte\Tracy\DI\NavigationPanelExtension
+
+application:
+	debugger: true
+	errorPresenter: Modette:UI:InternalError
+	catchExceptions: %productionMode%
+	scanDirs: false
+	scanComposer: false
+	mapping:
+		*: ['', *, Presenters\*\*Presenter]
+	silentLinks: false
+
+decorator:
+	Nette\Application\UI\Presenter:
+		setup:
+			- $absoluteUrls = true
+
+routing:
+	cache: true
+
+services:
+	# Fake translator
+	a.fake.translator.to.remove: Modette\UI\FakeTranslator
+
+	# Override default PresenterFactoryCallback with our strict version
+	application.presenterFactory:
+		arguments: [Modette\UI\DI\PresenterFactoryCallback()]
+
+	# Configure form factory
+	forms.factory:
+		setup:
+			- addProtection()
+			- setTranslator(@Nette\Localization\ITranslator)
+			#todo - setRenderer
+
+	# Internal error
+	modette.ui.presenters.internalError:
+		type: Modette\UI\Presenters\InternalError\InternalErrorPresenter
+		factory: Modette\UI\Presenters\InternalError\InternalErrorPresenter
+
+	# Document basic controls
+	modette.ui.control.body.factory:
+		implement: Modette\UI\Controls\Body\BodyFactory
+	modette.ui.control.breadcrumb.factory:
+		implement: Modette\UI\Controls\Breadcrumb\BreadcrumbFactory
+	modette.ui.control.document.factory:
+		implement: Modette\UI\Controls\Document\DocumentFactory
+	modette.ui.control.head.factory:
+		implement: Modette\UI\Controls\Head\HeadFactory
+	modette.ui.control.icons.factory:
+		implement: Modette\UI\Controls\Icons\IconsFactory
+	modette.ui.control.links.factory:
+		implement: Modette\UI\Controls\Links\LinksFactory
+	modette.ui.control.meta.factory:
+		implement: Modette\UI\Controls\Meta\MetaFactory
+	modette.ui.control.noscript.factory:
+		implement: Modette\UI\Controls\NoScript\NoScriptFactory
+	modette.ui.control.title.factory:
+		implement: Modette\UI\Controls\Title\TitleFactory
+
+	modette.ui.control.styles.factory:
+		implement: Modette\UI\Controls\Styles\StylesFactory

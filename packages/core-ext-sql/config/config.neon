@@ -1,0 +1,35 @@
+extensions:
+	#todo - multiple connections
+	dbal: Nextras\Dbal\Bridges\NetteDI\DbalExtension
+	migrations: Nextras\Migrations\Bridges\NetteDI\MigrationsExtension
+
+dbal:
+	connectionTz: +00:00
+	charset: UTF8
+	debugger: %debugMode%
+	#resetCommand: %server.development%
+
+migrations:
+	dir: TODO
+	dbal: nextras
+	#todo - dbal nevrací cizí klíče pro schemata v postgre - je potřeba nastavovat mappery
+	#todo - přidávání skupin
+	#todo - předat některým migracím parametry,
+	#todo - strict mode pro mysql
+	#todo - možnost upravit již spuštěnou migraci - seznam povolených hashů
+	#todo - vypnutí reset commandu
+	# dummy data jsou přes přepínač --production
+
+services:
+	migrations.continueCommand:
+		tags: [console.command: migrations:continue]
+	migrations.createCommand:
+		tags: [console.command: migrations:create]
+	migrations.resetCommand:
+		tags: [console.command: migrations:reset]
+
+setup:
+	drivers:
+		migrations:
+			driver: Modette\Core\Setup\Driver\MigrationsDriver()
+			priority: 100

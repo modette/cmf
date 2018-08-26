@@ -1,0 +1,76 @@
+{
+  "name": "modette/core",
+  "description": "Core of Modette systems. Your best friend.",
+  "type": "library",
+  "license": "MPL-2.0",
+  "keywords": [
+    "contributte",
+    "core",
+    "cache",
+    "console",
+    "di",
+    "debugger",
+    "events",
+    "filesystem",
+    "logs",
+    "nette"
+  ],
+  "homepage": "https://github.com/modette/modette",
+  "authors": [
+    {
+      "name": "Marek Bartoš",
+      "homepage": "https://marek-bartos.cz"
+    }
+  ],
+  "require": {
+    "php": ">=7.2.0",
+    "contributte/cache": "^0.3.0",
+    "contributte/console": "^0.5.0",
+    "contributte/console-extra": "^0.4.0",
+    "contributte/event-dispatcher": "^0.5.0",
+    "contributte/flysystem": "^0.1.0",
+    "contributte/model": "^0.1.0",
+    "contributte/monolog": "^0.1.0",
+    "contributte/tracy": "^0.3.1",
+    "contributte/utils": "^0.3.0",
+    "marc-mabe/php-enum": "^3.0.1",
+    "modette/module-installer": "^1.0.0",
+    "nette/di": "~2.4.13",
+    "nette/neon": "~2.4.3",
+    "ramsey/uuid": "^3.8"
+  },
+  "require-dev": {
+    "composer/composer": "^1.7.0",
+    "ninjify/nunjuck": "^0.2.1"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "autoload": {
+    "psr-4": {
+      "Modette\\Core\\": "src"
+    }
+  },
+  "scripts": {
+    "tests": [
+      "tester -s -p php --colors 1 -C tests/cases"
+    ],
+    "phpstan-install": [
+      "mkdir -p temp/phpstan",
+      "composer require -d temp/phpstan phpstan/phpstan:^0.10",
+      "composer require -d temp/phpstan phpstan/phpstan-deprecation-rules:^0.10",
+      "composer require -d temp/phpstan phpstan/phpstan-nette:^0.10",
+      "composer require -d temp/phpstan phpstan/phpstan-strict-rules:^0.10"
+    ],
+    "phpstan": [
+      "temp/phpstan/vendor/bin/phpstan analyse -l max -c phpstan.neon src"
+    ]
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
+  }
+}

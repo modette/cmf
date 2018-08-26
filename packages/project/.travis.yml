@@ -1,0 +1,31 @@
+language: php
+
+php:
+  - 7.2
+  - 7.3
+
+before_install:
+  # Turn off XDebug
+  - phpenv config-rm xdebug.ini || return 0
+
+install:
+  # Composer
+  - travis_retry composer install --no-progress --prefer-dist
+
+script:
+  - echo "OK"
+
+jobs:
+  include:
+    - env: title="Lowest Dependencies 7.2"
+      php: 7.2
+      install:
+        - travis_retry composer update --no-progress --prefer-dist --prefer-lowest
+      script:
+        - echo "OK"
+
+sudo: false
+
+cache:
+  directories:
+    - $HOME/.composer/cache
