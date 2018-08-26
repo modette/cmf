@@ -1,0 +1,44 @@
+extensions:
+	application: Nette\Bridges\ApplicationDI\ApplicationExtension(%debugMode%, [], %tempDir%/cache)
+	forms: Modette\UI\Forms\DI\FormsExtension
+	routing: Nette\Bridges\ApplicationDI\RoutingExtension(%debugMode%)
+	modette.routing: Modette\Routing\DI\RoutingExtension
+	tracy.navigation: Contributte\Tracy\DI\NavigationPanelExtension
+	events.application: Contributte\Events\Extra\DI\EventApplicationBridgeExtension
+	events.security: Contributte\Events\Extra\DI\EventSecurityBridgeExtension
+
+# todo - application link generator (nejdřív fixnout)
+
+application:
+	debugger: true
+	errorPresenter: Modette:UI:InternalError
+	catchExceptions: %productionMode%
+	scanDirs: false
+	scanComposer: false
+	mapping:
+		*: ['', *, Presenters\*\*]
+	silentLinks: false
+
+decorator:
+	Nette\Application\UI\Presenter:
+		setup:
+			- $absoluteUrls = true
+
+routing:
+	cache: true
+
+services:
+	modette.ui.control.document.factory:
+		implement: Modette\UI\Controls\Document\IDocumentFactory
+	modette.ui.control.head.factory:
+		implement: Modette\UI\Controls\Head\IHeadFactory
+	modette.ui.control.body.factory:
+		implement: Modette\UI\Controls\Body\IBodyFactory
+	modette.ui.control.meta.factory:
+		implement: Modette\UI\Controls\Meta\IMetaFactory
+	modette.ui.control.title.factory:
+		implement: Modette\UI\Controls\Title\ITitleFactory
+	modette.ui.control.icons.factory:
+		implement: Modette\UI\Controls\Icons\IIconsFactory
+	modette.ui.control.links.factory:
+		implement: Modette\UI\Controls\Links\ILinksFactory

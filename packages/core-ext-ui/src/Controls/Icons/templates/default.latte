@@ -1,0 +1,4 @@
+		<link n:if="$favicon !== null" rel="shortcut icon" href="{$favicon}">
+		<link n:foreach="$icons as $href => $attrs" rel="icon" href="{$href}"{if $attrs['size']} sizes="{$attrs['size']}"{/if}{if $attrs['type']} type="{$attrs['type']}"{/if}>
+		<link n:foreach="$apple as $href => $size" rel="apple-touch-icon" href="{$href}"{if $size} sizes="{$size}"{/if}>
+		<link n:foreach="$applePrecomposed as $href => $size" rel="apple-touch-icon-precomposed" href="{$href}"{if $size} sizes="{$size}"{/if}>

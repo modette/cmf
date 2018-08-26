@@ -1,0 +1,6 @@
+extensions:
+	mail: Contributte\Mail\DI\MailExtension
+
+mail:
+	mode: standalone
+	mailer: Contributte\Mail\Mailer\SendmailMailer

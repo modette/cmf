@@ -1,0 +1,38 @@
+extensions:
+	cache.factory: Contributte\Cache\DI\CacheFactoryExtension
+	console: Contributte\Console\DI\ConsoleExtension(%consoleMode%)
+	console.cache: Contributte\Console\Extra\DI\AdvancedCacheConsoleExtension
+	console.router: Contributte\Console\Extra\DI\RouterConsoleExtension
+	console.utils: Contributte\Console\Extra\DI\UtilsConsoleExtension
+	events: Contributte\EventDispatcher\DI\EventDispatcherExtension
+	flysystem: Contributte\Flysystem\DI\FlysystemExtension
+	tracy.bluescreens: Contributte\Tracy\DI\TracyBlueScreensExtension
+	#todo - monolog
+
+tracy:
+	email: null
+	fromEmail: null
+	logSeverity: E_ALL
+	strictMode: true
+	maxLen: 150
+	maxDepth: 3
+
+console:
+	lazy: true
+
+console.cache:
+	cleaners:
+		localFilesystem: Contributte\Console\Extra\Cache\Cleaners\LocalFilesystemCleaner([%tempDir%])
+	generators:
+		diContainers: Modette\Core\Cache\Generator\DiContainersCacheGenerator(
+			"?->getService('configurator')"(@container)
+		)
+
+flysystem:
+	filesystem:
+		internal:
+			adapter: League\Flysystem\Adapter\Local(%storage.internalDir%)
+			autowired: true
+
+services:
+	cache.cache: Nette\Caching\Cache

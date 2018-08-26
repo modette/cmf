@@ -1,0 +1,3 @@
+modette.ui.presenter.internalError:
+	title: Chyba serveru
+	message: Omlouváme se! Na serveru se vyskytla chyba a nebyl schopen zpracovat váš požadavek. O chybě víme a pracujeme na ní. Zkuste to prosím později.

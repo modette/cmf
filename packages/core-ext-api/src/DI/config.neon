@@ -1,0 +1,36 @@
+extensions:
+	api: Apitte\Core\DI\ApiExtension
+	http.psr7: Contributte\Psr7\DI\Psr7HttpExtension
+#	middlewares: Contributte\Middlewares\DI\MiddlewaresExtension
+
+api:
+	debug: %debugMode%
+	plugins:
+		Apitte\Core\DI\Plugin\CoreSchemaPlugin:
+		Apitte\Core\DI\Plugin\CoreServicesPlugin:
+		Apitte\Core\DI\Plugin\CoreDecoratorPlugin:
+		Apitte\Core\DI\Plugin\CoreMappingPlugin:
+			request:
+				validator: Apitte\Core\Mapping\Validator\SymfonyValidator(@phpdoc.reader)
+		Apitte\Console\DI\ConsolePlugin:
+		Apitte\Debug\DI\DebugPlugin:
+		Apitte\Negotiation\DI\NegotiationPlugin:
+		Apitte\OpenApi\DI\OpenApiPlugin:
+
+#todo - zdokumentovat a zvalidovat priority u middlewares
+
+#services:
+#	middleware.tracy:
+#		factory: Contributte\Middlewares\TracyMiddleware::enable(%debugMode%)
+#		tags: [middleware: [priority: 100]]
+#		setup:
+#			- setLogDir(%logDir%)
+#	middleware.autobasepath:
+#		factory: Contributte\Middlewares\AutoBasePathMiddleware
+#		tags: [middleware: [priority: 200]]
+#	middleware.methodoverride:
+#		factory: Contributte\Middlewares\MethodOverrideMiddleware
+#		tags: [middleware: [priority: 250]]
+#	middleware.api:
+#		factory: Apitte\Middlewares\ApiMiddleware
+#		tags: [middleware: [priority: 200]]

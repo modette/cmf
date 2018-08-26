@@ -1,0 +1,9 @@
+	<head>
+		<meta charset="UTF-8">
+		{php if(!\Tracy\Debugger::$productionMode){echo"\t\t";\Tracy\Debugger::renderLoader();}}
+		{control meta}
+		{control title}
+		{control icons}
+		{control links}
+		<script n:nonce n:syntax="off">(function (html){html.className=html.className.replace(/\bno-js\b/,'js')})(document.getElementsByTagName('html')[0]);</script>
+	</head>

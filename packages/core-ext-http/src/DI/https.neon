@@ -1,0 +1,8 @@
+#todo - jak načítat? v bootstrapu je příliš brzy, chtělo by to skrze extension
+# extension ale může momentálně poskytovat jen services
+http:
+	csp:
+		upgrade-insecure-requests:
+	headers:
+		Strict-Transport-Security: 'max-age=31536000; includeSubDomains; preload'
+		#TODO - Expect-CT - optional - https://scotthelme.co.uk/a-new-security-header-expect-ct/

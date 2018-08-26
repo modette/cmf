@@ -1,0 +1,7 @@
+extensions:
+	orm: Nextras\Orm\Bridges\NetteDI\OrmExtension
+	orm.events: Contributte\Nextras\Orm\Events\DI\NextrasOrmEventsExtension
+
+orm:
+	model: Nextras\Orm\Model\Model
+	repositoryFinder: Nextras\Orm\Bridges\NetteDI\DIRepositoryFinder

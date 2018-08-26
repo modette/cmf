@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<ruleset name="Contributte">
+	<!-- Contributte Coding Standard -->
+	<rule ref="./vendor/ninjify/coding-standard/contributte.xml">
+
+		<!-- TODO - temporary -->
+		<exclude name="SlevomatCodingStandard.Classes.UnusedPrivateElements.WriteOnlyProperty"/>
+		<exclude name="SlevomatCodingStandard.Files.TypeNameMatchesFileName.NoMatchBetweenTypeNameAndFileName"/>
+		<exclude name="SlevomatCodingStandard.Classes.UnusedPrivateElements.UnusedProperty"/>
+
+	</rule>
+
+	<!-- Package specific rules -->
+	<rule ref="SlevomatCodingStandard.Files.TypeNameMatchesFileName">
+		<properties>
+			<property name="rootNamespaces" type="array" value="
+                packages/core/src                 => Modette\Core,
+                packages/core-ext-admin/src       => Modette\Admin,
+                packages/core-ext-api/src         => Modette\Api,
+                packages/core-ext-front/src       => Modette\Front,
+                packages/core-ext-http/src        => Modette\Http,
+                packages/core-ext-mail/src        => Modette\Mail,
+                packages/core-ext-orm/src         => Modette\Orm,
+                packages/core-ext-sql/src         => Modette\Sql,
+                packages/core-ext-templates/src   => Modette\Templates,
+                packages/core-ext-ui/src          => Modette\UI,
+                packages/generator/src            => Modette\Generator,
+                packages/module-installer/src     => Modette\ModuleInstaller,
+                packages/requirements-checker/src => Modette\RequirementsChecker,
+                
+                packages/core/tests/cases                 => Tests\Cases\Modette\Core,
+                packages/core-ext-admin/tests/cases       => Tests\Cases\Modette\Admin,
+                packages/core-ext-api/tests/cases         => Tests\Cases\Modette\Api,
+                packages/core-ext-front/tests/cases       => Tests\Cases\Modette\Front,
+                packages/core-ext-http/tests/cases        => Tests\Cases\Modette\Http,
+                packages/core-ext-mail/tests/cases        => Tests\Cases\Modette\Mail,
+                packages/core-ext-orm/tests/cases         => Tests\Cases\Modette\Orm,
+                packages/core-ext-sql/tests/cases         => Tests\Cases\Modette\Sql,
+                packages/core-ext-templates/tests/cases   => Tests\Cases\Modette\Templates,
+                packages/core-ext-ui/tests/cases          => Tests\Cases\Modette\UI,
+                packages/generator/tests/cases            => Tests\Cases\Modette\Generator,
+                packages/module-installer/tests/cases     => Tests\Cases\Modette\ModuleInstaller,
+                packages/requirements-checker/tests/cases => Tests\Cases\Modette\RequirementsChecker,
+            "/>
+		</properties>
+	</rule>
+
+	<!-- Exclude generated files -->
+	<exclude-pattern>/tests/tmp</exclude-pattern>
+</ruleset>

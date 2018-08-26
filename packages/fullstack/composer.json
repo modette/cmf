@@ -1,0 +1,42 @@
+{
+  "name": "modette/fullstack",
+  "description": "Core with all extensions included",
+  "type": "metapackage",
+  "license": "MPL-2.0",
+  "keywords": [
+    "meta",
+    "modette",
+    "fullstack"
+  ],
+  "homepage": "https://github.com/modette/modette",
+  "authors": [
+    {
+      "name": "Marek Bartoš",
+      "homepage": "https://marek-bartos.cz"
+    }
+  ],
+  "require": {
+    "php": ">=7.2.0",
+    "modette/core": "^1.0.0",
+    "modette/core-ext-admin": "^1.0.0",
+    "modette/core-ext-api": "^1.0.0",
+    "modette/core-ext-front": "^1.0.0",
+    "modette/core-ext-http": "^1.0.0",
+    "modette/core-ext-mail": "^1.0.0",
+    "modette/core-ext-orm": "^1.0.0",
+    "modette/core-ext-sql": "^1.0.0",
+    "modette/core-ext-templates": "^1.0.0",
+    "modette/core-ext-ui": "^1.0.0",
+    "modette/module-installer": "^1.0.0"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "config": {
+    "sort-packages": true
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
+  }
+}

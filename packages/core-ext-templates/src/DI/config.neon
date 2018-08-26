@@ -1,0 +1,11 @@
+# todo - translations? nejvíc se využijí v templates, ale nejsou užitečné i jinde?
+extensions:
+	latte: Nette\Bridges\ApplicationDI\LatteExtension(%tempDir%/cache/latte, %debugMode%)
+	events.latte: Contributte\Events\Extra\DI\EventLatteBridgeExtension
+
+console.cache:
+	generators:
+		latte: Contributte\Console\Extra\Cache\Generators\LatteTemplatesCacheGenerator(
+			[%appDir%, %vendorDir%],
+			@Nette\Bridges\ApplicationLatte\ILatteFactory::create()
+		)

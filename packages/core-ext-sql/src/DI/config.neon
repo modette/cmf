@@ -1,0 +1,15 @@
+#extensions:
+#	nextras.queryobjects: Contibutte\Nextras\Orm\QueryObject\DI\NextrasQueryObjectExtension
+
+# todo - migrace a dbal
+
+#dbal:
+#	__default:
+#		connectionTz: +00:00
+#	connections:
+#		default:
+#			driver: %database.default.driver% #mysql|pgsql
+#
+#migrations:
+	#todo - předat některým migracím parametry
+	#todo - předat dbal (a driver? - ten by se dal získat automaticky)
