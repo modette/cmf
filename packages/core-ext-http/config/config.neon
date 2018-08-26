@@ -1,0 +1,71 @@
+#todo - rozdělit na http, api a ui
+
+extensions:
+	http: Nette\Bridges\HttpDI\HttpExtension(%consoleMode%)
+	session: Nette\Bridges\HttpDI\SessionExtension(%debugMode%, %consoleMode%)
+
+flysystem:
+	filesystem:
+		public:
+			adapter:
+				factory: League\Flysystem\Adapter\Local
+				arguments: [%storage.publicDir%]
+			autowired: true
+
+http:
+	headers:
+		Referrer-Policy: same-origin # https://scotthelme.co.uk/a-new-security-header-referrer-policy/
+		X-Content-Type-Options: nosniff
+		X-Frame-Options: DENY
+		X-Powered-By: Modette
+		X-XSS-Protection: '1; mode=block'
+	# https://scotthelme.co.uk/content-security-policy-an-introduction/
+	# https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP#Browser_compatibility
+	csp:
+		base-uri: self
+		img-src: "'self' data:"
+		form-action: self
+		frame-ancestors: none
+		block-all-mixed-content: #disallows load http content on https pages
+	featurePolicy: # https://scotthelme.co.uk/a-new-security-header-feature-policy/
+		geolocation: self
+		midi: self
+		notifications: self
+		push: self
+		sync-xhr: self
+		microphone: self
+		camera: self
+		magnetometer: self
+		gyroscope: self
+		speaker: self
+		vibrate: self
+		fullscreen: self
+		payment: self
+
+parameters:
+	publicDir: %rootDir%/public
+	storage:
+		publicDir: %rootDir%/public/data
+
+php:
+	output_buffering: 4096
+
+services:
+	routing.frontRouter: Modette\Http\FrontRouter
+
+session:
+	autoStart: smart
+	cookieDomain: '?->getUrl()->getDomain(2)'(@Nette\Http\IRequest)
+	cookieHttponly: true
+	cookiePath: '?->getUrl()->getBasePath()'(@Nette\Http\IRequest) # Cookie path same as $basePath
+	cookieSamesite: Lax
+	cookieSecure: auto
+	expiration: 14 days
+	name: SID
+	hashFunction: sha384
+	readAndClose: true
+	sidBitsPerCharacter: 6 # 4-6
+	sidLength: 128 # 22-250 (256 is max, but filesystems...)
+	useCookies: true
+	useOnlyCookies: true
+	useStrictMode: true

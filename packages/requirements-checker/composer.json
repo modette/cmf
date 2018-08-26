@@ -1,0 +1,41 @@
+{
+  "name": "modette/requirements-checker",
+  "description": "Check if your server is capable of running Modette",
+  "type": "project",
+  "license": "MPL-2.0",
+  "keywords": [
+    "requirements",
+    "checker"
+  ],
+  "homepage": "https://github.com/modette/modette",
+  "authors": [
+    {
+      "name": "Marek Bartoš",
+      "homepage": "https://marek-bartos.cz"
+    }
+  ],
+  "require": {
+    "php": ">=7.2.0"
+  },
+  "require-dev": {
+    "ninjify/nunjuck": "^0.2.1",
+    "phpstan/phpstan": "^0.11",
+    "phpstan/phpstan-nette": "^0.11",
+    "phpstan/phpstan-strict-rules": "^0.11"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "autoload": {
+    "psr-4": {
+      "Modette\\RequirementsChecker\\": "src"
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
+  }
+}

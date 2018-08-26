@@ -1,0 +1,55 @@
+{
+  "name": "modette/core-ext-api",
+  "description": "API layer for Modette applications",
+  "type": "library",
+  "license": "MPL-2.0",
+  "keywords": [
+    "api",
+    "apitte",
+    "middlewares",
+    "openapi",
+    "swagger"
+  ],
+  "homepage": "https://github.com/modette/modette",
+  "authors": [
+    {
+      "name": "Marek Bartoš",
+      "homepage": "https://marek-bartos.cz"
+    }
+  ],
+  "require": {
+    "php": ">=7.2.0",
+    "apitte/console": "^0.5.0",
+    "apitte/core": "^0.5.0",
+    "apitte/debug": "^0.5.0",
+    "apitte/middlewares": "^0.5.0",
+    "apitte/negotiation": "^0.5.0",
+    "apitte/openapi": "^0.5.0",
+    "contributte/middlewares": "^0.8.0",
+    "contributte/phpdoc": "^0.2.0",
+    "contributte/psr7-http-message": "^0.5.0",
+    "modette/core": "^1.0.0",
+    "modette/core-ext-http": "^1.0.0"
+  },
+  "require-dev": {
+    "ninjify/nunjuck": "^0.2.1",
+    "phpstan/phpstan": "^0.11",
+    "phpstan/phpstan-nette": "^0.11",
+    "phpstan/phpstan-strict-rules": "^0.11"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "autoload": {
+    "psr-4": {
+      "Modette\\Api\\": "src"
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
+  }
+}

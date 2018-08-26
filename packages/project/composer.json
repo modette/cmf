@@ -1,0 +1,51 @@
+{
+  "name": "modette/project",
+  "type": "project",
+  "description": "Modette project skeleton",
+  "keywords": [
+    "project",
+    "skeleton"
+  ],
+  "license": "Unlicense",
+  "authors": [
+    {
+      "name": "Marek Bartoš",
+      "homepage": "https://marek-bartos.cz"
+    }
+  ],
+  "require": {
+    "php": ">=7.2.0",
+    "modette/core": "^1.0.0"
+  },
+  "require-dev": {
+    "modette/generator": "^1.0.0",
+    "ninjify/nunjuck": "^0.2.1",
+    "ninjify/qa": "^0.8.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\Fixtures\\": "tests/fixtures",
+      "Tests\\Integration\\": "tests/integration",
+      "Tests\\Unit\\": "tests/unit"
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    },
+    "modette": {
+      "enable": true,
+      "modules": "config/modules.neon"
+    }
+  }
+}

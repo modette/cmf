@@ -1,0 +1,17 @@
+extensions:
+	events.latte: Contributte\Events\Extra\DI\EventLatteBridgeExtension
+	latte: Nette\Bridges\ApplicationDI\LatteExtension(%tempDir%/cache/latte, %debugMode%)
+
+console.cache:
+	generators:
+		latte: Contributte\Console\Extra\Cache\Generators\LatteTemplatesCacheGenerator(
+			@Nette\Application\UI\ITemplateFactory,
+			[%appDir%, %vendorDir%],
+			[**/**/tests, **/**/temp, **/**/examples],
+			%rootDir%
+		)
+
+services:
+	latte.templateFactory:
+		setup:
+			- '?->onCreate[] = new Modette\Templates\TemplateCleaner()' = @self

@@ -1,0 +1,39 @@
+includes:
+	- vendor/nextras/orm-phpstan/extension.neon
+	- vendor/pepakriz/phpstan-exception-rules/extension.neon
+	- vendor/phpstan/phpstan-deprecation-rules/rules.neon
+	- vendor/phpstan/phpstan-nette/extension.neon
+	- vendor/phpstan/phpstan-nette/rules.neon
+	- vendor/phpstan/phpstan-strict-rules/rules.neon
+
+parameters:
+	exceptionRules:
+		reportUnusedCatchesOfUncheckedExceptions: true
+		checkedExceptions:
+			- Modette\Core\Exception\Check\CheckedException
+
+	ignoreErrors:
+		# Not a bug
+		- '#^Unused @throws Nette\\Application\\AbortException annotation$#'
+		- '#^Unused @throws Symfony\\Component\\Console\\Exception\\LogicException annotation$#'
+
+		# Core
+		# Created dynamically when container is compiled
+		- message: '#^Call to an undefined method Nette\\DI\\Container\:\:initialize\(\)\.$#'
+		  path: %currentWorkingDirectory%/packages/core/src/Boot/Configurator.php
+		# Should not happen
+		- message: '#^Only booleans are allowed in a negated boolean, mixed given\.$#'
+		  path: %currentWorkingDirectory%/packages/core/src/Boot/Configurator.php
+
+		# UI
+		# Waiting for nette/utils:3.0
+		- message: '#(.*)should be (contravariant|covariant) with(.*)#'
+		  path: %currentWorkingDirectory%/packages/core-ext-ui/src/FakeTranslator.php
+
+		# nette/application have no typehint specified
+		- message: '#(.*)should be (contravariant|covariant) with(.*)#'
+		  path: %currentWorkingDirectory%/packages/core-ext-ui/src/Utils/FlashMessages.php
+
+		# Broken purposely - form translator is disabled
+		- message: '#(.*)should be (contravariant|covariant) with(.*)#'
+		  path: %currentWorkingDirectory%/packages/core-ext-ui/src/Forms/Form.php

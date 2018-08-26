@@ -1,0 +1,46 @@
+{
+  "name": "modette/core-ext-sql",
+  "description": "SQL migrations and DBAL for Modette",
+  "type": "library",
+  "license": "MPL-2.0",
+  "keywords": [
+    "dbal",
+    "migrations",
+    "nextras",
+    "sql"
+  ],
+  "homepage": "https://github.com/modette/modette",
+  "authors": [
+    {
+      "name": "Marek Bartoš",
+      "homepage": "https://marek-bartos.cz"
+    }
+  ],
+  "require": {
+    "php": ">=7.2.0",
+    "modette/core": "^1.0.0",
+    "nextras/dbal": "^3.0.0",
+    "nextras/migrations": "^3.0.5"
+  },
+  "require-dev": {
+    "ninjify/nunjuck": "^0.2.1",
+    "phpstan/phpstan": "^0.11",
+    "phpstan/phpstan-nette": "^0.11",
+    "phpstan/phpstan-strict-rules": "^0.11"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "autoload": {
+    "psr-4": {
+      "Modette\\Sql\\": "src"
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
+  }
+}

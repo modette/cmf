@@ -1,0 +1,26 @@
+# InternalError, Admin\Error, Front\Error
+
+modette.ui.presenter.error.homeButton: Back to homepage
+
+# 400 Bad Request
+modette.ui.presenter.error.400.title: Bad Request
+modette.ui.presenter.error.400.message: Your browser sent a request that this server could not understand or process.
+
+# 403 Forbidden
+modette.ui.presenter.error.403.title: Access Denied
+modette.ui.presenter.error.403.message: You do not have permission to view this page. Please contact us if you think you should be able to view this page.
+
+# 404 Not Found
+modette.ui.presenter.error.404.title: Not Found
+modette.ui.presenter.error.404.message: 'The page you requested could not be found. It is possible that the address is incorrect, or that the page no longer exists.'
+
+# 410 Gone
+modette.ui.presenter.error.410.title: Not Found
+modette.ui.presenter.error.410.message: 'The page you requested has been taken off the site. We apologize for the inconvenience.'
+
+# 500 Internal Server Error
+modette.ui.presenter.error.500.title: Server Error
+modette.ui.presenter.error.500.message: '''
+	We are sorry! The server encountered an internal error and was unable to complete your request.
+	We know about the error and we are working on remedy. Please try again later.
+'''

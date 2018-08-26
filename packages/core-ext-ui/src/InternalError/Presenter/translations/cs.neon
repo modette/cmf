@@ -1,0 +1,26 @@
+# InternalError, Admin\Error, Front\Error
+
+modette.ui.presenter.error.homeButton: Zpátky na domovskou stránku
+
+# 400 Bad Request
+modette.ui.presenter.error.400.title: Chybný požadavek
+modette.ui.presenter.error.400.message: 'Váš prohlížeč zaslal požadavek, který tento server nemůže zpracovat.'
+
+# 403 Forbidden
+modette.ui.presenter.error.403.title: Přístup zamítnut
+modette.ui.presenter.error.403.message: 'Nemáte oprávnění pro zobrazení této strany. Prosím zkontaktujte nás, pokud si myslíte, že se jedná o chybu.'
+
+# 404 Not Found
+modette.ui.presenter.error.404.title: Nenalezeno
+modette.ui.presenter.error.404.message: 'Strana, kterou hledáte, nebyla nalezena. Je možné, že je adresa URL špatná, nebo strana již neexistuje.'
+
+# 410 Gone
+modette.ui.presenter.error.410.title: Nenalezeno
+modette.ui.presenter.error.410.message: 'Strana, kterou hledáte byla smazána. Omlouváme se vám za komplikace.'
+
+# 500 Internal Server Error
+modette.ui.presenter.error.500.title: Chyba serveru
+modette.ui.presenter.error.500.message: '''
+	Omlouváme se! Na serveru se vyskytla chyba a nebyl schopen zpracovat váš požadavek.
+	O chybě víme a pracujeme na ní. Zkuste to prosím později.
+'''

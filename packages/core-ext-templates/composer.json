@@ -1,0 +1,48 @@
+{
+  "name": "modette/core-ext-templates",
+  "description": "Latte templates for Modette",
+  "type": "library",
+  "license": "MPL-2.0",
+  "keywords": [
+    "assets",
+    "latte",
+    "templates",
+    "themes",
+    "translations"
+  ],
+  "homepage": "https://github.com/modette/modette",
+  "authors": [
+    {
+      "name": "Marek Bartoš",
+      "homepage": "https://marek-bartos.cz"
+    }
+  ],
+  "require": {
+    "php": ">=7.2.0",
+    "contributte/event-dispatcher-extra": "^0.4.1",
+    "latte/latte": "~2.5.1",
+    "modette/core": "^1.0.0",
+    "nette/application": "^2.4.12"
+  },
+  "require-dev": {
+    "ninjify/nunjuck": "^0.2.1",
+    "phpstan/phpstan": "^0.11",
+    "phpstan/phpstan-nette": "^0.11",
+    "phpstan/phpstan-strict-rules": "^0.11"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "autoload": {
+    "psr-4": {
+      "Modette\\Templates\\": "src"
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
+  }
+}

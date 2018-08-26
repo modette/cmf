@@ -1,0 +1,46 @@
+{
+  "name": "modette/module-installer",
+  "description": "Module installer for Modette",
+  "type": "composer-plugin",
+  "license": "MPL-2.0",
+  "keywords": [
+    "composer",
+    "extension",
+    "installer",
+    "module"
+  ],
+  "homepage": "https://github.com/modette/modette",
+  "authors": [
+    {
+      "name": "Marek Bartoš",
+      "homepage": "https://marek-bartos.cz"
+    }
+  ],
+  "require": {
+    "php": ">=7.2.0",
+    "composer-plugin-api": "^1.0.0"
+  },
+  "require-dev": {
+    "composer/composer": "^1.7.0",
+    "ninjify/nunjuck": "^0.2.1",
+    "phpstan/phpstan": "^0.11",
+    "phpstan/phpstan-nette": "^0.11",
+    "phpstan/phpstan-strict-rules": "^0.11"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "autoload": {
+    "psr-4": {
+      "Modette\\ModuleInstaller\\": "src"
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "extra": {
+    "class": "Modette\\ModuleInstaller\\Plugin",
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{* TODO - je zapotřebí základní layout?
+- mohl by obsahovat wrapper stránky
+- další layouty by pak extendovaly tento
+- otázkou je, jak provést extend - nelze se napříč balíčky pohybovat pomocí relativního umístění - při vývoji je knihovna ve struktuře jinde
+*}
+{php
+    $presenter['document-head-meta']->addMeta('viewport', 'width=device-width, initial-scale=1');
+    $presenter['document-head-meta']->addHttpEquiv('X-UA-Compatible', 'IE=edge');
+}

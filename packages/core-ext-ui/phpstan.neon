@@ -1,0 +1,18 @@
+includes:
+	- vendor/phpstan/phpstan-nette/extension.neon
+	- vendor/phpstan/phpstan-nette/rules.neon
+	- vendor/phpstan/phpstan-strict-rules/rules.neon
+
+parameters:
+	ignoreErrors:
+		# Waiting for nette/utils:3.0
+		- message: '#(.*)should be (contravariant|covariant) with(.*)#'
+		  path: %currentWorkingDirectory%/src/FakeTranslator.php
+
+		# nette/application have no typehint specified
+		- message: '#(.*)should be (contravariant|covariant) with(.*)#'
+		  path: %currentWorkingDirectory%/src/Utils/FlashMessages.php
+
+		# Broken purposely - form translator is disabled
+		- message: '#(.*)should be (contravariant|covariant) with(.*)#'
+		  path: %currentWorkingDirectory%/src/Forms/Form.php
