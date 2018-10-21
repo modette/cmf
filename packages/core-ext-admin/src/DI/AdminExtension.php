@@ -2,7 +2,9 @@
 
 namespace Modette\Admin\DI;
 
-class AdminExtension
+use Nette\DI\CompilerExtension;
+
+class AdminExtension extends CompilerExtension
 {
 
 	public static function provideConfig(): string
