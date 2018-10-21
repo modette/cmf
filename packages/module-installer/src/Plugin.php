@@ -5,8 +5,6 @@ namespace Modette\ModuleInstaller;
 use Composer\Composer;
 use Composer\IO\IOInterface;
 use Composer\Plugin\PluginInterface;
-use Nette\Neon\Neon;
-use function class_exists;
 
 class Plugin implements PluginInterface
 {
@@ -14,9 +12,9 @@ class Plugin implements PluginInterface
 	public function __construct()
 	{
 		// Neon::class not exists on initial installation so internal is used
-		if (!class_exists(Neon::class)) {
-			require __DIR__ . '/../vendor/autoload.php';
-		}
+		//if (!class_exists(Neon::class)) {
+		//	require __DIR__ . '/../vendor/autoload.php';
+		//}
 	}
 
 	/**
