@@ -19,6 +19,7 @@
     "nette/http": "~2.4.10"
   },
   "require-dev": {
+    "contributte/application": "^0.3.1",
     "ninjify/nunjuck": "^0.2.0"
   },
   "minimum-stability": "dev",

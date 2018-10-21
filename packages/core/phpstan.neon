@@ -8,3 +8,6 @@ parameters:
 	ignoreErrors:
 		# Created dynamically when container is compiled
 		- '#^Call to an undefined method Nette\\DI\\Container\:\:initialize\(\)\.$#'
+		# Cannot install packages, cyclical dependency
+		- '#^Class .*Extension not found\.$#'
+		- '#^Call to .* on an unknown class .*Extension\.$#'

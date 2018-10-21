@@ -2,7 +2,7 @@
 
 namespace Modette\Themes\ComponentTypes;
 
-use Modette\UI\Presenters\Presenter;
+use Nette\Application\UI\Presenter;
 
 class PresenterTypeChecker implements IComponentTypeChecker
 {
