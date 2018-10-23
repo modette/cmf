@@ -1,0 +1,9 @@
+# https://probot.github.io/apps/auto-assign/
+
+# Assign user to its PR
+addAssignees: true
+
+# Add package maintainer as reviewer
+addReviewers: true
+reviewers:
+  - mabar
