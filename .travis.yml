@@ -3,9 +3,6 @@ php:
   - 7.2
   - 7.3
 
-# Don't build twice for PR (PR and push builds)
-if: type != pull_request
-
 before_install:
   # Turn off XDebug
   - phpenv config-rm xdebug.ini || return 0
