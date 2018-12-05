@@ -15,7 +15,7 @@ application:
 	scanDirs: false
 	scanComposer: false
 	mapping:
-		*: ['', *, Presenters\*\*Presenter]
+		*: ['', *, Presenter\*\*Presenter]
 	silentLinks: false
 
 decorator:
@@ -42,29 +42,29 @@ services:
 			#todo - setRenderer
 
 	# Internal error
-	modette.ui.presenters.internalError:
-		type: Modette\UI\Presenters\InternalError\InternalErrorPresenter
-		factory: Modette\UI\Presenters\InternalError\InternalErrorPresenter
+	modette.ui.presenter.internalError:
+		type: Modette\UI\Presenter\InternalError\InternalErrorPresenter
+		factory: Modette\UI\Presenter\InternalError\InternalErrorPresenter
 
 	# Document basic controls
 	modette.ui.control.body.factory:
-		implement: Modette\UI\Controls\Body\BodyFactory
+		implement: Modette\UI\Control\Body\BodyFactory
 	modette.ui.control.breadcrumb.factory:
-		implement: Modette\UI\Controls\Breadcrumb\BreadcrumbFactory
+		implement: Modette\UI\Control\Breadcrumb\BreadcrumbFactory
 	modette.ui.control.document.factory:
-		implement: Modette\UI\Controls\Document\DocumentFactory
+		implement: Modette\UI\Control\Document\DocumentFactory
 	modette.ui.control.head.factory:
-		implement: Modette\UI\Controls\Head\HeadFactory
+		implement: Modette\UI\Control\Head\HeadFactory
 	modette.ui.control.icons.factory:
-		implement: Modette\UI\Controls\Icons\IconsFactory
+		implement: Modette\UI\Control\Icons\IconsFactory
 	modette.ui.control.links.factory:
-		implement: Modette\UI\Controls\Links\LinksFactory
+		implement: Modette\UI\Control\Links\LinksFactory
 	modette.ui.control.meta.factory:
-		implement: Modette\UI\Controls\Meta\MetaFactory
+		implement: Modette\UI\Control\Meta\MetaFactory
 	modette.ui.control.noscript.factory:
-		implement: Modette\UI\Controls\NoScript\NoScriptFactory
+		implement: Modette\UI\Control\NoScript\NoScriptFactory
 	modette.ui.control.title.factory:
-		implement: Modette\UI\Controls\Title\TitleFactory
+		implement: Modette\UI\Control\Title\TitleFactory
 
 	modette.ui.control.styles.factory:
-		implement: Modette\UI\Controls\Styles\StylesFactory
+		implement: Modette\UI\Control\Styles\StylesFactory

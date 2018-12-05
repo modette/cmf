@@ -2,7 +2,7 @@
 
 namespace Modette\UI\Utils;
 
-use Modette\UI\Presenters\Base\BasePresenter;
+use Modette\UI\Presenter\Base\BasePresenter;
 
 /**
  * @method BasePresenter getPresenter()

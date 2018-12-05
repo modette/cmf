@@ -1,6 +1,6 @@
 modette.ui.forms:
 	send:		'Send'
-	protection:  'Form validity has expired, please try again.'
+	protection:  'Forms validity has expired, please try again.'
 	equal:	   'Please enter %s.'
 	notEqual:	'This value should not be %s.'
 	filled:	  'This field is required.'

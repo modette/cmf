@@ -7,7 +7,7 @@ orm:
 	repositoryFinder: Nextras\Orm\Bridges\NetteDI\DIRepositoryFinder
 
 services:
-	modette.orm.listeners.updatedAtListener: Modette\Orm\Listeners\UpdatedAtListener
+	modette.orm.listeners.updatedAtListener: Modette\Orm\Listener\UpdatedAtListener
 
 #TODO - podpora trait v eventech
 #	- https://github.com/contributte/nextras-orm-events/blob/master/src/DI/NextrasOrmEventsExtension.php#L117-L129

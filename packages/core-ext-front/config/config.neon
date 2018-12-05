@@ -1,8 +1,8 @@
 services:
 	# Error
-	modette.front.presenters.error:
-		type: Modette\Front\Presenters\Error\ErrorPresenter
-		factory: Modette\Front\Presenters\Error\ErrorPresenter
-	modette.ui.presenters.internalError:
+	modette.front.presenter.error:
+		type: Modette\Front\Presenter\Error\ErrorPresenter
+		factory: Modette\Front\Presenter\Error\ErrorPresenter
+	modette.ui.presenter.internalError:
 		setup:
 			- setDefaultErrorPresenter(':Modette:Front:Error:default')
