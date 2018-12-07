@@ -46,9 +46,7 @@ final class Configurator
 	];
 
 	/** @var mixed[] */
-	private $extensions = [
-		//TODO - everything is in configs - some things could be moved from here
-		// core
+	private const EXTENSIONS = [
 		'php' => PhpExtension::class,
 		'constants' => ConstantsExtension::class,
 		'extensions' => ExtensionsExtension::class,
@@ -57,10 +55,6 @@ final class Configurator
 		'di' => [DIExtension::class, ['%debugMode%']],
 		'tracy' => [TracyExtension::class, ['%debugMode%', '%consoleMode%']],
 		'inject' => InjectExtension::class,
-		// ui (not in UIExtension because could be installed without UI layer)
-		'security' => [SecurityExtension::class, ['%debugMode%']],
-		// api (not in ApiExtension because could be installed without API layer)
-		'phpdoc' => PhpDocExtension::class,
 	];
 
 	/** @var string */
@@ -204,7 +198,7 @@ final class Configurator
 		$builder = $compiler->getContainerBuilder();
 		$builder->addExcludedClasses($this->autowireExcludedClasses);
 
-		foreach ($this->extensions as $name => $extension) {
+		foreach (static::EXTENSIONS as $name => $extension) {
 			[$class, $args] = is_string($extension) ? [$extension, []] : $extension;
 			if (class_exists($class)) {
 				$args = Helpers::expand($args, $this->parameters, true);

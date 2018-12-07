@@ -43,7 +43,6 @@
     "nette/di": "~2.4.13",
     "nette/http": "~2.4.10",
     "nette/neon": "~2.4.3",
-    "nette/security": "^2.4.3",
     "nextras/dbal": "^3.0.0",
     "nextras/migrations": "^3.0.5",
     "nextras/orm": "^3.0.1",

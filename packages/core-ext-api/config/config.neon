@@ -2,6 +2,7 @@ extensions:
 	api: Apitte\Core\DI\ApiExtension
 	http.psr7: Contributte\Psr7\DI\Psr7HttpExtension
 	middlewares: Contributte\Middlewares\DI\MiddlewaresExtension
+	phpdoc: Contributte\PhpDoc\DI\PhpDocExtension
 
 api:
 	debug: %debugMode%

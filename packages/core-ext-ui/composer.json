@@ -21,11 +21,11 @@
     "contributte/application": "^0.3.1",
     "contributte/event-dispatcher-extra": "^0.4.1",
     "contributte/forms": "^0.3.0",
+    "contributte/phpdoc": "^0.2.0",
     "modette/core": "^1.0.0",
     "modette/core-ext-http": "^1.0.0",
     "modette/core-ext-templates": "^1.0.0",
-    "nette/component-model": "^2.4.0",
-    "nette/security": "^2.4.3"
+    "nette/component-model": "^2.4.0"
   },
   "require-dev": {
     "ninjify/nunjuck": "^0.2.1"

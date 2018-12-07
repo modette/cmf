@@ -2,9 +2,9 @@ extensions:
 	application: Nette\Bridges\ApplicationDI\ApplicationExtension(%debugMode%, [], %tempDir%/cache)
 	console.router: Contributte\Console\Extra\DI\RouterConsoleExtension
 	events.application: Contributte\Events\Extra\DI\EventApplicationBridgeExtension
-	events.security: Contributte\Events\Extra\DI\EventSecurityBridgeExtension
 	forms: Modette\UI\Forms\DI\FormsExtension
 	modette.routing: Modette\UI\Routing\DI\RoutingExtension
+	phpdoc: Contributte\PhpDoc\DI\PhpDocExtension
 	routing: Nette\Bridges\ApplicationDI\RoutingExtension(%debugMode%)
 	tracy.navigation: Contributte\Tracy\DI\NavigationPanelExtension
 
