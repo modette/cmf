@@ -16,7 +16,9 @@ parameters:
 		# Core
 		# Created dynamically when container is compiled
 		- '#^Call to an undefined method Nette\\DI\\Container\:\:initialize\(\)\.$#'
+		# Configurator.php - should not happen
+		- '#^Only booleans are allowed in a negated boolean, mixed given\.$#'
 
 		# UI
-		# Weird error
-		- '#^Method Nette\\Application\\UI\\Control\:\:flashMessage\(\) has parameter (\$message|\$type) with no typehint specified\.$#'
+		# Cannot specify, method is declared in non-typed code
+		- '#^Method Modette\\UI\\Base\\(Control\\BaseControl|Presenter\\BasePresenter)\:\:flashMessage\(\) has no return typehint specified\.$#'

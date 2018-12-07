@@ -14,7 +14,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 /**
  * @method BasePresenter getPresenter()
  * @method BaseControlTemplate getTemplate()
- * @property BasePresenter            $presenter
+ * @property-read BasePresenter       $presenter
  * @property-read BaseControlTemplate $template
  */
 abstract class BaseControl extends NetteControl

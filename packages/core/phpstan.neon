@@ -6,7 +6,5 @@ includes:
 
 parameters:
 	ignoreErrors:
-		# Created dynamically when container is compiled
 		- '#^Call to an undefined method Nette\\DI\\Container\:\:initialize\(\)\.$#'
-		# Cannot install packages, cyclical dependency
-		- '#^Class .*Extension not found\.$#'
+		- '#^Only booleans are allowed in a negated boolean, mixed given\.$#'

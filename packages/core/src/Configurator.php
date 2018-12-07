@@ -35,7 +35,6 @@ final class Configurator
 
 	public const COOKIE_SECRET = 'nette-debug';
 
-	/** @var mixed[] */
 	private const EXTENSIONS = [
 		'php' => PhpExtension::class,
 		'constants' => ConstantsExtension::class,

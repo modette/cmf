@@ -6,5 +6,4 @@ includes:
 
 parameters:
 	ignoreErrors:
-		# Weird error
-		- '#^Method Nette\\Application\\UI\\Control\:\:flashMessage\(\) has parameter (\$message|\$type) with no typehint specified\.$#'
+		- '#^Method Modette\\UI\\Base\\(Control\\BaseControl|Presenter\\BasePresenter)\:\:flashMessage\(\) has no return typehint specified\.$#'

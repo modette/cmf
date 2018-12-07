@@ -41,6 +41,10 @@ services:
 			- setTranslator(@Nette\Localization\ITranslator)
 			#todo - setRenderer
 
+	# Flashes
+	modette.ui.flashes.mapper:
+		factory: Modette\UI\Utils\FlashesMapper
+
 	# Internal error
 	modette.ui.internalError.presenter:
 		type: Modette\UI\InternalError\Presenter\InternalErrorPresenter

@@ -2,8 +2,12 @@
 
 namespace Modette\UI\Utils;
 
+use Modette\UI\Base\Presenter\BasePresenter;
 use stdClass;
 
+/**
+ * @method BasePresenter getPresenter()
+ */
 trait FlashMessages
 {
 
@@ -14,7 +18,13 @@ trait FlashMessages
 	 * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
 	 * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingReturnTypeHint
 	 */
-	abstract public function flashMessage($message, $type = 'info');
+	public function flashMessage($message, $type = 'info')
+	{
+		parent::flashMessage(
+			$message,
+			$this->getPresenter()->getFlashesMapper()->getMappedFlashType($type)
+		);
+	}
 
 	public function flashInfo(string $message): stdClass
 	{

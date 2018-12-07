@@ -51,6 +51,7 @@ abstract class BaseAdminPresenter extends BasePresenter
 			);
 		}*/
 
+		/*
 		if (!$this->user->isLoggedIn()) {
 
 			if ($this->user->getLogoutReason() === IUserStorage::INACTIVITY) {
@@ -63,7 +64,7 @@ abstract class BaseAdminPresenter extends BasePresenter
 				$this->adminConfig->getSignInAction(),
 				['backlink' => $this->storeRequest()]
 			);
-		}
+		}*/
 	}
 
 	protected function beforeRender(): void

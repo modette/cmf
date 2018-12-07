@@ -10,6 +10,7 @@ use Modette\UI\Control\Document\DocumentControl;
 use Modette\UI\Control\Document\DocumentFactory;
 use Modette\UI\FakeTranslator;
 use Modette\UI\InternalError\Presenter\InternalErrorPresenter;
+use Modette\UI\Utils\FlashesMapper;
 use Modette\UI\Utils\FlashMessages;
 use Modette\UI\Utils\TranslateShortcut;
 use Nette\Application\UI\Presenter as NettePresenter;
@@ -21,7 +22,9 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  * @method self getPresenter()
  * @method TemplateFactory getTemplateFactory()
  * @method BasePresenterTemplate getTemplate()
+ * @property-read BasePresenter         $presenter
  * @property-read BasePresenterTemplate $template
+ * @property-read null $user
  */
 abstract class BasePresenter extends NettePresenter
 {
@@ -46,20 +49,24 @@ abstract class BasePresenter extends NettePresenter
 	/** @var FakeTranslator */
 	private $translator;
 
+	/** @var FlashesMapper */
+	private $flashesMapper;
+
 	public function injectSecondary(
 		DocumentFactory $documentFactory,
 		EventDispatcherInterface $eventDispatcher,
 		LoggerAccessor $loggerAccessor,
 		Parameters $parameters,
-		FakeTranslator $translator
+		FakeTranslator $translator,
+		FlashesMapper $flashesMapper
 	): void
 	{
-		// Because injectPrimary is taken
 		$this->documentFactory = $documentFactory;
 		$this->eventDispatcher = $eventDispatcher;
 		$this->loggerAccessor = $loggerAccessor;
 		$this->parameters = $parameters;
 		$this->translator = $translator;
+		$this->flashesMapper = $flashesMapper;
 	}
 
 	protected function beforeRender(): void
@@ -107,6 +114,11 @@ abstract class BasePresenter extends NettePresenter
 	public function getTranslator(): FakeTranslator
 	{
 		return $this->translator;
+	}
+
+	public function getFlashesMapper(): FlashesMapper
+	{
+		return $this->flashesMapper;
 	}
 
 }

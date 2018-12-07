@@ -3,13 +3,12 @@
 namespace Modette\Templates;
 
 use Nette\Bridges\ApplicationLatte\Template as NetteTemplate;
-use Nette\Security\User;
+use stdClass;
 
 /**
- * @property-read string   $baseUri
- * @property-read string   $basePath
- * @property-read string[] $flashes
- * @property-read User     $user
+ * @property-read string     $baseUri
+ * @property-read string     $basePath
+ * @property-read stdClass[] $flashes
  */
 abstract class Template extends NetteTemplate
 {
