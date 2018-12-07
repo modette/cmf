@@ -70,7 +70,10 @@
       "Modette\\Sql\\": "packages/core-ext-sql/src",
       "Modette\\Templates\\": "packages/core-ext-templates/src",
       "Modette\\UI\\": "packages/core-ext-ui/src"
-    }
+    },
+    "files": [
+      "packages/core/src/functions.php"
+    ]
   },
   "autoload-dev": {
     "psr-4": {

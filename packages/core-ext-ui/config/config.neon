@@ -9,13 +9,13 @@ extensions:
 	tracy.navigation: Contributte\Tracy\DI\NavigationPanelExtension
 
 application:
+	catchExceptions: ::Modette\Core\negate(%debugMode%)
 	debugger: true
 	errorPresenter: Modette:UI:InternalError
-	catchExceptions: %productionMode%
-	scanDirs: false
-	scanComposer: false
 	mapping:
 		*: ['', *, *\Presenter\*Presenter]
+	scanComposer: false
+	scanDirs: false
 	silentLinks: false
 
 decorator:

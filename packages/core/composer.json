@@ -48,7 +48,10 @@
   "autoload": {
     "psr-4": {
       "Modette\\Core\\": "src"
-    }
+    },
+    "files": [
+      "src/functions.php"
+    ]
   },
   "scripts": {
     "tests": [

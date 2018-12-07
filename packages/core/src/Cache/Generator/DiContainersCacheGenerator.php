@@ -19,21 +19,18 @@ class DiContainersCacheGenerator implements IGenerator
 			'parameters' => [
 				'consoleMode' => false,
 				'debugMode' => true,
-				'productionMode' => false,
 			],
 		],
 		'production' => [
 			'parameters' => [
 				'consoleMode' => false,
 				'debugMode' => false,
-				'productionMode' => true,
 			],
 		],
 		'console' => [
 			'parameters' => [
 				'consoleMode' => true,
 				'debugMode' => true,
-				'productionMode' => false,
 			],
 		],
 	];

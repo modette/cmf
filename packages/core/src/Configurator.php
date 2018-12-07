@@ -97,13 +97,12 @@ final class Configurator
 	public function setDebugMode(bool $debugMode): void
 	{
 		$this->parameters['debugMode'] = $debugMode;
-		$this->parameters['productionMode'] = !$debugMode;
 	}
 
 	private function enableDebugger(): void
 	{
 		Debugger::$strictMode = true;
-		Debugger::enable($this->parameters['productionMode'], $this->parameters['logDir']);
+		Debugger::enable(!$this->parameters['debugMode'], $this->parameters['logDir']);
 		Bridge::initialize();
 	}
 
@@ -138,7 +137,6 @@ final class Configurator
 			],
 			'vendorDir' => $this->rootDir . '/vendor',
 			'debugMode' => false,
-			'productionMode' => true,
 			'consoleMode' => PHP_SAPI === 'cli',
 			'server' => [
 				'development' => false,
@@ -234,24 +232,12 @@ final class Configurator
 		return $class;
 	}
 
-	private function checkParametersIntegrity(): void
-	{
-		if ((bool) $this->parameters['productionMode'] === (bool) $this->parameters['debugMode']) {
-			throw new InvalidStateException(sprintf(
-				'Parameters "productionMode" and "debugMode" of %s must be opposite. Set them with "setDebugMode" or "addParameters"',
-				static::class
-			));
-		}
-	}
-
 	public function createContainer(): Container
 	{
 		$this->enableDebugger();
 
 		// Used by cache generator to create containers
 		$this->addServices(['configurator' => $this]);
-
-		$this->checkParametersIntegrity();
 
 		$class = $this->loadContainer();
 		/** @var Container $container */
