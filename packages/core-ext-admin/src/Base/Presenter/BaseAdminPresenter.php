@@ -4,7 +4,6 @@ namespace Modette\Admin\Base\Presenter;
 
 use Modette\Admin\DI\AdminConfig;
 use Modette\UI\Base\Presenter\BasePresenter;
-use Nette\Security\IUserStorage;
 
 abstract class BaseAdminPresenter extends BasePresenter
 {
