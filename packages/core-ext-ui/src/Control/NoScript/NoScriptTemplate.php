@@ -2,7 +2,7 @@
 
 namespace Modette\UI\Control\NoScript;
 
-use Modette\UI\Control\Base\BaseControlTemplate;
+use Modette\UI\Base\Control\BaseControlTemplate;
 
 /**
  * @property string[] $noScripts

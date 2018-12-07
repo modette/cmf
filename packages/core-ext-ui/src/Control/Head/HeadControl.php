@@ -2,8 +2,8 @@
 
 namespace Modette\UI\Control\Head;
 
-use Modette\UI\Control\Base\BaseControl;
-use Modette\UI\Control\Base\BaseControlTemplate;
+use Modette\UI\Base\Control\BaseControl;
+use Modette\UI\Base\Control\BaseControlTemplate;
 use Modette\UI\Control\Icons\IconsControl;
 use Modette\UI\Control\Icons\IconsFactory;
 use Modette\UI\Control\Links\LinksControl;

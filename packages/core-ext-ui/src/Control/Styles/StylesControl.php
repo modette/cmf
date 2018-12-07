@@ -2,7 +2,7 @@
 
 namespace Modette\UI\Control\Styles;
 
-use Modette\UI\Control\Base\BaseControl;
+use Modette\UI\Base\Control\BaseControl;
 
 /**
  * @property-read StylesTemplate $template

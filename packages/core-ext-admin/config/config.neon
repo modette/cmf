@@ -3,14 +3,14 @@ extensions:
 
 services:
 	# Dashboard
-	modette.admin.presenter.dashboard:
-		type: Modette\Admin\Presenter\Dashboard\DashboardPresenter
-		factory: Modette\Admin\Presenter\Dashboard\DashboardPresenter
+	modette.admin.dashboard.presenter:
+		type: Modette\Admin\Dashboard\Presenter\DashboardPresenter
+		factory: Modette\Admin\Dashboard\Presenter\DashboardPresenter
 
 	# Error
-	modette.admin.presenter.error:
-		type: Modette\Admin\Presenter\Error\ErrorPresenter
-		factory: Modette\Admin\Presenter\Error\ErrorPresenter
-	modette.ui.presenter.internalError:
+	modette.admin.error.presenter:
+		type: Modette\Admin\Error\Presenter\ErrorPresenter
+		factory: Modette\Admin\Error\Presenter\ErrorPresenter
+	modette.ui.internalError.presenter:
 		setup:
 			- addErrorPresenter(':Modette:Admin:Error:default', '#.*:(Admin|Administration):.*#')

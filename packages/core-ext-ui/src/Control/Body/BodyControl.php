@@ -2,7 +2,7 @@
 
 namespace Modette\UI\Control\Body;
 
-use Modette\UI\Control\Base\BaseControl;
+use Modette\UI\Base\Control\BaseControl;
 use Nette\Utils\Html;
 
 /**

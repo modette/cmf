@@ -2,7 +2,7 @@
 
 namespace Modette\UI\Control\Document;
 
-use Modette\UI\Control\Base\BaseControl;
+use Modette\UI\Base\Control\BaseControl;
 use Modette\UI\Control\Body\BodyControl;
 use Modette\UI\Control\Body\BodyFactory;
 use Modette\UI\Control\Head\HeadControl;

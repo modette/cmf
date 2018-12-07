@@ -15,7 +15,7 @@ application:
 	scanDirs: false
 	scanComposer: false
 	mapping:
-		*: ['', *, Presenter\*\*Presenter]
+		*: ['', *, *\Presenter\*Presenter]
 	silentLinks: false
 
 decorator:
@@ -42,9 +42,9 @@ services:
 			#todo - setRenderer
 
 	# Internal error
-	modette.ui.presenter.internalError:
-		type: Modette\UI\Presenter\InternalError\InternalErrorPresenter
-		factory: Modette\UI\Presenter\InternalError\InternalErrorPresenter
+	modette.ui.internalError.presenter:
+		type: Modette\UI\InternalError\Presenter\InternalErrorPresenter
+		factory: Modette\UI\InternalError\Presenter\InternalErrorPresenter
 
 	# Document basic controls
 	modette.ui.control.body.factory:
