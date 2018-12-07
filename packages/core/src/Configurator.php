@@ -2,11 +2,9 @@
 
 namespace Modette\Core;
 
-use Contributte\PhpDoc\DI\PhpDocExtension;
 use Modette\Core\Exception\Logic\InvalidArgumentException;
 use Modette\Core\Exception\Logic\InvalidStateException;
 use Nette\Bridges\CacheDI\CacheExtension;
-use Nette\Bridges\SecurityDI\SecurityExtension;
 use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
 use Nette\DI\Config\Adapters\NeonAdapter;
@@ -37,14 +35,6 @@ final class Configurator
 
 	public const COOKIE_SECRET = 'nette-debug';
 
-	/** @var callable[] function(Configurator $configurator, Compiler $compiler): void; Occurs after the compiler is created */
-	public $onCompile = [];
-
-	/** @var string[] classes which shouldn't be autowired */
-	public $autowireExcludedClasses = [
-		'stdClass',
-	];
-
 	/** @var mixed[] */
 	private const EXTENSIONS = [
 		'php' => PhpExtension::class,
@@ -55,6 +45,14 @@ final class Configurator
 		'di' => [DIExtension::class, ['%debugMode%']],
 		'tracy' => [TracyExtension::class, ['%debugMode%', '%consoleMode%']],
 		'inject' => InjectExtension::class,
+	];
+
+	/** @var callable[] function(Configurator $configurator, Compiler $compiler): void; Occurs after the compiler is created */
+	public $onCompile = [];
+
+	/** @var string[] classes which shouldn't be autowired */
+	public $autowireExcludedClasses = [
+		'stdClass',
 	];
 
 	/** @var string */
