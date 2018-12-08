@@ -32,7 +32,6 @@ jobs:
     - stage: Phpstan
       php: 7.2
       script:
-        - composer run-script phpstan-install
         - composer run-script phpstan
 
 sudo: false

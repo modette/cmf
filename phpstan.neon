@@ -1,10 +1,10 @@
 includes:
-	- temp/phpstan/vendor/nextras/orm-phpstan/extension.neon
-	- temp/phpstan/vendor/pepakriz/phpstan-exception-rules/extension.neon
-	- temp/phpstan/vendor/phpstan/phpstan-deprecation-rules/rules.neon
-	- temp/phpstan/vendor/phpstan/phpstan-nette/extension.neon
-	- temp/phpstan/vendor/phpstan/phpstan-nette/rules.neon
-	- temp/phpstan/vendor/phpstan/phpstan-strict-rules/rules.neon
+	- vendor/nextras/orm-phpstan/extension.neon
+	- vendor/pepakriz/phpstan-exception-rules/extension.neon
+	- vendor/phpstan/phpstan-deprecation-rules/rules.neon
+	- vendor/phpstan/phpstan-nette/extension.neon
+	- vendor/phpstan/phpstan-nette/rules.neon
+	- vendor/phpstan/phpstan-strict-rules/rules.neon
 
 parameters:
 	exceptionRules:
