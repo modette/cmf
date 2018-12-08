@@ -130,7 +130,7 @@ final class Configurator
 			'appDir' => $this->rootDir . '/src',
 			'configDir' => $this->rootDir . '/config',
 			'logDir' => $this->rootDir . '/var/log',
-			'tempDir' => $this->rootDir . '/var/temp',
+			'tempDir' => $this->rootDir . '/var/tmp',
 			'storage' => [
 				'internalDir' => $this->rootDir . '/var/storage',
 			],
