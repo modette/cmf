@@ -10,7 +10,9 @@ use Composer\IO\IOInterface;
 use Composer\Plugin\PluginInterface;
 use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
+use LogicException;
 use RuntimeException;
+use UnexpectedValueException;
 
 /**
  * @todo - nabídnout z modette.neon minimální konfiguraci? (viz contributte/neonizer)
@@ -21,6 +23,18 @@ class Plugin implements PluginInterface, EventSubscriberInterface
 {
 
 	/**
+	 * @return string[]
+	 */
+	public static function getSubscribedEvents(): array
+	{
+		return [
+			ScriptEvents::POST_INSTALL_CMD => 'install',
+			ScriptEvents::POST_UPDATE_CMD => 'update',
+			PackageEvents::POST_PACKAGE_UNINSTALL => 'remove',
+		];
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public function activate(Composer $composer, IOInterface $io): void
@@ -28,26 +42,31 @@ class Plugin implements PluginInterface, EventSubscriberInterface
 		// Must be implemented
 	}
 
-	/**
-	 * @return string[]
-	 */
-	public static function getSubscribedEvents(): array
-	{
-		return [
-			//ScriptEvents::POST_INSTALL_CMD => 'configure',
-			ScriptEvents::POST_UPDATE_CMD => 'configure',
-			PackageEvents::PRE_PACKAGE_UNINSTALL => 'remove',
-		];
-	}
-
-	public function configure(Event $event): void
+	public function install(Event $event): void
 	{
 		$composer = $event->getComposer();
+		$this->generateRootConfig($composer);
+	}
+
+	public function update(Event $event): void
+	{
+		$composer = $event->getComposer();
+		$this->generateRootConfig($composer);
+	}
+
+	public function remove(PackageEvent $event): void
+	{
+		$composer = $event->getComposer();
+		$this->generateRootConfig($composer);
+	}
+
+	private function generateRootConfig(Composer $composer): void
+	{
 		if (!$this->isEnabled($composer)) {
 			return;
 		}
 
-		$configFile = $this->loadMainConfig($composer);
+		$rootConfigFile = $this->getRootConfigFile($composer);
 
 		$installationManager = $composer->getInstallationManager();
 		$localRepository = $composer->getRepositoryManager()->getLocalRepository();
@@ -84,52 +103,26 @@ class Plugin implements PluginInterface, EventSubscriberInterface
 			);
 		}
 
-		$configurator = new Config();
-		$configurator->write($configFile, $modulesConfig);
-	}
-
-	public function remove(PackageEvent $event): void
-	{
-		$composer = $event->getComposer();
-		if (!$this->isEnabled($composer)) {
-			return;
-		}
-
-		$configFile = $this->loadMainConfig($composer);
-		$configurator = new Config();
-		$modulesConfig = $configurator->load($configFile);
-
-		//TODO - smazat všechny configy uvedené v modette.neon mazaného package
-		//TODO - jak zjistit, o který package jde? musím použít installer?
-
-		$configurator->write($configFile, $modulesConfig);
-	}
-
-	private function isEnabled(Composer $composer): bool
-	{
-		$extra = $composer->getPackage()->getExtra();
-		$pluginConfig = $extra['modette'] ?? [];
-
-		$enabled = $pluginConfig['enable'] ?? false;
-		return (bool) $enabled;
+		$configurator = new IO();
+		$configurator->write($rootConfigFile, $modulesConfig);
 	}
 
 	/**
-	 * @return string[]
+	 * @return mixed[]
 	 */
 	private function loadModuleConfig(string $file, string $packageDir, string $rootDir): array
 	{
 		if (!file_exists($file)) {
 			throw new RuntimeException(sprintf(
-				'%s does not exist.',
+				'Config file %s does not exist.',
 				$file
 			));
 		}
 
-		$configurator = new Config();
-		$content = $configurator->load($file);
+		$io = new IO();
+		$content = $io->read($file);
 
-		// Make absolute path from relative path (prepend relative package path)
+		// Prepend relative package path
 		// config/config.neon -> vendor/foo/bar/config/config.neon
 		$configs = $content['configs'] ?? [];
 		foreach ($configs as $key => $config) {
@@ -152,30 +145,47 @@ class Plugin implements PluginInterface, EventSubscriberInterface
 		return $configs;
 	}
 
+	private function getRootConfigFile(Composer $composer): string
+	{
+		$extra = $composer->getPackage()->getExtra();
+		$pluginConfig = $extra['modette'] ?? [];
+
+		if (!isset($pluginConfig['modules'])) {
+			throw new LogicException('composer.json key extra.modette.modules must be defined when modette/module-installer is enabled.');
+		}
+
+		$configFileRelative = $pluginConfig['modules'];
+		$configFile = $this->getRootDir($composer) . '/' . $configFileRelative;
+
+		if (!file_exists($configFile)) {
+			throw new UnexpectedValueException(sprintf(
+				'composer.json key extra.modette.modules must be a valid relative path to a config file. Given path is %s, which resolved into %s',
+				$configFileRelative,
+				$configFile
+			));
+		}
+
+		return $configFile;
+	}
+
 	private function getRootDir(Composer $composer): string
 	{
 		$vendorDir = $composer->getConfig()->get('vendor-dir');
 		return dirname($vendorDir);
 	}
 
-	private function loadMainConfig(Composer $composer): string
+	private function isEnabled(Composer $composer): bool
 	{
 		$extra = $composer->getPackage()->getExtra();
 		$pluginConfig = $extra['modette'] ?? [];
 
-		$rootDir = $this->getRootDir($composer);
-		$configFile = isset($pluginConfig['modules']) ?
-			$rootDir . '/' . $pluginConfig['modules'] :
-			$rootDir . '/config/modules.neon';
+		$enabled = $pluginConfig['enable'] ?? false;
 
-		if (!file_exists($configFile)) {
-			throw new RuntimeException(sprintf(
-				'%s does not exist. Is key extra.modette.modules in your composer.json properly configured?',
-				$configFile
-			));
+		if (!is_bool($enabled)) {
+			throw new UnexpectedValueException('composer.json key extra.modette.enable must be boolean.');
 		}
 
-		return $configFile;
+		return $enabled;
 	}
 
 }

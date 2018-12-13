@@ -1,9 +1,8 @@
 <?php declare(strict_types = 1);
 
-namespace Modette\Core;
+namespace Modette\Core\Boot;
 
 use Modette\Core\Exception\Logic\InvalidArgumentException;
-use Modette\Core\Exception\Logic\InvalidStateException;
 use Nette\Bridges\CacheDI\CacheExtension;
 use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
@@ -28,12 +27,10 @@ use Tracy\Debugger;
 /**
  * @method void onCompile(Configurator $configurator, Compiler $compiler)
  */
-final class Configurator
+class Configurator
 {
 
 	use SmartObject;
-
-	public const COOKIE_SECRET = 'nette-debug';
 
 	private const EXTENSIONS = [
 		'php' => PhpExtension::class,
@@ -69,6 +66,9 @@ final class Configurator
 	/** @var object[] */
 	private $services = [];
 
+	/** @var string|null */
+	private $modulesConfig;
+
 	public function __construct(string $rootDir)
 	{
 		// Set parameters
@@ -90,9 +90,6 @@ final class Configurator
 		return $this->parameters['debugMode'];
 	}
 
-	/**
-	 * Set debug mode for HTTP (debug is always enabled for CLI)
-	 */
 	public function setDebugMode(bool $debugMode): void
 	{
 		$this->parameters['debugMode'] = $debugMode;
@@ -105,13 +102,9 @@ final class Configurator
 		Bridge::initialize();
 	}
 
-	public function loadModules(string $modulesFile): void
+	public function setModulesConfig(string $modulesConfigFile): void
 	{
-		$neon = new NeonAdapter();
-		$config = $neon->load($modulesFile);
-		foreach ($config as $file) {
-			$this->addConfig($this->rootDir . $file);
-		}
+		$this->modulesConfig = $modulesConfigFile;
 	}
 
 	public function addConfig(string $config): self
@@ -216,18 +209,35 @@ final class Configurator
 		return implode("\n", $fileInfo) . "\n\n" . $classes;
 	}
 
+	private function loadModulesConfig(): void
+	{
+		if ($this->modulesConfig === null) {
+			return;
+		}
+
+		$neon = new NeonAdapter();
+		$config = $neon->load($this->modulesConfig);
+		foreach ($config as $file) {
+			$this->addConfig($this->rootDir . $file);
+		}
+	}
+
 	public function loadContainer(): string
 	{
+		$this->loadModulesConfig();
+
 		$loader = new ContainerLoader(
 			$this->parameters['tempDir'] . '/cache/Modette.Configurator',
 			$this->parameters['debugMode']
 		);
+
 		$class = $loader->load(
 			function (Compiler $compiler): string {
 				return $this->generateContainer($compiler);
 			},
 			[$this->parameters, array_keys($this->dynamicParameters), $this->configs, PHP_VERSION_ID - PHP_RELEASE_VERSION]
 		);
+
 		return $class;
 	}
 
@@ -235,95 +245,17 @@ final class Configurator
 	{
 		$this->enableDebugger();
 
-		// Used by cache generator to create containers
-		$this->addServices(['configurator' => $this]);
-
 		$class = $this->loadContainer();
 		/** @var Container $container */
 		$container = new $class($this->dynamicParameters);
 		foreach ($this->services as $name => $service) {
 			$container->addService($name, $service);
 		}
+
+		$container->addService('modette.core.boot.configurator', $this);
+
 		$container->initialize();
 		return $container;
-	}
-
-	/**
-	 * @param string[] $tokenList
-	 */
-	public function haveDebugToken(array $tokenList = []): bool
-	{
-		$token = is_string($_COOKIE[self::COOKIE_SECRET] ?? null)
-			? $_COOKIE[self::COOKIE_SECRET]
-			: null;
-
-		if ($token === null) {
-			return false;
-		}
-		if (in_array($token, $tokenList, true)) {
-			return true;
-		}
-		return false;
-	}
-
-	public function isLocalhost(): bool
-	{
-		$list = [];
-		if (!isset($_SERVER['HTTP_X_FORWARDED_FOR']) && !isset($_SERVER['HTTP_FORWARDED'])) { // Forwarded for BC, X-Forwarded-For is standard
-			$list[] = '127.0.0.1';
-			$list[] = '::1';
-		}
-		$address = $_SERVER['REMOTE_ADDR'] ?? php_uname('n');
-		return in_array($address, $list, true);
-	}
-
-	public function isEnvironmentDebugMode(): bool
-	{
-		$debug = getenv('NETTE_DEBUG');
-		return $debug !== false && (strtolower($debug) === 'true' || $debug === '1');
-	}
-
-	/**
-	 * Collect environment parameters with NETTE__ prefix
-	 *
-	 * @return mixed[]
-	 */
-	public function getEnvironmentParameters(): array
-	{
-		$map = function (&$array, array $keys, $value) use (&$map) {
-			if (count($keys) <= 0) {
-				return $value;
-			}
-
-			$key = array_shift($keys);
-
-			if (!is_array($array)) {
-				throw new InvalidStateException(sprintf('Invalid structure for key "%s" value "%s"', implode($keys), $value));
-			}
-
-			if (!array_key_exists($key, $array)) {
-				$array[$key] = [];
-			}
-
-			// Recursive
-			$array[$key] = $map($array[$key], $keys, $value);
-
-			return $array;
-		};
-
-		$parameters = [];
-		foreach ($_SERVER as $key => $value) {
-			// Ensure value
-			$value = getenv($key);
-			if ($value !== false && strpos($key, 'NETTE__') === 0) {
-				// Parse NETTE__{NAME-1}__{NAME-N}
-				$keys = explode('__', strtolower(substr($key, 7)));
-				// Make array structure
-				$map($parameters, $keys, $value);
-			}
-		}
-
-		return $parameters;
 	}
 
 }

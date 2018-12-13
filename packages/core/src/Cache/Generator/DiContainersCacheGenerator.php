@@ -3,7 +3,7 @@
 namespace Modette\Core\Cache\Generator;
 
 use Contributte\Console\Extra\Cache\Generators\IGenerator;
-use Modette\Core\Configurator;
+use Modette\Core\Boot\Configurator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 

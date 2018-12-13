@@ -1,6 +1,5 @@
 extensions:
 	application: Nette\Bridges\ApplicationDI\ApplicationExtension(%debugMode%, [], %tempDir%/cache)
-	console.router: Contributte\Console\Extra\DI\RouterConsoleExtension
 	events.application: Contributte\Events\Extra\DI\EventApplicationBridgeExtension
 	forms: Modette\UI\Forms\DI\FormsExtension
 	modette.routing: Modette\UI\Routing\DI\RoutingExtension
@@ -9,7 +8,7 @@ extensions:
 	tracy.navigation: Contributte\Tracy\DI\NavigationPanelExtension
 
 application:
-	catchExceptions: ::Modette\Core\negate(%debugMode%)
+	catchExceptions: ::Modette\Core\Utils\negate(%debugMode%)
 	debugger: true
 	errorPresenter: Modette:UI:InternalError
 	mapping:

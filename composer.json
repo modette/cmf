@@ -78,7 +78,7 @@
       "Modette\\UI\\": "packages/core-ext-ui/src"
     },
     "files": [
-      "packages/core/src/functions.php"
+      "packages/core/src/Utils/functions.php"
     ]
   },
   "autoload-dev": {

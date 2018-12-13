@@ -17,7 +17,7 @@ console.cache:
 		localFilesystem: Contributte\Console\Extra\Cache\Cleaners\LocalFilesystemCleaner([%tempDir%])
 	generators:
 		diContainers: Modette\Core\Cache\Generator\DiContainersCacheGenerator(
-			"?->getService('configurator')"(@container)
+			@modette.core.boot.configurator
 		)
 
 flysystem:
@@ -65,6 +65,11 @@ services:
 	logger.accessor:
 		implement: Modette\Core\Logging\LoggerAccessor
 		factory: @Monolog\Logger
+	modette.core.boot.configurator:
+		factory: Modette\Core\Boot\Configurator
+		type: Modette\Core\Boot\Configurator
+		autowired: false
+		dynamic: true
 
 setup:
 	drivers:

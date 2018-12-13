@@ -1,3 +1,5 @@
+#todo - rozdělit na http, api a ui
+
 extensions:
 	http: Nette\Bridges\HttpDI\HttpExtension(%consoleMode%)
 	session: Nette\Bridges\HttpDI\SessionExtension(%debugMode%, %consoleMode%)

@@ -53,7 +53,7 @@
       "Modette\\Core\\": "src"
     },
     "files": [
-      "src/functions.php"
+      "src/Utils/functions.php"
     ]
   },
   "scripts": {

@@ -2,19 +2,21 @@
 
 namespace App;
 
-use Modette\Core\Configurator;
+use Modette\Core\Boot\Configurator;
+use Modette\Core\Boot\Helper\EnvironmentHelper;
+use Modette\Core\Boot\Helper\HttpHelper;
 
 $rootDir = dirname(__DIR__);
 require $rootDir . '/vendor/autoload.php';
 $configurator = new Configurator($rootDir);
 
 $configurator->setDebugMode(
-	$configurator->isEnvironmentDebugMode() ||
+	EnvironmentHelper::isEnvironmentDebugMode() ||
 	$configurator->isConsoleMode() ||
-	$configurator->isLocalhost()
+	HttpHelper::isLocalhost()
 );
 
-$configurator->loadModules(__DIR__ . '/../config/modules.neon');
+$configurator->setModulesConfig(__DIR__ . '/../config/modules.neon');
 
 $configurator->addConfig(__DIR__ . '/../config/config.neon');
 

@@ -5,13 +5,13 @@ namespace Modette\ModuleInstaller;
 use Composer\Downloader\FilesystemException;
 use Nette\DI\Config\Adapters\NeonAdapter;
 
-class Config
+class IO
 {
 
 	/**
 	 * @return mixed[]
 	 */
-	public function load(string $file): array
+	public function read(string $file): array
 	{
 		$neon = new NeonAdapter();
 		return $neon->load($file);
