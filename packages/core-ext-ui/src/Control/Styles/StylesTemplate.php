@@ -7,7 +7,7 @@ use Modette\Templates\Template;
 /**
  * @property string[] $styles
  */
-class StylesTemplate extends Template
+final class StylesTemplate extends Template
 {
 
 }

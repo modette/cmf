@@ -7,7 +7,7 @@ use Modette\UI\Base\Control\BaseControlTemplate;
 /**
  * @property string[] $noScripts
  */
-class NoScriptTemplate extends BaseControlTemplate
+final class NoScriptTemplate extends BaseControlTemplate
 {
 
 }
