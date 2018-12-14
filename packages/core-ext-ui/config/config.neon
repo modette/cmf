@@ -2,6 +2,7 @@ extensions:
 	application: Nette\Bridges\ApplicationDI\ApplicationExtension(%debugMode%, [], %tempDir%/cache)
 	events.application: Contributte\Events\Extra\DI\EventApplicationBridgeExtension
 	forms: Modette\UI\Forms\DI\FormsExtension
+	modette.menu: Modette\UI\DI\MenuExtension
 	modette.routing: Modette\UI\Routing\DI\RoutingExtension
 	phpdoc: Contributte\PhpDoc\DI\PhpDocExtension
 	routing: Nette\Bridges\ApplicationDI\RoutingExtension(%debugMode%)
