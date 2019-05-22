@@ -33,7 +33,7 @@
     "contributte/monolog": "^0.1.0",
     "contributte/tracy": "^0.4.0",
     "contributte/utils": "^0.3.0",
-    "marc-mabe/php-enum": "^3.0.1",
+    "marc-mabe/php-enum": "^4.0.0",
     "modette/module-installer": "^1.0.0",
     "nette/di": "~2.4.13",
     "nette/neon": "~2.4.3",
