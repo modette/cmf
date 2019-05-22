@@ -69,7 +69,7 @@
     "nextras/orm-phpstan": "^0.3",
     "ninjify/nunjuck": "^0.2.1",
     "ninjify/qa": "^0.8.0",
-    "pepakriz/phpstan-exception-rules": "^0.7.0",
+    "pepakriz/phpstan-exception-rules": "^0.8.1",
     "phpstan/phpstan": "^0.11",
     "phpstan/phpstan-deprecation-rules": "^0.11",
     "phpstan/phpstan-nette": "^0.11",
