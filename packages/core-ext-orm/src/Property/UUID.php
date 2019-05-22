@@ -22,7 +22,7 @@ trait UUID
 
 		$factory->setRandomGenerator($generator);
 
-		$this->id = $factory->uuid4()->toString();
+		$this->setReadOnlyValue('id', $factory->uuid4()->toString());
 	}
 
 }
