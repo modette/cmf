@@ -200,22 +200,30 @@ class Configurator
 		return implode("\n", $fileInfo) . "\n\n" . $classes;
 	}
 
-	private function loadModulesConfig(): void
+	/**
+	 * @return string[]
+	 */
+	private function getModuleConfigFiles(): array
 	{
 		if ($this->modulesConfig === null) {
-			return;
+			return [];
 		}
 
 		$neon = new NeonAdapter();
 		$config = $neon->load($this->modulesConfig);
+		$files = [];
+
 		foreach ($config as $file) {
-			$this->addConfig($this->rootDir . $file);
+			$files[] = $this->rootDir . $file;
 		}
+
+		return $files;
 	}
 
 	public function loadContainer(): string
 	{
-		$this->loadModulesConfig();
+		// Prepend module configurations to config files list
+		$this->configs = array_merge($this->getModuleConfigFiles(), $this->configs);
 
 		$loader = new ContainerLoader(
 			$this->parameters['tempDir'] . '/cache/modette.configurator',
