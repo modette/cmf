@@ -6,23 +6,12 @@ extensions:
 	migrations: Nextras\Migrations\Bridges\NetteDI\MigrationsExtension
 
 migrations:
-	dir: TODO
 	dbal: nextras
-	#todo - přidávání skupin
 	#todo - předat některým migracím parametry,
 	#todo - strict mode pro mysql
-	#todo - možnost upravit již spuštěnou migraci - seznam povolených hashů
 	#todo - vypnutí reset commandu
 	#resetCommand: %server.development%
 	# dummy data jsou přes přepínač --production
-
-services:
-	migrations.continueCommand:
-		tags: [console.command: migrations:continue]
-	migrations.createCommand:
-		tags: [console.command: migrations:create]
-	migrations.resetCommand:
-		tags: [console.command: migrations:reset]
 
 setup:
 	workers:
