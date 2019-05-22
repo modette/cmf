@@ -42,7 +42,7 @@
     "contributte/event-dispatcher-extra": "^0.4.1",
     "contributte/flysystem": "^0.1.0",
     "contributte/forms": "^0.3.0",
-    "contributte/mail": "^0.2.0",
+    "contributte/mail": "^0.3.0",
     "contributte/middlewares": "^0.8.0",
     "contributte/model": "^0.1.0",
     "contributte/monolog": "^0.1.0",
