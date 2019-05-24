@@ -2,7 +2,10 @@
 
 namespace Modette\Core\Setup;
 
-class SetupMeta
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Output\OutputInterface;
+
+class SetupHelper
 {
 
 	/** @var WorkerMode */
@@ -14,11 +17,25 @@ class SetupMeta
 	/** @var bool */
 	private $developmentServer;
 
-	public function __construct(WorkerMode $workerMode, bool $debugMode, bool $developmentServer)
+	/** @var Application */
+	private $application;
+
+	/** @var OutputInterface */
+	private $output;
+
+	public function __construct(
+		WorkerMode $workerMode,
+		bool $debugMode,
+		bool $developmentServer,
+		Application $application,
+		OutputInterface $output
+	)
 	{
 		$this->workerMode = $workerMode;
 		$this->debugMode = $debugMode;
 		$this->developmentServer = $developmentServer;
+		$this->application = $application;
+		$this->output = $output;
 	}
 
 	public function getWorkerMode(): WorkerMode
@@ -29,7 +46,7 @@ class SetupMeta
 	/**
 	 * Warning: This method only tells if current user run application in debug mode, not if server is dev-only
 	 *
-	 * @see SetupMeta::isDevelopmentServer()
+	 * @see SetupHelper::isDevelopmentServer()
 	 */
 	public function isDebugMode(): bool
 	{
@@ -39,6 +56,16 @@ class SetupMeta
 	public function isDevelopmentServer(): bool
 	{
 		return $this->developmentServer;
+	}
+
+	public function getApplication(): Application
+	{
+		return $this->application;
+	}
+
+	public function getOutput(): OutputInterface
+	{
+		return $this->output;
 	}
 
 }

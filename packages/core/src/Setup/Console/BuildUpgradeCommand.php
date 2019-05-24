@@ -2,8 +2,8 @@
 
 namespace Modette\Core\Setup\Console;
 
-use Modette\Core\Setup\SetupMeta;
-use Modette\Core\Setup\WorkerManager;
+use Modette\Core\Setup\SetupHelper;
+use Modette\Core\Setup\WorkerManagerAccessor;
 use Modette\Core\Setup\WorkerMode;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,8 +15,8 @@ class BuildUpgradeCommand extends Command
 	/** @var string */
 	protected static $defaultName = 'modette:build:upgrade';
 
-	/** @var WorkerManager */
-	private $manager;
+	/** @var WorkerManagerAccessor */
+	private $managerAccessor;
 
 	/** @var bool */
 	private $debugMode;
@@ -24,11 +24,10 @@ class BuildUpgradeCommand extends Command
 	/** @var bool */
 	private $developmentServer;
 
-	public function __construct(WorkerManager $manager, bool $debugMode, bool $developmentServer)
+	public function __construct(WorkerManagerAccessor $managerAccessor, bool $debugMode, bool $developmentServer)
 	{
-		//TODO - předat závislosti přes accessor
 		parent::__construct();
-		$this->manager = $manager;
+		$this->managerAccessor = $managerAccessor;
 		$this->debugMode = $debugMode;
 		$this->developmentServer = $developmentServer;
 	}
@@ -41,12 +40,20 @@ class BuildUpgradeCommand extends Command
 
 	protected function execute(InputInterface $input, OutputInterface $output): ?int
 	{
-		$meta = new SetupMeta(WorkerMode::UPGRADE(), $this->debugMode, $this->developmentServer);
-		foreach ($this->manager->getWorkers() as $worker) {
-			$worker->work($meta);
+		$workers = $this->managerAccessor->get()->getWorkers();
+		if ($workers === []) {
+			$output->writeln('<comment>No workers available for build upgrade</comment>');
+			return 0;
 		}
 
-		$output->writeln('TODO - modette:build:upgrade');
+		$helper = new SetupHelper(WorkerMode::UPGRADE(), $this->debugMode, $this->developmentServer, $this->getApplication(), $output);
+		foreach ($workers as $worker) {
+			$output->writeln(sprintf('Running %s worker', $worker->getName()));
+			$worker->work($helper);
+		}
+
+		$output->writeln('<success>Upgrade complete</success>');
+
 		return 0;
 	}
 

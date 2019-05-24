@@ -2,28 +2,27 @@
 
 namespace Modette\Sql\Setup\Worker;
 
-use Modette\Core\Setup\SetupMeta;
+use Modette\Core\Setup\SetupHelper;
 use Modette\Core\Setup\Worker\Worker;
 use Modette\Core\Setup\WorkerMode;
+use Symfony\Component\Console\Input\ArrayInput;
 
 class MigrationsWorker implements Worker
 {
 
-	public function work(SetupMeta $meta): void
+	public function getName(): string
 	{
-		if ($meta->getWorkerMode()->is(WorkerMode::UPGRADE())) {
-			if ($meta->isDevelopmentServer()) { // phpcs:ignore
-				//migrations::continue
-			} else { // phpcs:ignore
-				//migrations:continue --production
-			}
-		} else {
-			if ($meta->isDevelopmentServer()) { // phpcs:ignore
-				//migrations::reset
-			} else { // phpcs:ignore
-				//migrations:reset --production
-			}
-		}
+		return 'migrations';
+	}
+
+	public function work(SetupHelper $helper): void
+	{
+		$commandName = $helper->getWorkerMode()->is(WorkerMode::UPGRADE())
+			? 'migrations:continue'
+			: 'migrations:reset';
+
+		$command = $helper->getApplication()->find($commandName);
+		$command->run(new ArrayInput([]), $helper->getOutput());
 	}
 
 }

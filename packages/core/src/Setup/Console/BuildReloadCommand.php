@@ -3,8 +3,8 @@
 namespace Modette\Core\Setup\Console;
 
 use Modette\Core\Exception\Logic\InvalidStateException;
-use Modette\Core\Setup\SetupMeta;
-use Modette\Core\Setup\WorkerManager;
+use Modette\Core\Setup\SetupHelper;
+use Modette\Core\Setup\WorkerManagerAccessor;
 use Modette\Core\Setup\WorkerMode;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,8 +16,8 @@ class BuildReloadCommand extends Command
 	/** @var string */
 	protected static $defaultName = 'modette:build:reload';
 
-	/** @var WorkerManager */
-	private $manager;
+	/** @var WorkerManagerAccessor */
+	private $managerAccessor;
 
 	/** @var bool */
 	private $debugMode;
@@ -25,10 +25,10 @@ class BuildReloadCommand extends Command
 	/** @var bool */
 	private $developmentServer;
 
-	public function __construct(WorkerManager $manager, bool $debugMode, bool $developmentServer)
+	public function __construct(WorkerManagerAccessor $managerAccessor, bool $debugMode, bool $developmentServer)
 	{
 		parent::__construct();
-		$this->manager = $manager;
+		$this->managerAccessor = $managerAccessor;
 		$this->debugMode = $debugMode;
 		$this->developmentServer = $developmentServer;
 	}
@@ -45,12 +45,20 @@ class BuildReloadCommand extends Command
 			throw new InvalidStateException('Cannot execute reload command on production server. Make sure that your server is configured as development server.');
 		}
 
-		$meta = new SetupMeta(WorkerMode::RELOAD(), $this->debugMode, $this->developmentServer);
-		foreach ($this->manager->getWorkers() as $worker) {
+		$workers = $this->managerAccessor->get()->getWorkers();
+		if ($workers === []) {
+			$output->writeln('<comment>No workers available for build reload</comment>');
+			return 0;
+		}
+
+		$meta = new SetupHelper(WorkerMode::RELOAD(), $this->debugMode, $this->developmentServer, $this->getApplication(), $output);
+		foreach ($workers as $worker) {
+			$output->writeln(sprintf('Running %s worker', $worker->getName()));
 			$worker->work($meta);
 		}
 
-		$output->writeln('TODO - modette:build:reload');
+		$output->writeln('<success>Reload complete</success>');
+
 		return 0;
 	}
 

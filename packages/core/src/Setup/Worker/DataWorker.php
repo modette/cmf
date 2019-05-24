@@ -3,7 +3,7 @@
 namespace Modette\Core\Setup\Worker;
 
 use Modette\Core\Setup\DataProvider\DataProvider;
-use Modette\Core\Setup\SetupMeta;
+use Modette\Core\Setup\SetupHelper;
 use Modette\Core\Setup\WorkerMode;
 
 class DataWorker implements Worker
@@ -20,9 +20,14 @@ class DataWorker implements Worker
 		$this->dataProviders = $dataProviders;
 	}
 
-	public function work(SetupMeta $meta): void
+	public function getName(): string
 	{
-		if ($meta->getWorkerMode()->is(WorkerMode::UPGRADE())) { // phpcs:ignore
+		return 'data';
+	}
+
+	public function work(SetupHelper $helper): void
+	{
+		if ($helper->getWorkerMode()->is(WorkerMode::UPGRADE())) { // phpcs:ignore
 			// Aktualizovat data a testovací data
 		} else { // phpcs:ignore
 			// Smazat všechna data, vygenerovat testovací data, vložit kompletně data

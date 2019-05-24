@@ -2,11 +2,13 @@
 
 namespace Modette\Core\Setup\Worker;
 
-use Modette\Core\Setup\SetupMeta;
+use Modette\Core\Setup\SetupHelper;
 
 interface Worker
 {
 
-	public function work(SetupMeta $meta): void;
+	public function getName(): string;
+
+	public function work(SetupHelper $helper): void;
 
 }

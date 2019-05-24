@@ -2,19 +2,21 @@
 
 namespace Modette\Core\Setup\Worker;
 
-use Modette\Core\Setup\SetupMeta;
-use Modette\Core\Setup\WorkerMode;
+use Modette\Core\Setup\SetupHelper;
+use Symfony\Component\Console\Input\ArrayInput;
 
 class CacheCleanWorker implements Worker
 {
 
-	public function work(SetupMeta $meta): void
+	public function getName(): string
 	{
-		if ($meta->getWorkerMode()->is(WorkerMode::UPGRADE())) { // phpcs:ignore
-			//Smazat cache překladů (aby se načetly nové překlady)
-		} else { // phpcs:ignore
-			//contributte:cache:clean
-		}
+		return 'cache clean';
+	}
+
+	public function work(SetupHelper $helper): void
+	{
+		$command = $helper->getApplication()->find('contributte:cache:clean');
+		$command->run(new ArrayInput([]), $helper->getOutput());
 	}
 
 }

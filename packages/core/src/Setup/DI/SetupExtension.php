@@ -5,6 +5,7 @@ namespace Modette\Core\Setup\DI;
 use Modette\Core\Setup\Console\BuildReloadCommand;
 use Modette\Core\Setup\Console\BuildUpgradeCommand;
 use Modette\Core\Setup\WorkerManager;
+use Modette\Core\Setup\WorkerManagerAccessor;
 use Nette\DI\CompilerExtension;
 
 class SetupExtension extends CompilerExtension
@@ -29,6 +30,9 @@ class SetupExtension extends CompilerExtension
 		$manager = $builder->addDefinition($this->prefix('manager'))
 			->setFactory(WorkerManager::class);
 
+		$managerAccessor = $builder->addDefinition($this->prefix('managerAccessor'))
+			->setImplement(WorkerManagerAccessor::class);
+
 		foreach ($config['workers'] as $workerConfig) {
 			$workerConfig = $this->validateConfig($this->workerDefaults, $workerConfig);
 
@@ -42,10 +46,10 @@ class SetupExtension extends CompilerExtension
 		$developmentServer = $builder->parameters['server']['development'];
 
 		$builder->addDefinition($this->prefix('command.buildReload'))
-			->setFactory(BuildReloadCommand::class, [$manager, $debugMode, $developmentServer]);
+			->setFactory(BuildReloadCommand::class, [$managerAccessor, $debugMode, $developmentServer]);
 
 		$builder->addDefinition($this->prefix('command.buildUpgrade'))
-			->setFactory(BuildUpgradeCommand::class, [$manager, $debugMode, $developmentServer]);
+			->setFactory(BuildUpgradeCommand::class, [$managerAccessor, $debugMode, $developmentServer]);
 	}
 
 }

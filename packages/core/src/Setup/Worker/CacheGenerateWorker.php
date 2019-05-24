@@ -2,14 +2,21 @@
 
 namespace Modette\Core\Setup\Worker;
 
-use Modette\Core\Setup\SetupMeta;
+use Modette\Core\Setup\SetupHelper;
+use Symfony\Component\Console\Input\ArrayInput;
 
 class CacheGenerateWorker implements Worker
 {
 
-	public function work(SetupMeta $meta): void
+	public function getName(): string
 	{
-		//contributte:cache:generate
+		return 'cache generate';
+	}
+
+	public function work(SetupHelper $helper): void
+	{
+		$command = $helper->getApplication()->find('contributte:cache:generate');
+		$command->run(new ArrayInput([]), $helper->getOutput());
 	}
 
 }
