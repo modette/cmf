@@ -8,6 +8,7 @@ use Modette\Core\Setup\WorkerMode;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 class BuildUpgradeCommand extends Command
 {
@@ -40,20 +41,20 @@ class BuildUpgradeCommand extends Command
 
 	protected function execute(InputInterface $input, OutputInterface $output): ?int
 	{
+		$style = new SymfonyStyle($input, $output);
 		$workers = $this->managerAccessor->get()->getWorkers();
 		if ($workers === []) {
-			$output->writeln('<comment>No workers available for build upgrade</comment>');
+			$style->warning('No workers available for build upgrade');
 			return 0;
 		}
 
 		$helper = new SetupHelper(WorkerMode::UPGRADE(), $this->debugMode, $this->developmentServer, $this->getApplication(), $output);
 		foreach ($workers as $worker) {
-			$output->writeln(sprintf('Running %s worker', $worker->getName()));
+			$style->note(sprintf('Running %s worker', $worker->getName()));
 			$worker->work($helper);
 		}
 
-		$output->writeln('<success>Upgrade complete</success>');
-
+		$style->success('Upgrade complete');
 		return 0;
 	}
 

@@ -9,6 +9,7 @@ use Modette\Core\Setup\WorkerMode;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 class BuildReloadCommand extends Command
 {
@@ -45,20 +46,20 @@ class BuildReloadCommand extends Command
 			throw new InvalidStateException('Cannot execute reload command on production server. Make sure that your server is configured as development server.');
 		}
 
+		$style = new SymfonyStyle($input, $output);
 		$workers = $this->managerAccessor->get()->getWorkers();
 		if ($workers === []) {
-			$output->writeln('<comment>No workers available for build reload</comment>');
+			$style->warning('No workers available for build reload');
 			return 0;
 		}
 
 		$meta = new SetupHelper(WorkerMode::RELOAD(), $this->debugMode, $this->developmentServer, $this->getApplication(), $output);
 		foreach ($workers as $worker) {
-			$output->writeln(sprintf('Running %s worker', $worker->getName()));
+			$style->note(sprintf('Running %s worker', $worker->getName()));
 			$worker->work($meta);
 		}
 
-		$output->writeln('<success>Reload complete</success>');
-
+		$style->success('Reload complete');
 		return 0;
 	}
 
