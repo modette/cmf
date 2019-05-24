@@ -13,7 +13,7 @@ console:
 
 console.cache:
 	cleaners:
-		apcu: Contributte\Console\Extra\Cache\Cleaners\ApcuCleaner
+		apcu: Contributte\Console\Extra\Cache\Cleaners\ApcuCleaner()
 		localFilesystem: Contributte\Console\Extra\Cache\Cleaners\LocalFilesystemCleaner([%tempDir%])
 	generators:
 		diContainers: Modette\Core\Cache\Generator\DiContainersCacheGenerator(
