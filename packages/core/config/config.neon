@@ -16,9 +16,7 @@ console.cache:
 		apcu: Contributte\Console\Extra\Cache\Cleaners\ApcuCleaner()
 		localFilesystem: Contributte\Console\Extra\Cache\Cleaners\LocalFilesystemCleaner([%tempDir%/cache], [%tempDir%/cache/.gitignore])
 	generators:
-		diContainers: Modette\Core\Cache\Generator\DiContainersCacheGenerator(
-			@modette.core.boot.configurator
-		)
+		diContainers: Modette\Core\Cache\Generator\DiContainersCacheGenerator()
 
 flysystem:
 	filesystem:
