@@ -2,6 +2,7 @@
 
 namespace Modette\Core\Boot;
 
+use Modette\Core\Boot\Helper\CliHelper;
 use Nette\Bridges\CacheDI\CacheExtension;
 use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
@@ -126,7 +127,7 @@ class Configurator
 			],
 			'vendorDir' => $this->rootDir . '/vendor',
 			'debugMode' => false,
-			'consoleMode' => PHP_SAPI === 'cli',
+			'consoleMode' => CliHelper::isCli(),
 			'server' => [
 				'development' => false,
 			],
