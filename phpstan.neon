@@ -27,6 +27,16 @@ parameters:
 		- message: '#^Parameter \#2 \$keys of closure expects array, array\<int, string\>\|false given\.$#'
 		  path: %currentWorkingDirectory%/packages/core/src/Boot/Helper/EnvironmentHelper.php
 
+		# ORM
+		# Intended
+		- message: '#^Variable property access on Nextras\\Orm\\Entity\\IEntity\.$#'
+		  path: %currentWorkingDirectory%/packages/core-ext-orm/src/Collection/Synchronizer.php
+		# Shoult not happen
+		- message: '#^Parameter \#2 \$search of function array_key_exists expects array, array\|false given\.$#'
+		  path: %currentWorkingDirectory%/packages/core-ext-orm/src/Collection/Synchronizer.php
+		- message: '#^Argument of an invalid type array\|false supplied for foreach, only iterables are supported\.$#'
+		  path: %currentWorkingDirectory%/packages/core-ext-orm/src/Collection/Synchronizer.php
+
 		# UI
 		# Waiting for nette/utils:3.0
 		- message: '#(.*)should be (contravariant|covariant) with(.*)#'

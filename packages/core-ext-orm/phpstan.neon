@@ -3,3 +3,12 @@ includes:
 	- vendor/phpstan/phpstan-nette/extension.neon
 	- vendor/phpstan/phpstan-nette/rules.neon
 	- vendor/phpstan/phpstan-strict-rules/rules.neon
+
+parameters: 
+	ignoreErrors:
+		- message: '#^Variable property access on Nextras\\Orm\\Entity\\IEntity\.$#'
+		  path: %currentWorkingDirectory%/src/Collection/Synchronizer.php
+		- message: '#^Parameter \#2 \$search of function array_key_exists expects array, array\|false given\.$#'
+		  path: %currentWorkingDirectory%/src/Collection/Synchronizer.php
+		- message: '#^Argument of an invalid type array\|false supplied for foreach, only iterables are supported\.$#'
+		  path: %currentWorkingDirectory%/src/Collection/Synchronizer.php
