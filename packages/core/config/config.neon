@@ -53,6 +53,12 @@ monolog:
 					type: Monolog\Processor\ProcessorInterface
 					factory: Monolog\Processor\ProcessIdProcessor
 
+parameters:
+	storage:
+		internalDir: %rootDir%/var/storage
+	server:
+		development: false
+
 services:
 	cache.cache:
 		type: Nette\Caching\Cache

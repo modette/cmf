@@ -122,15 +122,9 @@ class Configurator
 			'configDir' => $this->rootDir . '/config',
 			'logDir' => $this->rootDir . '/var/log',
 			'tempDir' => $this->rootDir . '/var/tmp',
-			'storage' => [
-				'internalDir' => $this->rootDir . '/var/storage',
-			],
 			'vendorDir' => $this->rootDir . '/vendor',
 			'debugMode' => false,
 			'consoleMode' => CliHelper::isCli(),
-			'server' => [
-				'development' => false,
-			],
 		];
 	}
 
