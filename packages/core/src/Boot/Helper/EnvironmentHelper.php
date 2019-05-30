@@ -42,10 +42,8 @@ class EnvironmentHelper
 		};
 
 		$parameters = [];
-		foreach ($_SERVER as $key => $value) {
-			// Ensure value
-			$value = getenv($key);
-			if ($value !== false && strpos($key, 'NETTE__') === 0) {
+		foreach (getenv() as $key => $value) {
+			if (strpos($key, 'NETTE__') === 0) {
 				// Parse NETTE__{NAME-1}__{NAME-N}
 				$keys = explode('__', strtolower(substr($key, 7)));
 				// Make array structure
