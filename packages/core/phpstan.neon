@@ -9,3 +9,5 @@ parameters:
 		  path: %currentWorkingDirectory%/src/Boot/Configurator.php
 		- message: '#^Only booleans are allowed in a negated boolean, mixed given\.$#'
 		  path: %currentWorkingDirectory%/src/Boot/Configurator.php
+		- message: '#^Parameter \#2 \$keys of closure expects array, array\<int, string\>\|false given\.$#'
+		  path: %currentWorkingDirectory%/src/Boot/Helper/EnvironmentHelper.php

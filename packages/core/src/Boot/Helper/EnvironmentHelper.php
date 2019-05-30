@@ -2,25 +2,32 @@
 
 namespace Modette\Core\Boot\Helper;
 
+use Modette\Core\Exception\Logic\InvalidArgumentException;
 use Modette\Core\Exception\Logic\InvalidStateException;
 
 class EnvironmentHelper
 {
 
-	public static function isEnvironmentDebugMode(): bool
+	public static function isEnvironmentDebugMode(string $variableName = 'MODETTE_DEBUG'): bool
 	{
-		$debug = getenv('NETTE_DEBUG');
+		$debug = getenv($variableName);
 		return $debug !== false && (strtolower($debug) === 'true' || $debug === '1');
 	}
 
 	/**
-	 * Collect environment parameters with NETTE__ prefix
+	 * Collect environment parameters prefixed by $prefix
 	 *
 	 * @return mixed[]
 	 */
-	public static function getEnvironmentParameters(): array
+	public static function getEnvironmentParameters(string $prefix = 'MODETTE', string $delimiter = '__'): array
 	{
-		$map = function (&$array, array $keys, $value) use (&$map) {
+		if ($delimiter === '') {
+			throw new InvalidArgumentException('Delimiter must be non-empty string');
+		}
+
+		$prefix .= $delimiter;
+
+		$map = static function (&$array, array $keys, $value) use (&$map) {
 			if (count($keys) <= 0) {
 				return $value;
 			}
@@ -43,9 +50,9 @@ class EnvironmentHelper
 
 		$parameters = [];
 		foreach (getenv() as $key => $value) {
-			if (strpos($key, 'NETTE__') === 0) {
-				// Parse NETTE__{NAME-1}__{NAME-N}
-				$keys = explode('__', strtolower(substr($key, 7)));
+			if (strpos($key, $prefix) === 0) {
+				// Parse PREFIX{delimiter=__}{NAME-1}{delimiter=__}{NAME-N}
+				$keys = explode($delimiter, strtolower(substr($key, strlen($prefix))));
 				// Make array structure
 				$map($parameters, $keys, $value);
 			}
