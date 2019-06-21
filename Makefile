@@ -10,10 +10,10 @@ lint: vendor
 	vendor/bin/linter packages
 
 cs: vendor
-	vendor/bin/phpcs --cache=temp/codesniffer.dat --standard='ruleset.xml' packages/**/src packages/**/tests
+	vendor/bin/phpcs --cache=temp/codesniffer.dat --standard='ruleset.xml' --colors -nsp packages/**/src packages/**/tests
 
 csf: vendor
-	vendor/bin/phpcbf --cache=temp/codesniffer.dat --standard='ruleset.xml' packages/**/src packages/**/tests
+	vendor/bin/phpcbf --cache=temp/codesniffer.dat --standard='ruleset.xml' --colors -nsp packages/**/src packages/**/tests
 
 phpstan: vendor
 	vendor/bin/phpstan analyse -l max -c phpstan.neon packages/**/src

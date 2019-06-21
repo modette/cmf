@@ -35,12 +35,14 @@ class DocumentControl extends BaseControl
 	public function addAttribute(string $name, string $value): self
 	{
 		$this->element->appendAttribute($name, $value);
+
 		return $this;
 	}
 
 	public function setAttribute(string $name, string $value): self
 	{
 		$this->element->setAttribute($name, $value);
+
 		return $this;
 	}
 

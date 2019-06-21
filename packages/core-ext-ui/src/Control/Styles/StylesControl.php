@@ -16,6 +16,7 @@ class StylesControl extends BaseControl
 	public function addStyle(string $href): self
 	{
 		$this->styles[] = $href;
+
 		return $this;
 	}
 

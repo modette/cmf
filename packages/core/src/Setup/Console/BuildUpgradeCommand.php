@@ -43,18 +43,22 @@ class BuildUpgradeCommand extends Command
 	{
 		$style = new SymfonyStyle($input, $output);
 		$workers = $this->managerAccessor->get()->getWorkers();
+
 		if ($workers === []) {
 			$style->warning('No workers available for build upgrade');
+
 			return 0;
 		}
 
 		$helper = new SetupHelper(WorkerMode::UPGRADE(), $this->debugMode, $this->developmentServer, $this->getApplication(), $output);
+
 		foreach ($workers as $worker) {
 			$style->note(sprintf('Running %s worker', $worker->getName()));
 			$worker->work($helper);
 		}
 
 		$style->success('Upgrade complete');
+
 		return 0;
 	}
 

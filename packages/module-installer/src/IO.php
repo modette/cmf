@@ -14,6 +14,7 @@ class IO
 	public function read(string $file): array
 	{
 		$neon = new NeonAdapter();
+
 		return $neon->load($file);
 	}
 
@@ -32,6 +33,7 @@ class IO
 		);
 
 		$written = file_put_contents($file, $content);
+
 		if ($written === false) {
 			throw new FilesystemException(
 				'An error occurred during writing of modules config file.'

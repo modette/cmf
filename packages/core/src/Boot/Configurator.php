@@ -108,6 +108,7 @@ class Configurator
 	public function addConfig(string $config): self
 	{
 		$this->configs[] = $config;
+
 		return $this;
 	}
 
@@ -136,6 +137,7 @@ class Configurator
 	public function addParameters(array $parameters): self
 	{
 		$this->parameters = (array) ConfigHelpers::merge($parameters, $this->parameters);
+
 		return $this;
 	}
 
@@ -147,6 +149,7 @@ class Configurator
 	public function addDynamicParameters(array $parameters): self
 	{
 		$this->dynamicParameters = $parameters + $this->dynamicParameters;
+
 		return $this;
 	}
 
@@ -158,6 +161,7 @@ class Configurator
 	public function addServices(array $services): self
 	{
 		$this->services = $services + $this->services;
+
 		return $this;
 	}
 
@@ -165,11 +169,13 @@ class Configurator
 	{
 		$loader = new Loader();
 		$fileInfo = [];
+
 		foreach ($this->configs as $configFile) {
 			$fileInfo[] = sprintf('// source: %s', $configFile);
 			$config = $loader->load($configFile);
 			$compiler->addConfig($config);
 		}
+
 		$compiler->addDependencies($loader->getDependencies());
 
 		$compiler->addConfig(['parameters' => $this->parameters]);
@@ -181,7 +187,7 @@ class Configurator
 			->setFactory(static::class, [$this->rootDir])
 			->setType(static::class);
 
-		foreach (static::EXTENSIONS as $name => $extension) {
+		foreach (self::EXTENSIONS as $name => $extension) {
 			[$class, $args] = is_string($extension) ? [$extension, []] : $extension;
 			$args = Helpers::expand($args, $this->parameters, true);
 			/** @var CompilerExtension $classInst */
@@ -192,6 +198,7 @@ class Configurator
 		$this->onCompile($this, $compiler);
 
 		$classes = $compiler->compile();
+
 		return implode("\n", $fileInfo) . "\n\n" . $classes;
 	}
 
@@ -242,6 +249,7 @@ class Configurator
 		$class = $this->loadContainer();
 		/** @var Container $container */
 		$container = new $class($this->dynamicParameters);
+
 		foreach ($this->services as $name => $service) {
 			$container->addService($name, $service);
 		}
@@ -249,6 +257,7 @@ class Configurator
 		$container->addService('modette.core.boot.configurator', $this);
 
 		$container->initialize();
+
 		return $container;
 	}
 

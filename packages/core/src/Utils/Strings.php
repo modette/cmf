@@ -15,6 +15,7 @@ class Strings extends NetteStrings
 	{
 		$string = self::trim($string);
 		$string = self::replace($string, '#\s{2,}#', ' ');
+
 		return $string;
 	}
 

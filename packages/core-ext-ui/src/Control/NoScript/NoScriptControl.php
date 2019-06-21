@@ -19,6 +19,7 @@ class NoScriptControl extends BaseControl
 	public function addNoScript(string $content): self
 	{
 		$this->noScripts[] = $content;
+
 		return $this;
 	}
 

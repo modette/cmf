@@ -28,6 +28,7 @@ class MetaControl extends BaseControl
 	public function setRobots(array $values): self
 	{
 		$this->metasWithName['robots'] = implode(', ', $values);
+
 		return $this;
 	}
 
@@ -37,6 +38,7 @@ class MetaControl extends BaseControl
 	public function addMeta(string $name, string $content): self
 	{
 		$this->metasWithName[$name] = $content;
+
 		return $this;
 	}
 
@@ -47,6 +49,7 @@ class MetaControl extends BaseControl
 	public function addApplicationLink(string $property, string $content): self
 	{
 		$this->metasWithProperty['al:' . $property] = $content;
+
 		return $this;
 	}
 
@@ -57,6 +60,7 @@ class MetaControl extends BaseControl
 	public function addOpenGraph(string $property, string $content): self
 	{
 		$this->metasWithProperty['og:' . $property] = $content;
+
 		return $this;
 	}
 
@@ -67,6 +71,7 @@ class MetaControl extends BaseControl
 	public function addFacebook(string $property, string $content): self
 	{
 		$this->metasWithProperty['fb:' . $property] = $content;
+
 		return $this;
 	}
 
@@ -77,6 +82,7 @@ class MetaControl extends BaseControl
 	public function addTwitter(string $name, string $content): self
 	{
 		$this->metasWithName['twitter:' . $name] = $content;
+
 		return $this;
 	}
 
@@ -87,6 +93,7 @@ class MetaControl extends BaseControl
 	public function addHttpEquiv(string $httpEquiv, string $content): self
 	{
 		$this->httpEquivs[$httpEquiv] = $content;
+
 		return $this;
 	}
 
@@ -97,6 +104,7 @@ class MetaControl extends BaseControl
 	public function setAuthor(string $author): self
 	{
 		$this->metasWithName['author'] = $author;
+
 		return $this;
 	}
 
@@ -107,6 +115,7 @@ class MetaControl extends BaseControl
 	public function setDescription(string $description): self
 	{
 		$this->metasWithName['description'] = $description;
+
 		return $this;
 	}
 

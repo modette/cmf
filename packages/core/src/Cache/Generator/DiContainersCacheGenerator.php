@@ -49,6 +49,7 @@ class DiContainersCacheGenerator implements IGenerator
 	{
 		if ($this->configs === []) {
 			$output->writeln('<comment>Containers generating skipped, no containers configuration defined.</comment>');
+
 			return false;
 		}
 
@@ -65,6 +66,7 @@ class DiContainersCacheGenerator implements IGenerator
 		}
 
 		$output->writeln('<info>All containers successfully generated.</info>');
+
 		return true;
 	}
 

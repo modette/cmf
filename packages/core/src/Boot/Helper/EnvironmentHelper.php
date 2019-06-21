@@ -11,6 +11,7 @@ class EnvironmentHelper
 	public static function isEnvironmentDebugMode(string $variableName = 'MODETTE_DEBUG'): bool
 	{
 		$debug = getenv($variableName);
+
 		return $debug !== false && (strtolower($debug) === 'true' || $debug === '1');
 	}
 
@@ -49,6 +50,7 @@ class EnvironmentHelper
 		};
 
 		$parameters = [];
+
 		foreach (getenv() as $key => $value) {
 			if (strpos($key, $prefix) === 0) {
 				// Parse PREFIX{delimiter=__}{NAME-1}{delimiter=__}{NAME-N}

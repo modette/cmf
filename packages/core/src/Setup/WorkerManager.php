@@ -16,6 +16,7 @@ class WorkerManager
 			'worker' => $worker,
 			'priority' => $priority,
 		];
+
 		return $this;
 	}
 
@@ -28,9 +29,11 @@ class WorkerManager
 		uasort($this->workers, function ($a, $b) {
 			$p1 = $a['priority'];
 			$p2 = $b['priority'];
+
 			if ($p1 === $p2) {
 				return 0;
 			}
+
 			return ($p1 < $p2) ? -1 : 1;
 		});
 

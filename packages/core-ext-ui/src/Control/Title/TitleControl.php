@@ -28,24 +28,28 @@ class TitleControl extends BaseControl
 	public function setSite(?string $site): self
 	{
 		$this->site = $site;
+
 		return $this;
 	}
 
 	public function setModule(?string $module): self
 	{
 		$this->module = $module;
+
 		return $this;
 	}
 
 	public function setMain(?string $main): self
 	{
 		$this->main = $main;
+
 		return $this;
 	}
 
 	public function setSeparator(?string $separator): self
 	{
 		$this->separator = $separator;
+
 		return $this;
 	}
 
@@ -55,6 +59,7 @@ class TitleControl extends BaseControl
 	public function revert(bool $revert = true): self
 	{
 		$this->revert = $revert;
+
 		return $this;
 	}
 
@@ -87,6 +92,7 @@ class TitleControl extends BaseControl
 		if ($this->revert === true) {
 			return $site . $separator . $main;
 		}
+
 		return $main . $separator . $site;
 	}
 

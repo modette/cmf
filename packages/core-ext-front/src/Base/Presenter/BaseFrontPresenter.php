@@ -10,6 +10,7 @@ abstract class BaseFrontPresenter extends BasePresenter
 	protected function beforeRender(): void
 	{
 		parent::beforeRender();
+
 		if ($this->developmentServer) {
 			$this['document-head-meta']->setRobots(['nofollow', 'noindex']);
 		} else {

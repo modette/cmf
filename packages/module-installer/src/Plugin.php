@@ -82,6 +82,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
 
 			// Ignore packages without modette.neon
 			$packageDir = $installationManager->getInstallPath($package);
+
 			if (!file_exists($packageDir . '/modette.neon')) {
 				unset($packages[$key]);
 			}
@@ -93,6 +94,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
 		// https://github.com/bulton-fr/dependency-tree
 		$rootDir = $this->getRootDir($composer);
 		$modulesConfig = [];
+
 		foreach ($packages as $package) {
 			$packageDirAbsolute = $installationManager->getInstallPath($package);
 			$moduleConfigFile = $packageDirAbsolute . '/modette.neon';
@@ -125,12 +127,14 @@ class Plugin implements PluginInterface, EventSubscriberInterface
 		// Prepend relative package path
 		// config/config.neon -> vendor/foo/bar/config/config.neon
 		$configs = $content['configs'] ?? [];
+
 		foreach ($configs as $key => $config) {
 			$configs[$key] = $packageDir . '/' . $config;
 		}
 
 		// Load included module configs (useful for monolithic repositories)
 		$includes = $content['includes'] ?? [];
+
 		foreach ($includes as $include) {
 			$configs = array_merge(
 				$configs,
@@ -171,6 +175,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
 	private function getRootDir(Composer $composer): string
 	{
 		$vendorDir = $composer->getConfig()->get('vendor-dir');
+
 		return dirname($vendorDir);
 	}
 

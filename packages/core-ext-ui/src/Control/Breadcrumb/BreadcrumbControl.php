@@ -22,6 +22,7 @@ class BreadcrumbControl extends BaseControl
 	public function addIconsMapping(array $mapping): self
 	{
 		$this->iconsMapping += $mapping;
+
 		return $this;
 	}
 
@@ -32,6 +33,7 @@ class BreadcrumbControl extends BaseControl
 			'uri' => $uri,
 			'icon' => $this->iconsMapping[$icon] ?? $icon,
 		];
+
 		return $this;
 	}
 

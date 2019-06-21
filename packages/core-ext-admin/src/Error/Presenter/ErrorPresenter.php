@@ -33,13 +33,13 @@ class ErrorPresenter extends BaseAdminPresenter
 		if ($exception !== null) {
 			// Exception was thrown and InternalError forwarded here
 			$code = $exception->getCode();
-			$view = in_array($code, static::SUPPORTED_VIEWS, true)
+			$view = in_array($code, self::SUPPORTED_VIEWS, true)
 				? $code
 				: ($code >= 500 ? 500 : 400);
 		} elseif (
 			$this->debugMode &&
 			isset($this->request->parameters['view']) &&
-			in_array($this->request->parameters['view'], static::SUPPORTED_VIEWS, true)
+			in_array($this->request->parameters['view'], self::SUPPORTED_VIEWS, true)
 		) {
 			// Developer requested specific view - useful for testing
 			$view = $this->request->parameters['view'];

@@ -22,6 +22,7 @@ class LinksControl extends BaseControl
 	public function addLink(string $href, string $rel): self
 	{
 		$this->links[$href] = $rel;
+
 		return $this;
 	}
 
@@ -32,6 +33,7 @@ class LinksControl extends BaseControl
 	public function addAlternateLanguage(string $href, string $hreflang): self
 	{
 		$this->alternateLanguages[$href] = $hreflang;
+
 		return $this;
 	}
 
@@ -46,6 +48,7 @@ class LinksControl extends BaseControl
 			'type' => $type,
 			'title' => $title,
 		];
+
 		return $this;
 	}
 

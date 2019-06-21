@@ -19,6 +19,7 @@ class IconsControl extends BaseControl
 	public function setFavicon(string $favicon): self
 	{
 		$this->favicon = $favicon;
+
 		return $this;
 	}
 
@@ -33,6 +34,7 @@ class IconsControl extends BaseControl
 			'sizes' => implode(' ', $sizes),
 			'type' => $type,
 		];
+
 		return $this;
 	}
 
@@ -42,6 +44,7 @@ class IconsControl extends BaseControl
 	public function addApple(string $href, array $sizes = []): self
 	{
 		$this->addIcon($href, $sizes, null, 'apple-touch-icon');
+
 		return $this;
 	}
 
@@ -51,6 +54,7 @@ class IconsControl extends BaseControl
 	public function addApplePrecomposed(string $href, array $sizes = []): self
 	{
 		$this->addIcon($href, $sizes, null, 'apple-touch-icon-precomposed');
+
 		return $this;
 	}
 

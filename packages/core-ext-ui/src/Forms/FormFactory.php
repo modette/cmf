@@ -57,6 +57,7 @@ class FormFactory
 	public function create(): Form
 	{
 		$this->initialize();
+
 		return new Form();
 	}
 

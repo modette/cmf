@@ -38,6 +38,7 @@ class PresenterFactoryCallback
 
 		/** @var IPresenter $service */
 		$service = $this->container->createService($services[0]);
+
 		return $service;
 	}
 

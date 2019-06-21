@@ -35,13 +35,25 @@ class FrontRouter
 		if (Strings::startsWith($newPath, 'api')) {
 			// Try get application for api, ui application otherwise
 			$application = $this->container->getByType(MiddlewareApplication::class, false);
-			if ($application === null) $application = $this->container->getByType(NetteApplication::class, false);
-			if ($application === null) throw new InvalidStateException('Install "modette/core-ext-api" or "modette/core-ext-ui" to use FrontRouter.');
+
+			if ($application === null) {
+				$application = $this->container->getByType(NetteApplication::class, false);
+			}
+
+			if ($application === null) {
+				throw new InvalidStateException('Install "modette/core-ext-api" or "modette/core-ext-ui" to use FrontRouter.');
+			}
 		} else {
 			// Try get application for ui, api application otherwise
 			$application = $this->container->getByType(NetteApplication::class, false);
-			if ($application === null) $application = $this->container->getByType(MiddlewareApplication::class, false);
-			if ($application === null) throw new InvalidStateException('Install "modette/core-ext-api" or "modette/core-ext-ui" to use FrontRouter.');
+
+			if ($application === null) {
+				$application = $this->container->getByType(MiddlewareApplication::class, false);
+			}
+
+			if ($application === null) {
+				throw new InvalidStateException('Install "modette/core-ext-api" or "modette/core-ext-ui" to use FrontRouter.');
+			}
 		}
 
 		return $application;

@@ -48,18 +48,22 @@ class BuildReloadCommand extends Command
 
 		$style = new SymfonyStyle($input, $output);
 		$workers = $this->managerAccessor->get()->getWorkers();
+
 		if ($workers === []) {
 			$style->warning('No workers available for build reload');
+
 			return 0;
 		}
 
 		$meta = new SetupHelper(WorkerMode::RELOAD(), $this->debugMode, $this->developmentServer, $this->getApplication(), $output);
+
 		foreach ($workers as $worker) {
 			$style->note(sprintf('Running %s worker', $worker->getName()));
 			$worker->work($meta);
 		}
 
 		$style->success('Reload complete');
+
 		return 0;
 	}
 

@@ -74,7 +74,7 @@ class InternalErrorPresenter extends BasePresenter
 			$this['document-head-meta']->setRobots(['noindex', 'nofollow']);
 		}
 
-		$view = in_array($code, static::SUPPORTED_VIEWS, true)
+		$view = in_array($code, self::SUPPORTED_VIEWS, true)
 			? $code
 			: ($code >= 500 ? 500 : 400);
 
