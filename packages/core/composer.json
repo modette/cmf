@@ -31,7 +31,7 @@
     "contributte/flysystem": "^0.1.0",
     "contributte/model": "^0.1.0",
     "contributte/monolog": "^0.1.0",
-    "contributte/tracy": "^0.4.0",
+    "contributte/tracy": "^0.3.2",
     "contributte/utils": "^0.3.0",
     "marc-mabe/php-enum": "^4.0.0",
     "modette/module-installer": "^1.0.0",
