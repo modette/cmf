@@ -30,7 +30,7 @@
     "contributte/event-dispatcher": "^0.5.0",
     "contributte/flysystem": "^0.1.0",
     "contributte/model": "^0.1.0",
-    "contributte/monolog": "^0.1.0",
+    "contributte/monolog": "^0.2.2",
     "contributte/tracy": "^0.3.2",
     "marc-mabe/php-enum": "^4.0.0",
     "modette/module-installer": "^1.0.0",

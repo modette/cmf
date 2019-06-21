@@ -30,8 +30,8 @@ flysystem:
 monolog:
 	holder:
 		enabled: true
-	tracy:
-		hook: true
+	hook:
+		toTracy: false
 	channel:
 		default:
 			handlers:
