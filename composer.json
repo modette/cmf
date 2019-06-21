@@ -50,7 +50,6 @@
     "contributte/phpdoc": "^0.2.0",
     "contributte/psr7-http-message": "^0.5.0",
     "contributte/tracy": "^0.3.2",
-    "contributte/utils": "^0.3.0",
     "latte/latte": "~2.5.1",
     "marc-mabe/php-enum": "^4.0.0",
     "moontoast/math": "^1.1",
