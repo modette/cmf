@@ -30,13 +30,9 @@ class ErrorPresenter extends BaseFrontPresenter
 
 	public function renderDefault(?Throwable $exception = null): void
 	{
-		$code = $exception !== null ? $exception->getCode() : 400;
+		$this['document-head-meta']->setRobots(['noindex']);
 
-		if ($code >= 500) {
-			$this['document-head-meta']->setRobots(['noindex']);
-		} else {
-			$this['document-head-meta']->setRobots(['noindex', 'nofollow']);
-		}
+		$code = $exception !== null ? $exception->getCode() : 400;
 
 		if ($exception !== null) {
 			// Exception was thrown and InternalErrorPresenter forwarded here

@@ -66,13 +66,9 @@ class InternalErrorPresenter extends BasePresenter
 
 	public function renderDefault(Throwable $exception): void
 	{
-		$code = $exception->getCode();
+		$this['document-head-meta']->setRobots(['noindex']);
 
-		if ($code >= 500) {
-			$this['document-head-meta']->setRobots(['noindex']);
-		} else {
-			$this['document-head-meta']->setRobots(['noindex', 'nofollow']);
-		}
+		$code = $exception->getCode();
 
 		$view = in_array($code, self::SUPPORTED_VIEWS, true)
 			? $code
