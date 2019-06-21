@@ -34,13 +34,13 @@ jobs:
         - make tests
 
     - stage: Quality Assurance
-      php: 7.2
+      php: 7.3
       script:
         - make qa
 
     - stage: Test Coverage
       if: branch = master AND type = push
-      php: 7.2
+      php: 7.3
       script:
         - make coverage
       after_script:
@@ -50,13 +50,13 @@ jobs:
     # Split monorepo to packages - only when merging to master
     - stage: Split
       if: branch = master AND type = push
-      php: 7.2
+      php: 7.3
       script:
         - vendor/bin/monorepo-builder split -v
 
     - stage: Outdated Dependencies
       if: branch = master AND type = cron
-      php: 7.2
+      php: 7.3
       script:
         - composer outdated --direct
 
