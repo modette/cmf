@@ -66,13 +66,13 @@
   "require-dev": {
     "composer/composer": "^1.7.0",
     "nextras/orm-phpstan": "^0.3",
-    "ninjify/nunjuck": "^0.2.1",
     "ninjify/qa": "^0.9.0",
     "pepakriz/phpstan-exception-rules": "^0.8.1",
     "phpstan/phpstan": "^0.11",
     "phpstan/phpstan-deprecation-rules": "^0.11",
     "phpstan/phpstan-nette": "^0.11",
     "phpstan/phpstan-strict-rules": "^0.11",
+    "phpunit/phpunit": "^8.2.3",
     "symplify/monorepo-builder": "^6.0.3"
   },
   "autoload": {
@@ -95,9 +95,20 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Tests\\Fixtures\\": "packages/project/tests/fixtures",
-      "Tests\\Integration\\": "packages/project/tests/integration",
-      "Tests\\Unit\\": "packages/project/tests/unit"
+      "Tests\\App\\": "packages/project/tests",
+      "Tests\\Modette\\Admin\\": "packages/core-ext-admin/tests",
+      "Tests\\Modette\\Api\\": "packages/core-ext-api/tests",
+      "Tests\\Modette\\Core\\": "packages/core/tests",
+      "Tests\\Modette\\Front\\": "packages/core-ext-front/tests",
+      "Tests\\Modette\\Generator\\": "packages/generator/tests",
+      "Tests\\Modette\\Http\\": "packages/core-ext-http/tests",
+      "Tests\\Modette\\Mail\\": "packages/core-ext-mail/tests",
+      "Tests\\Modette\\ModuleInstaller\\": "packages/module-installer/tests",
+      "Tests\\Modette\\Orm\\": "packages/core-ext-orm/tests",
+      "Tests\\Modette\\RequirementsChecker\\": "packages/requirements-checker/tests",
+      "Tests\\Modette\\Sql\\": "packages/core-ext-sql/tests",
+      "Tests\\Modette\\Templates\\": "packages/core-ext-templates/tests",
+      "Tests\\Modette\\UI\\": "packages/core-ext-ui/tests"
     }
   },
   "config": {

@@ -37,12 +37,9 @@
                 packages/module-installer/tests     => Tests\Modette\ModuleInstaller,
                 packages/requirements-checker/tests => Tests\Modette\RequirementsChecker,
 
-                packages/project/src               => App,
-                packages/project/tests/fixtures    => Tests\Fixtures\App,
-                packages/project/tests/integration => Tests\Integration\App,
-                packages/project/tests/unit        => Tests\Unit\App,
+                packages/project/src   => App,
+                packages/project/tests => Tests\App,
             "/>
-			<property name="extensions" type="array" value="php,phpt"/>
 		</properties>
 	</rule>
 

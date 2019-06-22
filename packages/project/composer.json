@@ -19,8 +19,8 @@
   },
   "require-dev": {
     "modette/generator": "^1.0.0",
-    "ninjify/nunjuck": "^0.2.1",
-    "ninjify/qa": "^0.9.0"
+    "ninjify/qa": "^0.9.0",
+    "phpunit/phpunit": "^8.2.3"
   },
   "autoload": {
     "psr-4": {
@@ -29,9 +29,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Tests\\Fixtures\\": "tests/fixtures",
-      "Tests\\Integration\\": "tests/integration",
-      "Tests\\Unit\\": "tests/unit"
+      "Tests\\App\\": "tests"
     }
   },
   "config": {

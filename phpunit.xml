@@ -1,0 +1,16 @@
+<phpunit
+	bootstrap="vendor/autoload.php"
+	cacheResult="true"
+	cacheResultFile="tmp/.phpunit.result.cache"
+	colors="true"
+	verbose="true"
+>
+	<testsuite name="all">
+		<directory>packages/**/tests</directory>
+	</testsuite>
+	<filter>
+		<whitelist processUncoveredFilesFromWhitelist="true">
+			<directory suffix=".php">packages/*/src</directory>
+		</whitelist>
+	</filter>
+</phpunit>

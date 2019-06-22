@@ -19,11 +19,6 @@ script:
   # Tests
   - make tests
 
-after_failure:
-  # Print *.actual content
-  - for i in $(find tests -name \*.actual); do echo "--- $i"; cat $i; echo; echo; done
-  - for i in $(find packages/**/tests -name \*.actual); do echo "--- $i"; cat $i; echo; echo; done
-
 jobs:
   include:
     - env: title="Lowest Dependencies"
@@ -42,7 +37,7 @@ jobs:
       if: branch = master AND type = push
       php: 7.3
       script:
-        - make coverage
+        - make coverage-clover
       after_script:
         - composer global require php-coveralls/php-coveralls ^2.1.0
         - ~/.composer/vendor/bin/php-coveralls --verbose --config tests/.coveralls.yml
