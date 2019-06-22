@@ -3,7 +3,6 @@
 namespace Boot;
 
 use Modette\Core\Boot\Configurator;
-use Modette\Core\Boot\Helper\CliHelper;
 use Modette\Core\Boot\Helper\EnvironmentHelper;
 use Modette\Core\Boot\Helper\HttpHelper;
 
@@ -16,8 +15,7 @@ class Bootstrap
 
 		$configurator->setDebugMode(
 			EnvironmentHelper::isEnvironmentDebugMode() ||
-			HttpHelper::isLocalhost() ||
-			CliHelper::isCli()
+			HttpHelper::isLocalhost()
 		);
 
 		$configurator->setModulesConfig(__DIR__ . '/../config/modules/third-party.neon');

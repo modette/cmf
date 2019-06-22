@@ -15,22 +15,28 @@ class DiContainersCacheGenerator implements IGenerator
 
 	/** @var mixed[] */
 	private $configs = [
-		'debug' => [
+		'web-debug' => [
 			'parameters' => [
 				'consoleMode' => false,
 				'debugMode' => true,
 			],
 		],
-		'production' => [
+		'web-production' => [
 			'parameters' => [
 				'consoleMode' => false,
 				'debugMode' => false,
 			],
 		],
-		'console' => [
+		'console-debug' => [
 			'parameters' => [
 				'consoleMode' => true,
 				'debugMode' => true,
+			],
+		],
+		'console-production' => [
+			'parameters' => [
+				'consoleMode' => true,
+				'debugMode' => false,
 			],
 		],
 	];
