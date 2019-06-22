@@ -5,6 +5,6 @@
 [![Downloads this Month](https://img.shields.io/packagist/dm/modette/core-ext-api.svg?style=flat-square)](https://packagist.org/packages/modette/core-ext-api)
 [![Downloads total](https://img.shields.io/packagist/dt/modette/core-ext-api.svg?style=flat-square)](https://packagist.org/packages/modette/core-ext-api)
 [![Latest stable](https://img.shields.io/packagist/v/modette/core-ext-api.svg?style=flat-square)](https://packagist.org/packages/modette/core-ext-api)
-[![PHPStan](https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat)](https://github.com/phpstan/phpstan)
+[![PHPStan](https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat-square)](https://github.com/phpstan/phpstan)
 
 For documentation see [main package](https://github.com/modette/modette)

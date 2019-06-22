@@ -9,7 +9,7 @@
   <a href="https://packagist.org/packages/modette/core"><img src="https://img.shields.io/packagist/dm/modette/core.svg?style=flat-square" alt="Downloads this Month"/></a>
   <a href="https://packagist.org/packages/modette/core"><img src="https://img.shields.io/packagist/dt/modette/core.svg?style=flat-square" alt="Downloads total"/></a>
   <a href="https://packagist.org/packages/modette/core"><img src="https://img.shields.io/packagist/v/modette/core.svg?style=flat-square" alt="Latest stable"/></a>
-  <a href="https://github.com/phpstan/phpstan"><img src="https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat" alt="PHPStan"/></a>
+  <a href="https://github.com/phpstan/phpstan"><img src="https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat-square" alt="PHPStan"/></a>
 </p>
 
 ## Installation
