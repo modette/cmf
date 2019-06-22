@@ -2,13 +2,11 @@
 
 namespace Modette\Api;
 
-use Apitte\Core\Annotation\Controller\Controller as ControllerAnnotation;
-use Apitte\Core\Annotation\Controller\ControllerPath;
+use Apitte\Core\Annotation\Controller\GroupPath;
 use Apitte\Core\UI\Controller\IController;
 
 /**
- * @ControllerAnnotation()
- * @ControllerPath("/api")
+ * @GroupPath("/api")
  */
 abstract class Controller implements IController
 {
