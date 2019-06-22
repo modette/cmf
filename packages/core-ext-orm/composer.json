@@ -15,7 +15,7 @@
     }
   ],
   "require": {
-    "php": ">=7.2.0",
+    "php": "^7.2.0",
     "contributte/nextras-orm-events": "^0.4.0",
     "modette/core": "^1.0.0",
     "moontoast/math": "^1.1",

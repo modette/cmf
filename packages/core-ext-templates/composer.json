@@ -18,7 +18,7 @@
     }
   ],
   "require": {
-    "php": ">=7.2.0",
+    "php": "^7.2.0",
     "contributte/event-dispatcher-extra": "^0.4.1",
     "latte/latte": "~2.5.1",
     "modette/core": "^1.0.0",

@@ -17,7 +17,7 @@
     }
   ],
   "require": {
-    "php": ">=7.2.0",
+    "php": "^7.2.0",
     "contributte/application": "^0.3.1",
     "contributte/event-dispatcher-extra": "^0.4.1",
     "contributte/forms": "^0.3.0",
