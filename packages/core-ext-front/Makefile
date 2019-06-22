@@ -9,7 +9,7 @@ vendor: composer.json composer.lock
 qa: phpstan
 
 phpstan:
-	vendor/bin/phpstan analyse -l max -c phpstan.neon src
+	vendor/bin/phpstan analyse -l 7 -c phpstan.neon src
 
 tests: vendor
 	vendor/bin/phpunit
