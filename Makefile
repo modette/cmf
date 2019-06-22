@@ -11,7 +11,7 @@ vendor: composer.json composer.lock
 qa: cs phpstan
 
 lint: vendor
-	vendor/bin/linter packages
+	vendor/bin/linter packages/**/src packages/**/tests
 
 cs: vendor
 	vendor/bin/phpcs --cache=tmp/codesniffer.dat --standard='ruleset.xml' --colors -nsp packages/**/src packages/**/tests
