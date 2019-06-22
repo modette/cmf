@@ -3,9 +3,6 @@ parameters:
   package_alias_format: '<major>.<minor>.x-dev'
   data_to_append:
     require-dev:
-      ninjify/qa: '^0.9.0'
-      pepakriz/phpstan-exception-rules: '^0.8.1'
-      phpstan/phpstan-deprecation-rules: '^0.11'
       symplify/monorepo-builder: '^6.0.3'
   directories_to_repositories:
     packages/core: 'git@github.com:modette/core.git'

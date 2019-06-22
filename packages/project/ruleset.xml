@@ -8,6 +8,7 @@
 			<property name="rootNamespaces" type="array" value="
                 src   => App,
                 tests => Tests\App,
+                boot  => Boot,
             "/>
 		</properties>
 	</rule>
