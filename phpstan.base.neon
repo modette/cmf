@@ -1,0 +1,8 @@
+includes:
+	- vendor/nextras/orm-phpstan/extension.neon
+
+parameters:
+	exceptionRules:
+		reportUnusedCatchesOfUncheckedExceptions: true
+		checkedExceptions:
+			- Modette\Core\Exception\Check\CheckedException

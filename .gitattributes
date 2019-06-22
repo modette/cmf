@@ -9,7 +9,9 @@ tmp export-ignore
 CHANGELOG.md export-ignore
 Makefile export-ignore
 monorepo-builder.yml export-ignore
-phpstan.neon export-ignore
+phpstan.base.neon export-ignore
+phpstan.src.neon export-ignore
+phpstan.tests.neon export-ignore
 phpunit.xml export-ignore
 README.md export-ignore
 ruleset.xml export-ignore

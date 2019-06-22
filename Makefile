@@ -20,7 +20,8 @@ csf: vendor
 	vendor/bin/phpcbf --cache=tmp/codesniffer.dat --standard='ruleset.xml' --colors -nsp packages/**/src packages/**/tests
 
 phpstan: vendor
-	vendor/bin/phpstan analyse -l max -c phpstan.neon packages/**/src
+	vendor/bin/phpstan analyse -l max -c phpstan.src.neon packages/**/src
+	vendor/bin/phpstan analyse -l 1 -c phpstan.tests.neon packages/**/tests
 
 # Meta
 

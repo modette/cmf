@@ -9,7 +9,7 @@ class ExampleTest extends TestCase
 
 	public function test(): void
 	{
-		$this->assertTrue(true);
+		self::assertTrue(true);
 	}
 
 }

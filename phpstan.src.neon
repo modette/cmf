@@ -1,12 +1,7 @@
 includes:
-	- vendor/nextras/orm-phpstan/extension.neon
+	- phpstan.base.neon
 
 parameters:
-	exceptionRules:
-		reportUnusedCatchesOfUncheckedExceptions: true
-		checkedExceptions:
-			- Modette\Core\Exception\Check\CheckedException
-
 	ignoreErrors:
 		# Not a bug
 		- '#^Unused @throws Nette\\Application\\AbortException annotation$#'
