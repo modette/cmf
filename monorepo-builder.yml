@@ -18,7 +18,6 @@ parameters:
     packages/generator: 'git@github.com:modette/generator.git'
     packages/module-installer: 'git@github.com:modette/module-installer.git'
     packages/project: 'git@github.com:modette/project.git'
-    packages/requirements-checker: 'git@github.com:modette/requirements-checker.git'
   merge_sections:
     - 'repositories'
     - 'require'

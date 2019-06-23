@@ -91,7 +91,6 @@
       "Modette\\Mail\\": "packages/core-ext-mail/src",
       "Modette\\ModuleInstaller\\": "packages/module-installer/src",
       "Modette\\Orm\\": "packages/core-ext-orm/src",
-      "Modette\\RequirementsChecker\\": "packages/requirements-checker/src",
       "Modette\\Sql\\": "packages/core-ext-sql/src",
       "Modette\\Templates\\": "packages/core-ext-templates/src",
       "Modette\\UI\\": "packages/core-ext-ui/src"
@@ -109,7 +108,6 @@
       "Tests\\Modette\\Mail\\": "packages/core-ext-mail/tests",
       "Tests\\Modette\\ModuleInstaller\\": "packages/module-installer/tests",
       "Tests\\Modette\\Orm\\": "packages/core-ext-orm/tests",
-      "Tests\\Modette\\RequirementsChecker\\": "packages/requirements-checker/tests",
       "Tests\\Modette\\Sql\\": "packages/core-ext-sql/tests",
       "Tests\\Modette\\Templates\\": "packages/core-ext-templates/tests",
       "Tests\\Modette\\UI\\": "packages/core-ext-ui/tests"

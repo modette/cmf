@@ -20,8 +20,7 @@
                 packages/core-ext-ui/src          => Modette\UI,
                 packages/generator/src            => Modette\Generator,
                 packages/module-installer/src     => Modette\ModuleInstaller,
-                packages/requirements-checker/src => Modette\RequirementsChecker,
-                
+
                 packages/core/tests                 => Tests\Modette\Core,
                 packages/core-ext-admin/tests       => Tests\Modette\Admin,
                 packages/core-ext-api/tests         => Tests\Modette\Api,
@@ -34,7 +33,6 @@
                 packages/core-ext-ui/tests          => Tests\Modette\UI,
                 packages/generator/tests            => Tests\Modette\Generator,
                 packages/module-installer/tests     => Tests\Modette\ModuleInstaller,
-                packages/requirements-checker/tests => Tests\Modette\RequirementsChecker,
 
                 packages/project/src   => App,
                 packages/project/tests => Tests\App,
