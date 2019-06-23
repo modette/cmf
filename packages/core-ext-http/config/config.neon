@@ -3,6 +3,7 @@
 extensions:
 	http: Nette\Bridges\HttpDI\HttpExtension(%consoleMode%)
 	session: Nette\Bridges\HttpDI\SessionExtension(%debugMode%, %consoleMode%)
+	modette.http.frontRouter: Modette\Http\FrontRouter\DI\FrontRouterExtension
 
 flysystem:
 	filesystem:
@@ -49,9 +50,6 @@ parameters:
 
 php:
 	output_buffering: 4096
-
-services:
-	routing.frontRouter: Modette\Http\FrontRouter
 
 session:
 	autoStart: smart

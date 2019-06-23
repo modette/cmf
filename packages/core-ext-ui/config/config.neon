@@ -24,6 +24,10 @@ decorator:
 		setup:
 			- injectSecondary(developmentServer: %server.development%)
 
+modette.http.frontRouter:
+	ui:
+		enable: true
+
 routing:
 	cache: true
 

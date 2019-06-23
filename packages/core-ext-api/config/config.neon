@@ -27,6 +27,10 @@ api:
 middlewares:
 	debug: %debugMode%
 
+modette.http.frontRouter:
+	api:
+		enable: true
+
 services:
 	middleware.tryCatch:
 		factory: Contributte\Middlewares\TryCatchMiddleware
