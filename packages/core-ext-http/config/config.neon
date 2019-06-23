@@ -7,7 +7,7 @@ flysystem:
 			adapter:
 				factory: League\Flysystem\Adapter\Local
 				arguments: [%storage.publicDir%]
-			autowired: true
+			autowired: false
 
 parameters:
 	publicDir: %rootDir%/public
