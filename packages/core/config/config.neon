@@ -18,6 +18,9 @@ console.cache:
 	generators:
 		diContainers: Modette\Core\Cache\Generator\DiContainersCacheGenerator()
 
+di:
+	debugger: %debug.panels.di.container%
+
 flysystem:
 	filesystem:
 		internal:
@@ -54,6 +57,10 @@ monolog:
 					factory: Monolog\Processor\ProcessIdProcessor
 
 parameters:
+	debug:
+		panels:
+			di:
+				container: %debugMode%
 	storage:
 		internalDir: %rootDir%/var/storage
 	server:

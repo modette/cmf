@@ -10,7 +10,7 @@ extensions:
 
 application:
 	catchExceptions: Modette\Core\Utils\Booleans::negate(%debugMode%)
-	debugger: true
+	debugger: %debug.panels.ui.routes%
 	errorPresenter: Modette:UI:InternalError
 	mapping:
 		*: ['', *, *\Presenter\*Presenter]
@@ -60,8 +60,17 @@ modette.http.frontRouter:
 	ui:
 		enable: true
 
+parameters:
+	debug:
+		panels:
+			ui:
+				#navigation: %debugMode% # TODO - https://github.com/contributte/tracy/issues/15
+				routes: %debugMode%
+				session: %debugMode%
+
 routing:
 	cache: true
+	debugger: %debug.panels.ui.routes%
 
 services:
 	# Fake translator
@@ -114,6 +123,7 @@ session:
 	cookiePath: '?->getUrl()->getBasePath()'(@Nette\Http\IRequest) # Cookie path same as $basePath
 	cookieSamesite: Lax
 	cookieSecure: auto
+	debugger: %debug.panels.ui.session%
 	expiration: 14 days
 	name: SID
 	#readAndClose: true # TODO - https://github.com/nette/http/issues/155

@@ -2,7 +2,12 @@ extensions:
 	mail: Contributte\Mail\DI\MailExtension
 
 mail:
-	debug: %debugMode%
+	debug: %debug.panels.mail%
 	mode: standalone
 	mailer:
 		factory: Contributte\Mail\Mailer\SendmailMailer
+
+parameters:
+	debug:
+		panels:
+			mail: %debugMode%

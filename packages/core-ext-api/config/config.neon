@@ -23,13 +23,23 @@ api:
 		Apitte\Negotiation\DI\NegotiationPlugin:
 			unification: true
 		Apitte\OpenApi\DI\OpenApiPlugin:
+			swaggerUi:
+				panel: %debug.panels.api.openApi%
 
 middlewares:
-	debug: %debugMode%
+	debug: %debug.panels.api.middlewares%
 
 modette.http.frontRouter:
 	api:
 		enable: true
+
+parameters:
+	debug:
+		panels:
+			api:
+				middlewares: %debugMode%
+				#routes: %debugMode% # TODO - https://github.com/apitte/debug/issues/6
+				openApi: %debugMode%
 
 services:
 	middleware.tryCatch:

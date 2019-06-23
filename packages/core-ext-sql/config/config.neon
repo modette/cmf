@@ -1,5 +1,5 @@
 dbal:
-	debug: %debugMode%
+	debug: %debug.panels.dbal%
 
 extensions:
 	dbal: Modette\Sql\DI\DbalExtension
@@ -8,11 +8,11 @@ extensions:
 migrations:
 	dbal: nextras
 	groups: []
-	#todo - předat některým migracím parametry,
-	#todo - strict mode pro mysql
-	#todo - vypnutí reset commandu
-	#resetCommand: %server.development%
-	# dummy data jsou přes přepínač --production
+
+parameters:
+	debug:
+		panels:
+			dbal: %debugMode%
 
 setup:
 	workers:
