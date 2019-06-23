@@ -15,12 +15,12 @@
   ],
   "require": {
     "php": "^7.2.0",
-    "modette/core": "^1.0.0",
-    "nette/http": "~2.4.10"
+    "modette/core": "^1.0.0"
   },
   "require-dev": {
     "contributte/application": "^0.3.1",
     "contributte/middlewares": "^0.8.0",
+    "nette/http": "~2.4.10",
     "phpstan/extension-installer": "^1.0.0",
     "phpstan/phpstan-nette": "^0.11",
     "phpstan/phpstan-shim": "^0.11",

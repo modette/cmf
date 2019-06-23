@@ -1,9 +1,11 @@
 extensions:
 	application: Nette\Bridges\ApplicationDI\ApplicationExtension(%debugMode%, [], %tempDir%/cache/nette.application)
 	events.application: Contributte\Events\Extra\DI\EventApplicationBridgeExtension
+	http: Nette\Bridges\HttpDI\HttpExtension(%consoleMode%)
 	modette.routing: Modette\UI\Routing\DI\RoutingExtension
 	phpdoc: Contributte\PhpDoc\DI\PhpDocExtension
 	routing: Nette\Bridges\ApplicationDI\RoutingExtension(%debugMode%)
+	session: Nette\Bridges\HttpDI\SessionExtension(%debugMode%, %consoleMode%)
 	tracy.navigation: Contributte\Tracy\DI\NavigationPanelExtension
 
 application:
@@ -23,6 +25,36 @@ decorator:
 	Modette\UI\Base\Presenter\BasePresenter:
 		setup:
 			- injectSecondary(developmentServer: %server.development%)
+
+http:
+	headers:
+		Referrer-Policy: same-origin # https://scotthelme.co.uk/a-new-security-header-referrer-policy/
+		X-Content-Type-Options: nosniff
+		X-Frame-Options: DENY
+		X-Powered-By: Modette
+		X-XSS-Protection: '1; mode=block'
+	# https://scotthelme.co.uk/content-security-policy-an-introduction/
+	# https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP#Browser_compatibility
+	csp:
+		base-uri: self
+		img-src: "'self' data:"
+		form-action: self
+		frame-ancestors: none
+		block-all-mixed-content: #disallows load http content on https pages
+	featurePolicy: # https://scotthelme.co.uk/a-new-security-header-feature-policy/
+		geolocation: self
+		midi: self
+		notifications: self
+		push: self
+		sync-xhr: self
+		microphone: self
+		camera: self
+		magnetometer: self
+		gyroscope: self
+		speaker: self
+		vibrate: self
+		fullscreen: self
+		payment: self
 
 modette.http.frontRouter:
 	ui:
@@ -74,3 +106,19 @@ services:
 
 	modette.ui.control.styles.factory:
 		implement: Modette\UI\Control\Styles\StylesFactory
+
+session:
+	autoStart: smart
+	cookieDomain: '?->getUrl()->getDomain(2)'(@Nette\Http\IRequest)
+	cookieHttponly: true
+	cookiePath: '?->getUrl()->getBasePath()'(@Nette\Http\IRequest) # Cookie path same as $basePath
+	cookieSamesite: Lax
+	cookieSecure: auto
+	expiration: 14 days
+	name: SID
+	#readAndClose: true # TODO - https://github.com/nette/http/issues/155
+	sidBitsPerCharacter: 6 # 4-6
+	sidLength: 128 # 22-250 (256 is max, but filesystems...)
+	useCookies: true
+	useOnlyCookies: true
+	useStrictMode: true
