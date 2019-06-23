@@ -1,1 +1,3 @@
-parameters: []
+parameters:
+	server:
+		development: true
