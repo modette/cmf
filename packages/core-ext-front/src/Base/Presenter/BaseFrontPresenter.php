@@ -12,6 +12,7 @@ abstract class BaseFrontPresenter extends BasePresenter
 		parent::beforeRender();
 
 		if ($this->developmentServer) {
+			$this->getHttpResponse()->addHeader('X-Robots-Tag', 'none'); // Only supported by some crawlers
 			$this['document-head-meta']->setRobots(['nofollow', 'noindex']);
 		} else {
 			$this['document-head-meta']->setRobots(['index', 'follow']);
