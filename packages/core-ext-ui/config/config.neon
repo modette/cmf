@@ -9,7 +9,7 @@ extensions:
 	tracy.navigation: Contributte\Tracy\DI\NavigationPanelExtension
 
 application:
-	catchExceptions: Modette\Core\Utils\Booleans::negate(%debugMode%)
+	catchExceptions: true
 	debugger: %debug.panels.ui.routes%
 	errorPresenter: Modette:UI:InternalError
 	mapping:
@@ -117,10 +117,11 @@ services:
 		implement: Modette\UI\Control\Styles\StylesFactory
 
 session:
+	# TODO - add support for 'domain' and 'subdomain' options for cookieDomain and 'basePath' for cookiePath to SessionExtension
+	#cookieDomain: '?->getUrl()->getDomain(2)'(@Nette\Http\IRequest)
+	#cookiePath: '?->getUrl()->getBasePath()'(@Nette\Http\IRequest) # Cookie path same as $basePath
 	autoStart: smart
-	cookieDomain: '?->getUrl()->getDomain(2)'(@Nette\Http\IRequest)
 	cookieHttponly: true
-	cookiePath: '?->getUrl()->getBasePath()'(@Nette\Http\IRequest) # Cookie path same as $basePath
 	cookieSamesite: Lax
 	cookieSecure: auto
 	debugger: %debug.panels.ui.session%

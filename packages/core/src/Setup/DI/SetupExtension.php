@@ -2,43 +2,53 @@
 
 namespace Modette\Core\Setup\DI;
 
+use Contributte\DI\Helper\ExtensionDefinitionsHelper;
 use Modette\Core\Setup\Console\BuildReloadCommand;
 use Modette\Core\Setup\Console\BuildUpgradeCommand;
 use Modette\Core\Setup\WorkerManager;
 use Modette\Core\Setup\WorkerManagerAccessor;
 use Nette\DI\CompilerExtension;
+use Nette\DI\Definitions\Statement;
+use Nette\Schema\Expect;
+use Nette\Schema\Schema;
+use stdClass;
 
+/**
+ * @property-read stdClass $config
+ */
 class SetupExtension extends CompilerExtension
 {
 
-	/** @var mixed[] */
-	private $defaults = [
-		'workers' => [],
-	];
-
-	/** @var mixed[] */
-	private $workerDefaults = [
-		'worker' => null,
-		'priority' => 100,
-	];
+	public function getConfigSchema(): Schema
+	{
+		return Expect::structure([
+			'workers' => Expect::arrayOf(
+				Expect::structure([
+					'worker' => Expect::anyOf(Expect::string(), Expect::array(), Expect::type(Statement::class))->required(),
+					'priority' => Expect::int(100),
+				])
+			),
+		]);
+	}
 
 	public function loadConfiguration(): void
 	{
-		$config = $this->validateConfig($this->defaults);
 		$builder = $this->getContainerBuilder();
+		$config = $this->config;
+		$definitionsHelper = new ExtensionDefinitionsHelper($this->compiler);
 
 		$manager = $builder->addDefinition($this->prefix('manager'))
 			->setFactory(WorkerManager::class);
 
-		$managerAccessor = $builder->addDefinition($this->prefix('managerAccessor'))
+		$managerAccessor = $builder->addAccessorDefinition($this->prefix('managerAccessor'))
 			->setImplement(WorkerManagerAccessor::class);
 
-		foreach ($config['workers'] as $workerConfig) {
-			$workerConfig = $this->validateConfig($this->workerDefaults, $workerConfig);
-
+		foreach ($config->workers as $workerName => $workerConfig) {
+			$workerPrefix = $this->prefix('worker.' . $workerName);
+			$workerDefinition = $definitionsHelper->getDefinitionFromConfig($workerConfig->worker, $workerPrefix);
 			$manager->addSetup('addWorker', [
-				$workerConfig['worker'],
-				$workerConfig['priority'],
+				$workerDefinition,
+				$workerConfig->priority,
 			]);
 		}
 

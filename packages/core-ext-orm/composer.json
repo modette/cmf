@@ -16,18 +16,18 @@
   ],
   "require": {
     "php": "^7.2.0",
-    "contributte/nextras-orm-events": "^0.4.0",
+    "contributte/nextras-orm-events": "^0.5.0",
     "modette/core": "^1.0.0",
-    "moontoast/math": "^1.1",
-    "nextras/orm": "^3.1.0"
+    "moontoast/math": "^1.1.0",
+    "nextras/orm": "~3.1.0"
   },
   "require-dev": {
     "modette/core-ext-sql": "^1.0.0",
-    "nextras/orm-phpstan": "^0.3",
+    "nextras/orm-phpstan": "^0.3.0",
     "phpstan/extension-installer": "^1.0.0",
-    "phpstan/phpstan-nette": "^0.11",
-    "phpstan/phpstan-shim": "^0.11",
-    "phpstan/phpstan-strict-rules": "^0.11",
+    "phpstan/phpstan-nette": "^0.11.0",
+    "phpstan/phpstan-shim": "^0.11.0",
+    "phpstan/phpstan-strict-rules": "^0.11.0",
     "phpunit/phpunit": "^8.2.3"
   },
   "minimum-stability": "dev",

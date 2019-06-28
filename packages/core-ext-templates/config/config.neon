@@ -12,6 +12,5 @@ console.cache:
 		)
 
 services:
-	latte.templateFactory:
-		setup:
-			- '?->onCreate[] = new Modette\Templates\TemplateCleaner()' = @self
+	modette.templates.templateCleaner:
+		factory: Modette\Templates\TemplateCleaner

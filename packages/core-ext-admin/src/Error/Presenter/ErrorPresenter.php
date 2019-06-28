@@ -57,7 +57,7 @@ class ErrorPresenter extends BaseAdminPresenter
 			))
 		);
 
-		$this->setView($view);
+		$this->setView((string) $view);
 	}
 
 	public function sendPayload(): void

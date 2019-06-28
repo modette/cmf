@@ -2,39 +2,36 @@
 
 namespace Modette\Admin\DI;
 
-use Modette\Core\Exception\Logic\InvalidStateException;
 use Nette\DI\CompilerExtension;
+use Nette\Schema\Expect;
+use Nette\Schema\Schema;
+use stdClass;
 
+/**
+ * @property-read stdClass $config
+ */
 class AdminExtension extends CompilerExtension
 {
 
-	/** @var mixed[] */
-	protected $defaults = [
-		'sign' => [
-			'signInAction' => null,
-			'signOutAction' => null,
-		],
-	];
+	public function getConfigSchema(): Schema
+	{
+		return Expect::structure([
+			'sign' => Expect::structure([
+				'signInAction' => Expect::string()->required(),
+				'signOutAction' => Expect::string()->required(),
+			]),
+		]);
+	}
 
 	public function loadConfiguration(): void
 	{
-		parent::loadConfiguration();
-
-		$config = $this->validateConfig($this->defaults);
 		$builder = $this->getContainerBuilder();
-
-		if ($config['sign']['signInAction'] === null || $config['sign']['signOutAction'] === null) {
-			throw new InvalidStateException(sprintf(
-				'Provide %s and %s.',
-				$this->prefix('sign.signInAction'),
-				$this->prefix('sign.signOutAction')
-			));
-		}
+		$config = $this->config;
 
 		$builder->addDefinition($this->prefix('config'))
 			->setFactory(AdminConfig::class, [
-				$config['sign']['signInAction'],
-				$config['sign']['signOutAction'],
+				$config->sign->signInAction,
+				$config->sign->signOutAction,
 			]);
 	}
 

@@ -81,7 +81,7 @@ class InternalErrorPresenter extends BasePresenter
 			))
 		);
 
-		$this->setView($view);
+		$this->setView((string) $view);
 	}
 
 	public function sendPayload(): void

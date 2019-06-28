@@ -7,7 +7,6 @@ use Nette\Bridges\CacheDI\CacheExtension;
 use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
 use Nette\DI\Config\Adapters\NeonAdapter;
-use Nette\DI\Config\Helpers as ConfigHelpers;
 use Nette\DI\Config\Loader;
 use Nette\DI\Container;
 use Nette\DI\ContainerLoader;
@@ -18,6 +17,7 @@ use Nette\DI\Extensions\ExtensionsExtension;
 use Nette\DI\Extensions\InjectExtension;
 use Nette\DI\Extensions\PhpExtension;
 use Nette\DI\Helpers;
+use Nette\Schema\Helpers as ConfigHelpers;
 use Nette\SmartObject;
 use ReflectionClass;
 use Tracy\Bridges\Nette\Bridge;
@@ -53,7 +53,7 @@ class Configurator
 	private $rootDir;
 
 	/** @var string[] */
-	private $configs = [];
+	private $configFiles = [];
 
 	/** @var mixed[] */
 	private $parameters;
@@ -65,7 +65,7 @@ class Configurator
 	private $services = [];
 
 	/** @var string|null */
-	private $modulesConfig;
+	private $modulesConfigFile;
 
 	public function __construct(string $rootDir)
 	{
@@ -102,12 +102,12 @@ class Configurator
 
 	public function setModulesConfig(string $modulesConfigFile): void
 	{
-		$this->modulesConfig = $modulesConfigFile;
+		$this->modulesConfigFile = $modulesConfigFile;
 	}
 
-	public function addConfig(string $config): self
+	public function addConfig(string $configFile): self
 	{
-		$this->configs[] = $config;
+		$this->configFiles[] = $configFile;
 
 		return $this;
 	}
@@ -165,26 +165,21 @@ class Configurator
 		return $this;
 	}
 
-	private function generateContainer(Compiler $compiler): string
+	private function generateContainer(Compiler $compiler): void
 	{
 		$loader = new Loader();
-		$fileInfo = [];
+		$loader->setParameters($this->parameters);
 
-		foreach ($this->configs as $configFile) {
-			$fileInfo[] = sprintf('// source: %s', $configFile);
-			$config = $loader->load($configFile);
-			$compiler->addConfig($config);
+		foreach ($this->configFiles as $configFile) {
+			$compiler->loadConfig($configFile);
 		}
-
-		$compiler->addDependencies($loader->getDependencies());
 
 		$compiler->addConfig(['parameters' => $this->parameters]);
 		$compiler->setDynamicParameterNames(array_keys($this->dynamicParameters));
 
 		$builder = $compiler->getContainerBuilder();
 		$builder->addExcludedClasses($this->autowireExcludedClasses);
-		$builder->addDefinition('modette.core.boot.configurator')
-			->setFactory(static::class, [$this->rootDir])
+		$builder->addImportedDefinition('modette.core.boot.configurator')
 			->setType(static::class);
 
 		foreach (self::EXTENSIONS as $name => $extension) {
@@ -196,10 +191,6 @@ class Configurator
 		}
 
 		$this->onCompile($this, $compiler);
-
-		$classes = $compiler->compile();
-
-		return implode("\n", $fileInfo) . "\n\n" . $classes;
 	}
 
 	/**
@@ -207,12 +198,12 @@ class Configurator
 	 */
 	private function getModuleConfigFiles(): array
 	{
-		if ($this->modulesConfig === null) {
+		if ($this->modulesConfigFile === null) {
 			return [];
 		}
 
 		$neon = new NeonAdapter();
-		$config = $neon->load($this->modulesConfig);
+		$config = $neon->load($this->modulesConfigFile);
 		$files = [];
 
 		foreach ($config as $file) {
@@ -225,7 +216,7 @@ class Configurator
 	public function loadContainer(): string
 	{
 		// Prepend module configurations to config files list
-		$this->configs = array_merge($this->getModuleConfigFiles(), $this->configs);
+		$this->configFiles = array_merge($this->getModuleConfigFiles(), $this->configFiles);
 
 		$loader = new ContainerLoader(
 			$this->parameters['tempDir'] . '/cache/modette.configurator',
@@ -233,10 +224,10 @@ class Configurator
 		);
 
 		$class = $loader->load(
-			function (Compiler $compiler): string {
-				return $this->generateContainer($compiler);
+			function (Compiler $compiler): void {
+				$this->generateContainer($compiler);
 			},
-			[$this->parameters, array_keys($this->dynamicParameters), $this->configs, PHP_VERSION_ID - PHP_RELEASE_VERSION]
+			[$this->parameters, array_keys($this->dynamicParameters), $this->configFiles, PHP_VERSION_ID - PHP_RELEASE_VERSION]
 		);
 
 		return $class;
@@ -246,9 +237,9 @@ class Configurator
 	{
 		$this->enableDebugger();
 
-		$class = $this->loadContainer();
+		$containerClass = $this->loadContainer();
 		/** @var Container $container */
-		$container = new $class($this->dynamicParameters);
+		$container = new $containerClass($this->dynamicParameters);
 
 		foreach ($this->services as $name => $service) {
 			$container->addService($name, $service);

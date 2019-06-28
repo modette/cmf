@@ -2,7 +2,6 @@
 
 namespace Modette\UI\Forms;
 
-use Nette\Forms\Controls\BaseControl;
 use Nette\Forms\Controls\SelectBox;
 use Nette\Forms\Controls\UploadControl;
 use Nette\Forms\Validator;
@@ -27,8 +26,6 @@ class FormFactory
 		if ($this->initialized) {
 			return;
 		}
-
-		BaseControl::$idMask = 'frm-%2$s-%1$s';
 
 		Validator::$messages[Form::EQUAL] = $this->translator->translate('modette.ui.forms.equal');
 		Validator::$messages[Form::NOT_EQUAL] = $this->translator->translate('modette.ui.forms.notEqual');

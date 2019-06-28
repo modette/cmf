@@ -3,65 +3,80 @@
 namespace Modette\Sql\DI;
 
 use Nette\DI\CompilerExtension;
+use Nette\DI\Definitions\Statement;
+use Nette\Schema\Expect;
+use Nette\Schema\Schema;
 use Nextras\Dbal\Bridges\NetteTracy\BluescreenQueryPanel;
 use Nextras\Dbal\Bridges\NetteTracy\ConnectionPanel;
 use Nextras\Dbal\Connection;
 use Nextras\Dbal\Drivers\IDriver;
 use Psr\Log\LoggerInterface;
+use stdClass;
 
+/**
+ * @property-read stdClass $config
+ */
 class DbalExtension extends CompilerExtension
 {
 
-	/** @var mixed[] */
-	private $defaults = [
-		'connections' => [],
-		'debug' => false,
-		'panelQueryExplain' => true,
-	];
+	public function getConfigSchema(): Schema
+	{
+		return Expect::structure([
+			'debug' => Expect::bool(false),
+			'panelQueryExplain' => Expect::bool(true),
+			'connections' => Expect::arrayOf(
+				Expect::structure([
+					'autowired' => Expect::bool(false),
 
-	/** @var mixed[] */
-	private $connectionDefaults = [
-		'autowired' => false,
+					'driver' => Expect::anyOf('mysql', 'mysqli', 'pgsql', 'sqlsrv')->required(),
+					'host' => Expect::string(),
+					'port' => Expect::int(),
+					'username' => Expect::string(),
+					'password' => Expect::string(),
+					'database' => Expect::string(),
+					'connectionTz' => Expect::string(IDriver::TIMEZONE_AUTO_PHP_NAME),
+					'nestedTransactionsWithSavepoint' => Expect::bool(true),
+					'sqlProcessorFactory' => Expect::anyOf(Expect::string(), Expect::type(Statement::class)),
 
-		'driver' => null, // mysql, mysqli, pgsql, sqlsrv
-		'host' => null,
-		'port' => null,
-		'username' => null,
-		'password' => null,
-		'database' => null,
-		'connectionTz' => IDriver::TIMEZONE_AUTO_PHP_NAME,
-		'nestedTransactionsWithSavepoint' => true,
-		'sqlProcessorFactory' => null,
+					// mysql only
+					'charset' => Expect::string(),
+					'sqlMode' => Expect::string('TRADITIONAL'),
+					'unix_socket' => Expect::mixed(),
+					'flags' => Expect::mixed(),
 
-		// mysql only
-		'charset' => null,
-		'sqlMode' => 'TRADITIONAL',
-		'unix_socket' => null,
-		'flags' => null,
-
-		// pgsql only
-		'searchPath' => null,
-		'hostaddr' => null,
-		'connection_timeout' => null,
-		'options' => null,
-		'sslmode' => null,
-		'service' => null,
-	];
+					// pgsql only
+					'searchPath' => Expect::mixed(),
+					'hostaddr' => Expect::mixed(),
+					'connection_timeout' => Expect::mixed(),
+					'options' => Expect::mixed(),
+					'sslmode' => Expect::mixed(),
+					'service' => Expect::mixed(),
+				])->castTo('array')
+			),
+		]);
+	}
 
 	public function loadConfiguration(): void
 	{
-		$config = $this->validateConfig($this->defaults);
 		$builder = $this->getContainerBuilder();
+		$config = $this->config;
 
-		foreach ($config['connections'] as $connectionName => $connectionConfig) {
-			$connectionConfig = $this->validateConfig($this->connectionDefaults, $connectionConfig, $this->prefix('connection.' . $connectionName));
-
-			if ($connectionConfig['driver'] === 'mysql') { // same configuration for dbal and migrations
+		foreach ($config->connections as $connectionName => $connectionConfig) {
+			// Same configuration for dbal and migrations
+			if ($connectionConfig['driver'] === 'mysql') {
 				$connectionConfig['driver'] = 'mysqli';
 			}
 
 			$autowired = $connectionConfig['autowired'];
-			unset($connectionConfig['autowired']); // remove from connection config compile-time only values
+			// Remove from Connection config compile-time only values
+			unset($connectionConfig['autowired']);
+
+			// Connection expects empty values to be not set
+			foreach ($connectionConfig as $key => $value) {
+				if ($value === null) {
+					unset($connectionConfig[$key]);
+				}
+			}
 
 			$definition = $builder->addDefinition($this->prefix('connection.' . $connectionName))
 				->setFactory(Connection::class, [
@@ -80,9 +95,9 @@ class DbalExtension extends CompilerExtension
 				);
 
 			// TODO - panel for all connections
-			if ($config['debug'] === true) {
+			if ($config->debug) {
 				$definition->addSetup('@Tracy\BlueScreen::addPanel', [BluescreenQueryPanel::class . '::renderBluescreenPanel']);
-				$definition->addSetup(ConnectionPanel::class . '::install', ['@self', $config['panelQueryExplain']]);
+				$definition->addSetup(ConnectionPanel::class . '::install', ['@self', $config->panelQueryExplain]);
 			}
 		}
 	}

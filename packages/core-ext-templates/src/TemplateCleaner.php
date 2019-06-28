@@ -2,20 +2,26 @@
 
 namespace Modette\Templates;
 
-use Nette\Bridges\ApplicationLatte\Template;
+use Contributte\Events\Extra\Event\Latte\TemplateCreateEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class TemplateCleaner
+class TemplateCleaner implements EventSubscriberInterface
 {
 
-	public function __invoke(Template $template): void
+	/**
+	 * @return mixed[]
+	 */
+	public static function getSubscribedEvents(): array
 	{
-		unset(
-			$template->_control,
-			$template->_presenter,
-			$template->baseUrl,
-			$template->netteCacheStorage
-		);
-		//TODO unset($template->baseUri, $template->basePath); - nahradit pomocí rout
+		return [TemplateCreateEvent::class => 'cleanTemplate'];
+	}
+
+	public function cleanTemplate(TemplateCreateEvent $event): void
+	{
+		$template = $event->getTemplate();
+		// $baseUrl is better, if really needed
+		// Nette\Security is not used at all
+		unset($template->basePath, $template->user);
 	}
 
 }

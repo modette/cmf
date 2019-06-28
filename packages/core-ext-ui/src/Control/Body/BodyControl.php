@@ -16,7 +16,6 @@ class BodyControl extends BaseControl
 
 	public function __construct()
 	{
-		parent::__construct();
 		$this->element = Html::el('body');
 	}
 

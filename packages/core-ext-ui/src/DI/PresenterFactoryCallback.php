@@ -19,7 +19,7 @@ class PresenterFactoryCallback
 
 	public function __invoke(string $class): IPresenter
 	{
-		$services = array_keys($this->container->findByTag('nette.presenter'), $class, true);
+		$services = $this->container->findByType($class);
 
 		if ($services === []) {
 			throw new InvalidPresenterException(sprintf(

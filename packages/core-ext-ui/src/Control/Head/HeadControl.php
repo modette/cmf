@@ -50,7 +50,6 @@ class HeadControl extends BaseControl
 		StylesFactory $stylesFactory
 	)
 	{
-		parent::__construct();
 		$this->iconsFactory = $iconsFactory;
 		$this->linksFactory = $linksFactory;
 		$this->metaFactory = $metaFactory;

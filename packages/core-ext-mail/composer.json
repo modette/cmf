@@ -17,14 +17,14 @@
   ],
   "require": {
     "php": "^7.2.0",
-    "contributte/mail": "^0.3.0",
+    "contributte/mail": "^0.4.0",
     "modette/core": "^1.0.0"
   },
   "require-dev": {
     "phpstan/extension-installer": "^1.0.0",
-    "phpstan/phpstan-nette": "^0.11",
-    "phpstan/phpstan-shim": "^0.11",
-    "phpstan/phpstan-strict-rules": "^0.11",
+    "phpstan/phpstan-nette": "^0.11.0",
+    "phpstan/phpstan-shim": "^0.11.0",
+    "phpstan/phpstan-strict-rules": "^0.11.0",
     "phpunit/phpunit": "^8.2.3"
   },
   "minimum-stability": "dev",

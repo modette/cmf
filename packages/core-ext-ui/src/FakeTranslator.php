@@ -11,11 +11,11 @@ class FakeTranslator implements ITranslator
 {
 
 	/**
-	 * @param mixed            $message
-	 * @param mixed[]|int|null $count
-	 * @return mixed
+	 * @param mixed $message
+	 * @param array<int, mixed> $parameters
+	 * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
 	 */
-	public function translate($message, $count = null)
+	public function translate($message, ...$parameters): string
 	{
 		return $message;
 	}
