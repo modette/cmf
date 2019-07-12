@@ -53,6 +53,7 @@
     "contributte/tracy": "^0.4.0",
     "latte/latte": "~2.5.1",
     "marc-mabe/php-enum": "^4.0.0",
+    "modette/exceptions": "^1.0.0",
     "moontoast/math": "^1.1.0",
     "nette/application": "~3.0.0",
     "nette/component-model": "^3.0.0",

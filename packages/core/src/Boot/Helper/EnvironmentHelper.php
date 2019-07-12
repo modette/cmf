@@ -2,8 +2,8 @@
 
 namespace Modette\Core\Boot\Helper;
 
-use Modette\Core\Exception\Logic\InvalidArgumentException;
-use Modette\Core\Exception\Logic\InvalidStateException;
+use Modette\Exceptions\Logic\InvalidArgumentException;
+use Modette\Exceptions\Logic\InvalidStateException;
 
 class EnvironmentHelper
 {

@@ -2,7 +2,7 @@
 
 namespace Modette\Orm\Exception;
 
-use Modette\Core\Exception\Check\CheckedException;
+use Modette\Exceptions\Check\CheckedException;
 use RuntimeException;
 
 class EntityNotFoundException extends RuntimeException implements CheckedException

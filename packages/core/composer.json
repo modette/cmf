@@ -34,6 +34,7 @@
     "contributte/monolog": "^0.3.0",
     "contributte/tracy": "^0.4.0",
     "marc-mabe/php-enum": "^4.0.0",
+    "modette/exceptions": "^1.0.0",
     "modette/module-installer": "^1.0.0",
     "nette/neon": "~3.0.0",
     "ramsey/uuid": "^3.8.0"

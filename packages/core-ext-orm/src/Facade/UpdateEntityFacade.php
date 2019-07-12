@@ -2,7 +2,7 @@
 
 namespace Modette\Orm\Facade;
 
-use Modette\Core\Exception\Logic\InvalidStateException;
+use Modette\Exceptions\Logic\InvalidStateException;
 use Nextras\Orm\Entity\IEntity;
 
 abstract class UpdateEntityFacade

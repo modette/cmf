@@ -2,4 +2,4 @@ parameters:
 	exceptionRules:
 		reportUnusedCatchesOfUncheckedExceptions: true
 		checkedExceptions:
-			- Modette\Core\Exception\Check\CheckedException
+			- Modette\Exceptions\Check\CheckedException

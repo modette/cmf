@@ -2,7 +2,7 @@
 
 namespace Modette\UI\Forms;
 
-use Modette\Core\Exception\Logic\InvalidArgumentException;
+use Modette\Exceptions\Logic\InvalidArgumentException;
 use Nette\Application\UI\Form as BaseForm;
 use Nette\Localization\ITranslator;
 

@@ -2,10 +2,10 @@
 
 namespace Modette\Core\Setup\Console;
 
-use Modette\Core\Exception\Logic\InvalidStateException;
 use Modette\Core\Setup\SetupHelper;
 use Modette\Core\Setup\WorkerManagerAccessor;
 use Modette\Core\Setup\WorkerMode;
+use Modette\Exceptions\Logic\InvalidStateException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
