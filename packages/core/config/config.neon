@@ -27,6 +27,7 @@ console.cache:
 
 di:
 	debugger: %debug.panels.di.container%
+	parentClass: Modette\Core\DI\Container
 
 flysystem:
 	filesystem:

@@ -8,9 +8,6 @@ parameters:
 		- '#^Unused @throws Symfony\\Component\\Console\\Exception\\LogicException annotation$#'
 
 		# Core
-		# Created dynamically when container is compiled
-		- message: '#^Call to an undefined method Nette\\DI\\Container\:\:initialize\(\)\.$#'
-		  path: %currentWorkingDirectory%/packages/core/src/Boot/Configurator.php
 		# Should not happen
 		- message: '#^Only booleans are allowed in a negated boolean, mixed given\.$#'
 		  path: %currentWorkingDirectory%/packages/core/src/Boot/Configurator.php

@@ -3,10 +3,10 @@
 namespace Modette\Core\Boot;
 
 use Modette\Core\Boot\Helper\CliHelper;
+use Modette\Core\DI\Container;
 use Nette\DI\Compiler;
 use Nette\DI\Config\Adapters\NeonAdapter;
 use Nette\DI\Config\Loader;
-use Nette\DI\Container;
 use Nette\DI\ContainerLoader;
 use Nette\DI\Extensions\ExtensionsExtension;
 use Nette\Schema\Helpers as ConfigHelpers;
