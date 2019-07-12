@@ -13,9 +13,10 @@ install:
     - travis_retry composer install --no-progress --prefer-dist
 
 script:
+    # Ensure syntax is valid for all tested PHP versions
+    - make lint
     # Check all packages use same dependencies
     - make meta-validate
-
     # Tests
     - make tests
 
