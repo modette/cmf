@@ -1,11 +1,18 @@
 extensions:
+	cache: Nette\Bridges\CacheDI\CacheExtension(%tempDir%)
 	cache.factory: Contributte\Cache\DI\CacheFactoryExtension
 	console: Contributte\Console\DI\ConsoleExtension(%consoleMode%)
 	console.cache: Contributte\Console\Extra\DI\AdvancedCacheConsoleExtension
+	constants: Nette\DI\Extensions\ConstantsExtension
+	decorator: Nette\DI\Extensions\DecoratorExtension
+	di: Nette\DI\Extensions\DIExtension(%debugMode%)
 	events: Contributte\EventDispatcher\DI\EventDispatcherExtension
 	flysystem: Contributte\Flysystem\DI\FlysystemExtension
-	monolog: Contributte\Monolog\DI\MonologExtension
+	inject: Nette\DI\Extensions\InjectExtension
+	php: Nette\DI\Extensions\PhpExtension
+	tracy: Tracy\Bridges\Nette\TracyExtension(%debugMode%, %consoleMode%)
 	tracy.bluescreens: Contributte\Tracy\DI\TracyBlueScreensExtension
+	monolog: Contributte\Monolog\DI\MonologExtension
 	setup: Modette\Core\Setup\DI\SetupExtension
 
 console:

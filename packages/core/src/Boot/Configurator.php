@@ -3,25 +3,15 @@
 namespace Modette\Core\Boot;
 
 use Modette\Core\Boot\Helper\CliHelper;
-use Nette\Bridges\CacheDI\CacheExtension;
 use Nette\DI\Compiler;
-use Nette\DI\CompilerExtension;
 use Nette\DI\Config\Adapters\NeonAdapter;
 use Nette\DI\Config\Loader;
 use Nette\DI\Container;
 use Nette\DI\ContainerLoader;
-use Nette\DI\Extensions\ConstantsExtension;
-use Nette\DI\Extensions\DecoratorExtension;
-use Nette\DI\Extensions\DIExtension;
 use Nette\DI\Extensions\ExtensionsExtension;
-use Nette\DI\Extensions\InjectExtension;
-use Nette\DI\Extensions\PhpExtension;
-use Nette\DI\Helpers;
 use Nette\Schema\Helpers as ConfigHelpers;
 use Nette\SmartObject;
-use ReflectionClass;
 use Tracy\Bridges\Nette\Bridge;
-use Tracy\Bridges\Nette\TracyExtension;
 use Tracy\Debugger;
 
 /**
@@ -31,17 +21,6 @@ class Configurator
 {
 
 	use SmartObject;
-
-	private const EXTENSIONS = [
-		'cache' => [CacheExtension::class, ['%tempDir%']],
-		'constants' => ConstantsExtension::class,
-		'decorator' => DecoratorExtension::class,
-		'di' => [DIExtension::class, ['%debugMode%']],
-		'extensions' => ExtensionsExtension::class,
-		'inject' => InjectExtension::class,
-		'php' => PhpExtension::class,
-		'tracy' => [TracyExtension::class, ['%debugMode%', '%consoleMode%']],
-	];
 
 	/** @var callable[] function(Configurator $configurator, Compiler $compiler): void; Occurs after the compiler is created */
 	public $onCompile = [];
@@ -182,13 +161,7 @@ class Configurator
 		$builder->addImportedDefinition('modette.core.boot.configurator')
 			->setType(static::class);
 
-		foreach (self::EXTENSIONS as $name => $extension) {
-			[$class, $args] = is_string($extension) ? [$extension, []] : $extension;
-			$args = Helpers::expand($args, $this->parameters, true);
-			/** @var CompilerExtension $classInst */
-			$classInst = (new ReflectionClass($class))->newInstanceArgs($args);
-			$compiler->addExtension($name, $classInst);
-		}
+		$compiler->addExtension('extensions', new ExtensionsExtension());
 
 		$this->onCompile($this, $compiler);
 	}
