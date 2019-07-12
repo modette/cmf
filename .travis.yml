@@ -1,65 +1,65 @@
 language: php
 
 php:
-  - 7.2
-  - 7.3
+    - 7.2
+    - 7.3
 
 before_install:
-  # Turn off XDebug
-  - phpenv config-rm xdebug.ini || return 0
+    # Turn off XDebug
+    - phpenv config-rm xdebug.ini || return 0
 
 install:
-  # Composer
-  - travis_retry composer install --no-progress --prefer-dist
+    # Composer
+    - travis_retry composer install --no-progress --prefer-dist
 
 script:
-  # Check all packages use same dependencies
-  - make meta-validate
+    # Check all packages use same dependencies
+    - make meta-validate
 
-  # Tests
-  - make tests
+    # Tests
+    - make tests
 
 jobs:
-  include:
-    - env: title="Lowest Dependencies"
-      php: 7.2
-      install:
-        - travis_retry composer update --no-progress --prefer-dist --prefer-lowest --prefer-stable
-      script:
-        - make tests
+    include:
+        - env: title="Lowest Dependencies"
+          php: 7.2
+          install:
+              - travis_retry composer update --no-progress --prefer-dist --prefer-lowest --prefer-stable
+          script:
+              - make tests
 
-    - stage: Quality Assurance
-      php: 7.3
-      script:
-        - make qa
+        - stage: Quality Assurance
+          php: 7.3
+          script:
+              - make qa
 
-    - stage: Test Coverage
-      if: branch = master AND type = push
-      php: 7.3
-      script:
-        - make coverage-clover
-      after_script:
-        - composer global require php-coveralls/php-coveralls ^2.1.0
-        - ~/.composer/vendor/bin/php-coveralls --verbose --config tests/.coveralls.yml
+        - stage: Test Coverage
+          if: branch = master AND type = push
+          php: 7.3
+          script:
+              - make coverage-clover
+          after_script:
+              - composer global require php-coveralls/php-coveralls ^2.1.0
+              - ~/.composer/vendor/bin/php-coveralls --verbose --config tests/.coveralls.yml
 
-    # Split monorepo to packages - only when merging to master
-    - stage: Split
-      if: branch = master AND type = push
-      php: 7.3
-      script:
-        - vendor/bin/monorepo-builder split -v
+        # Split monorepo to packages - only when merging to master
+        - stage: Split
+          if: branch = master AND type = push
+          php: 7.3
+          script:
+              - vendor/bin/monorepo-builder split -v
 
-    - stage: Outdated Dependencies
-      if: branch = master AND type = cron
-      php: 7.3
-      script:
-        - composer outdated --direct
+        - stage: Outdated Dependencies
+          if: branch = master AND type = cron
+          php: 7.3
+          script:
+              - composer outdated --direct
 
-  allow_failures:
-    - stage: Test Coverage
+    allow_failures:
+        - stage: Test Coverage
 
 sudo: false
 
 cache:
-  directories:
-    - $HOME/.composer/cache
+    directories:
+        - $HOME/.composer/cache

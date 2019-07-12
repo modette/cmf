@@ -1,37 +1,37 @@
 language: php
 
 php:
-  - 7.2
-  - 7.3
+    - 7.2
+    - 7.3
 
 before_install:
-  # Turn off XDebug
-  - phpenv config-rm xdebug.ini || return 0
+    # Turn off XDebug
+    - phpenv config-rm xdebug.ini || return 0
 
 install:
-  # Composer
-  - travis_retry composer install --no-progress --prefer-dist
+    # Composer
+    - travis_retry composer install --no-progress --prefer-dist
 
 script:
-  # Tests
-  - make tests
+    # Tests
+    - make tests
 
 jobs:
-  include:
-    - env: title="Lowest Dependencies"
-      php: 7.2
-      install:
-        - travis_retry composer update --no-progress --prefer-dist --prefer-lowest --prefer-stable
-      script:
-        - make tests
+    include:
+        - env: title="Lowest Dependencies"
+          php: 7.2
+          install:
+              - travis_retry composer update --no-progress --prefer-dist --prefer-lowest --prefer-stable
+          script:
+              - make tests
 
-    - stage: Quality Assurance
-      php: 7.3
-      script:
-        - make qa
+        - stage: Quality Assurance
+          php: 7.3
+          script:
+              - make qa
 
 sudo: false
 
 cache:
-  directories:
-    - $HOME/.composer/cache
+    directories:
+        - $HOME/.composer/cache

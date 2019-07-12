@@ -1,54 +1,54 @@
 {
-  "name": "modette/core-ext-templates",
-  "description": "Latte templates for Modette",
-  "type": "library",
-  "license": "MPL-2.0",
-  "keywords": [
-    "assets",
-    "latte",
-    "templates",
-    "themes",
-    "translations"
-  ],
-  "homepage": "https://github.com/modette/modette",
-  "authors": [
-    {
-      "name": "Marek Bartoš",
-      "homepage": "https://marek-bartos.cz"
-    }
-  ],
-  "require": {
-    "php": "^7.2.0",
-    "contributte/event-dispatcher-extra": "^0.6.0",
-    "latte/latte": "~2.5.1",
-    "modette/core": "^1.0.0",
-    "nette/application": "~3.0.0"
-  },
-  "require-dev": {
-    "phpstan/extension-installer": "^1.0.0",
-    "phpstan/phpstan-nette": "^0.11.0",
-    "phpstan/phpstan-shim": "^0.11.0",
-    "phpstan/phpstan-strict-rules": "^0.11.0",
-    "phpunit/phpunit": "^8.2.3"
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true,
-  "autoload": {
-    "psr-4": {
-      "Modette\\Templates\\": "src"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Tests\\Modette\\Templates\\": "tests"
-    }
-  },
-  "config": {
-    "sort-packages": true
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "1.0.x-dev"
-    }
-  }
+	"name": "modette/core-ext-templates",
+	"description": "Latte templates for Modette",
+	"type": "library",
+	"license": "MPL-2.0",
+	"keywords": [
+		"assets",
+		"latte",
+		"templates",
+		"themes",
+		"translations"
+	],
+	"homepage": "https://github.com/modette/modette",
+	"authors": [
+		{
+			"name": "Marek Bartoš",
+			"homepage": "https://marek-bartos.cz"
+		}
+	],
+	"require": {
+		"php": "^7.2.0",
+		"contributte/event-dispatcher-extra": "^0.6.0",
+		"latte/latte": "~2.5.1",
+		"modette/core": "^1.0.0",
+		"nette/application": "~3.0.0"
+	},
+	"require-dev": {
+		"phpstan/extension-installer": "^1.0.0",
+		"phpstan/phpstan-nette": "^0.11.0",
+		"phpstan/phpstan-shim": "^0.11.0",
+		"phpstan/phpstan-strict-rules": "^0.11.0",
+		"phpunit/phpunit": "^8.2.3"
+	},
+	"minimum-stability": "dev",
+	"prefer-stable": true,
+	"autoload": {
+		"psr-4": {
+			"Modette\\Templates\\": "src"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Tests\\Modette\\Templates\\": "tests"
+		}
+	},
+	"config": {
+		"sort-packages": true
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-master": "1.0.x-dev"
+		}
+	}
 }

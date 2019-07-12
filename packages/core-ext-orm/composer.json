@@ -1,53 +1,53 @@
 {
-  "name": "modette/core-ext-orm",
-  "description": "ORM for Modette",
-  "type": "library",
-  "license": "MPL-2.0",
-  "keywords": [
-    "nextras",
-    "orm"
-  ],
-  "homepage": "https://github.com/modette/modette",
-  "authors": [
-    {
-      "name": "Marek Bartoš",
-      "homepage": "https://marek-bartos.cz"
-    }
-  ],
-  "require": {
-    "php": "^7.2.0",
-    "contributte/nextras-orm-events": "^0.5.0",
-    "modette/core": "^1.0.0",
-    "moontoast/math": "^1.1.0",
-    "nextras/orm": "~3.1.0"
-  },
-  "require-dev": {
-    "modette/core-ext-sql": "^1.0.0",
-    "nextras/orm-phpstan": "^0.3.0",
-    "phpstan/extension-installer": "^1.0.0",
-    "phpstan/phpstan-nette": "^0.11.0",
-    "phpstan/phpstan-shim": "^0.11.0",
-    "phpstan/phpstan-strict-rules": "^0.11.0",
-    "phpunit/phpunit": "^8.2.3"
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true,
-  "autoload": {
-    "psr-4": {
-      "Modette\\Orm\\": "src"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Tests\\Modette\\Orm\\": "tests"
-    }
-  },
-  "config": {
-    "sort-packages": true
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "1.0.x-dev"
-    }
-  }
+	"name": "modette/core-ext-orm",
+	"description": "ORM for Modette",
+	"type": "library",
+	"license": "MPL-2.0",
+	"keywords": [
+		"nextras",
+		"orm"
+	],
+	"homepage": "https://github.com/modette/modette",
+	"authors": [
+		{
+			"name": "Marek Bartoš",
+			"homepage": "https://marek-bartos.cz"
+		}
+	],
+	"require": {
+		"php": "^7.2.0",
+		"contributte/nextras-orm-events": "^0.5.0",
+		"modette/core": "^1.0.0",
+		"moontoast/math": "^1.1.0",
+		"nextras/orm": "~3.1.0"
+	},
+	"require-dev": {
+		"modette/core-ext-sql": "^1.0.0",
+		"nextras/orm-phpstan": "^0.3.0",
+		"phpstan/extension-installer": "^1.0.0",
+		"phpstan/phpstan-nette": "^0.11.0",
+		"phpstan/phpstan-shim": "^0.11.0",
+		"phpstan/phpstan-strict-rules": "^0.11.0",
+		"phpunit/phpunit": "^8.2.3"
+	},
+	"minimum-stability": "dev",
+	"prefer-stable": true,
+	"autoload": {
+		"psr-4": {
+			"Modette\\Orm\\": "src"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Tests\\Modette\\Orm\\": "tests"
+		}
+	},
+	"config": {
+		"sort-packages": true
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-master": "1.0.x-dev"
+		}
+	}
 }

@@ -1,48 +1,48 @@
 {
-  "name": "modette/generator",
-  "description": "Generate your Modette project with simple console commands",
-  "type": "project",
-  "license": "MPL-2.0",
-  "keywords": [
-    "cli",
-    "console",
-    "generator"
-  ],
-  "homepage": "https://github.com/modette/modette",
-  "authors": [
-    {
-      "name": "Marek Bartoš",
-      "homepage": "https://marek-bartos.cz"
-    }
-  ],
-  "require": {
-    "php": "^7.2.0"
-  },
-  "require-dev": {
-    "phpstan/extension-installer": "^1.0.0",
-    "phpstan/phpstan-nette": "^0.11.0",
-    "phpstan/phpstan-shim": "^0.11.0",
-    "phpstan/phpstan-strict-rules": "^0.11.0",
-    "phpunit/phpunit": "^8.2.3"
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true,
-  "autoload": {
-    "psr-4": {
-      "Modette\\Generator\\": "src"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Tests\\Modette\\Generator\\": "tests"
-    }
-  },
-  "config": {
-    "sort-packages": true
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "1.0.x-dev"
-    }
-  }
+	"name": "modette/generator",
+	"description": "Generate your Modette project with simple console commands",
+	"type": "project",
+	"license": "MPL-2.0",
+	"keywords": [
+		"cli",
+		"console",
+		"generator"
+	],
+	"homepage": "https://github.com/modette/modette",
+	"authors": [
+		{
+			"name": "Marek Bartoš",
+			"homepage": "https://marek-bartos.cz"
+		}
+	],
+	"require": {
+		"php": "^7.2.0"
+	},
+	"require-dev": {
+		"phpstan/extension-installer": "^1.0.0",
+		"phpstan/phpstan-nette": "^0.11.0",
+		"phpstan/phpstan-shim": "^0.11.0",
+		"phpstan/phpstan-strict-rules": "^0.11.0",
+		"phpunit/phpunit": "^8.2.3"
+	},
+	"minimum-stability": "dev",
+	"prefer-stable": true,
+	"autoload": {
+		"psr-4": {
+			"Modette\\Generator\\": "src"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Tests\\Modette\\Generator\\": "tests"
+		}
+	},
+	"config": {
+		"sort-packages": true
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-master": "1.0.x-dev"
+		}
+	}
 }
