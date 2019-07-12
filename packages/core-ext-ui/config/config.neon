@@ -9,7 +9,7 @@ extensions:
 	tracy.navigation: Contributte\Tracy\DI\NavigationPanelExtension
 
 application:
-	catchExceptions: true
+	catchExceptions: %catchExceptions.ui%
 	debugger: %debug.panels.ui.routes%
 	errorPresenter: Modette:UI:InternalError
 	mapping:
@@ -61,6 +61,8 @@ modette.http.frontRouter:
 		enable: true
 
 parameters:
+	catchExceptions:
+		ui: true
 	debug:
 		panels:
 			ui:

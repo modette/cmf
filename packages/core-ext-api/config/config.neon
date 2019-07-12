@@ -5,7 +5,7 @@ extensions:
 	phpdoc: Contributte\PhpDoc\DI\PhpDocExtension
 
 api:
-	catchException: true
+	catchException: %catchExceptions.api%
 	debug: %debugMode%
 	plugins:
 		Apitte\Core\DI\Plugin\CoreSchemaPlugin:
@@ -34,6 +34,8 @@ modette.http.frontRouter:
 		enable: true
 
 parameters:
+	catchExceptions:
+		api: true
 	debug:
 		panels:
 			api:
