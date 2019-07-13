@@ -11,14 +11,22 @@ use Nette\Utils\Strings;
 class CombinedFrontRouter implements FrontRouter
 {
 
+	/** @var string */
+	private $apiApplicationName;
+
+	/** @var string */
+	private $uiApplicationName;
+
 	/** @var Request */
 	private $request;
 
 	/** @var Container */
 	private $container;
 
-	public function __construct(Request $request, Container $container)
+	public function __construct(string $apiApplicationName, string $uiApplicationName, Request $request, Container $container)
 	{
+		$this->apiApplicationName = $apiApplicationName;
+		$this->uiApplicationName = $uiApplicationName;
 		$this->request = $request;
 		$this->container = $container;
 	}
@@ -30,11 +38,11 @@ class CombinedFrontRouter implements FrontRouter
 
 		if (Strings::startsWith($newPath, 'api')) {
 			/** @var ApiApplication $application */
-			$application = $this->container->getByType(ApiApplication::class, false);
+			$application = $this->container->getService($this->apiApplicationName);
 			$application->run();
 		} else {
 			/** @var UIApplication $application */
-			$application = $this->container->getByType(UIApplication::class, false);
+			$application = $this->container->getService($this->uiApplicationName);
 			$application->run();
 		}
 	}

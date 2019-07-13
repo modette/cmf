@@ -2,10 +2,12 @@
 
 namespace Modette\Http\FrontRouter\DI;
 
+use Contributte\Middlewares\Application\MiddlewareApplication as ApiApplication;
 use Modette\Http\FrontRouter\ApiFrontRouter;
 use Modette\Http\FrontRouter\CombinedFrontRouter;
 use Modette\Http\FrontRouter\FrontRouter;
 use Modette\Http\FrontRouter\UIFrontRouter;
+use Nette\Application\Application as UIApplication;
 use Nette\DI\CompilerExtension;
 use Nette\Schema\Expect;
 use Nette\Schema\Schema;
@@ -42,11 +44,18 @@ class FrontRouterExtension extends CompilerExtension
 			->setType(FrontRouter::class);
 
 		if (!$config->api->enable) {
-			$frontRouterDefinition->setFactory(UIFrontRouter::class);
+			$frontRouterDefinition->setFactory(UIFrontRouter::class, [
+				$builder->getByType(UIApplication::class),
+			]);
 		} elseif (!$config->ui->enable) {
-			$frontRouterDefinition->setFactory(ApiFrontRouter::class);
+			$frontRouterDefinition->setFactory(ApiFrontRouter::class, [
+				$builder->getByType(ApiApplication::class),
+			]);
 		} else {
-			$frontRouterDefinition->setFactory(CombinedFrontRouter::class);
+			$frontRouterDefinition->setFactory(CombinedFrontRouter::class, [
+				$builder->getByType(ApiApplication::class),
+				$builder->getByType(UIApplication::class),
+			]);
 		}
 	}
 

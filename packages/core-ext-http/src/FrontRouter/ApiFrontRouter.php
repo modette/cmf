@@ -8,18 +8,22 @@ use Nette\DI\Container;
 class ApiFrontRouter implements FrontRouter
 {
 
+	/** @var string */
+	private $apiApplicationName;
+
 	/** @var Container */
 	private $container;
 
-	public function __construct(Container $container)
+	public function __construct(string $apiApplicationName, Container $container)
 	{
+		$this->apiApplicationName = $apiApplicationName;
 		$this->container = $container;
 	}
 
 	public function run(): void
 	{
 		/** @var ApiApplication $application */
-		$application = $this->container->getByType(ApiApplication::class, false);
+		$application = $this->container->getService($this->apiApplicationName);
 		$application->run();
 	}
 
