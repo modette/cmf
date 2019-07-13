@@ -117,17 +117,17 @@ services:
 		implement: Modette\UI\Control\Styles\StylesFactory
 
 session:
-	# TODO - add support for 'domain' and 'subdomain' options for cookieDomain and 'basePath' for cookiePath to SessionExtension
-	#cookieDomain: '?->getUrl()->getDomain(2)'(@Nette\Http\IRequest)
-	#cookiePath: '?->getUrl()->getBasePath()'(@Nette\Http\IRequest) # Cookie path same as $basePath
 	autoStart: smart
+	# TODO - add support for automatic configuration of cookieDomain, cookiePath and cookieSecure
+	#cookieDomain: '?->getUrl()->getDomain(2)'(@Nette\Http\IRequest)
 	cookieHttponly: true
+	#cookiePath: '?->getUrl()->getBasePath()'(@Nette\Http\IRequest) # Cookie path same as $basePath
 	cookieSamesite: Lax
 	cookieSecure: auto
 	debugger: %debug.panels.ui.session%
 	expiration: 14 days
 	name: SID
-	#readAndClose: true # TODO - https://github.com/nette/http/issues/155
+	readAndClose: true
 	sidBitsPerCharacter: 6 # 4-6
 	sidLength: 128 # 22-250 (256 is max, but filesystems...)
 	useCookies: true

@@ -26,7 +26,7 @@
 		"modette/core-ext-http": "^1.0.0",
 		"modette/core-ext-templates": "^1.0.0",
 		"nette/component-model": "^3.0.0",
-		"nette/http": "~3.0.0"
+		"nette/http": "~3.0.2"
 	},
 	"require-dev": {
 		"phpstan/extension-installer": "^1.0.0",
