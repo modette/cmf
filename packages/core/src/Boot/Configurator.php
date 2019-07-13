@@ -144,12 +144,15 @@ class Configurator
 		return $this;
 	}
 
-	private function generateContainer(Compiler $compiler): void
+	/**
+	 * @param string[] $configFiles
+	 */
+	private function generateContainer(Compiler $compiler, array $configFiles): void
 	{
 		$loader = new Loader();
 		$loader->setParameters($this->parameters);
 
-		foreach ($this->configFiles as $configFile) {
+		foreach ($configFiles as $configFile) {
 			$compiler->loadConfig($configFile);
 		}
 
@@ -189,7 +192,7 @@ class Configurator
 	public function loadContainer(): string
 	{
 		// Prepend module configurations to config files list
-		$this->configFiles = array_merge($this->getModuleConfigFiles(), $this->configFiles);
+		$configFiles = array_merge($this->getModuleConfigFiles(), $this->configFiles);
 
 		$loader = new ContainerLoader(
 			$this->parameters['tempDir'] . '/cache/modette.configurator',
@@ -197,10 +200,10 @@ class Configurator
 		);
 
 		$class = $loader->load(
-			function (Compiler $compiler): void {
-				$this->generateContainer($compiler);
+			function (Compiler $compiler) use ($configFiles): void {
+				$this->generateContainer($compiler, $configFiles);
 			},
-			[$this->parameters, array_keys($this->dynamicParameters), $this->configFiles, PHP_VERSION_ID - PHP_RELEASE_VERSION]
+			[$this->parameters, array_keys($this->dynamicParameters), $configFiles, PHP_VERSION_ID - PHP_RELEASE_VERSION]
 		);
 
 		return $class;
