@@ -88,7 +88,7 @@ setup:
 			worker: Modette\Core\Setup\Worker\CacheCleanWorker()
 			priority: 50
 		data:
-			worker: Modette\Core\Setup\Worker\DataWorker(@container::findByType(Modette\Core\Setup\DataProvider\DataProvider))
+			worker: Modette\Core\Setup\Worker\DataWorker(typed(Modette\Core\Setup\DataProvider\DataProvider))
 			priority: 150
 		generateCache:
 		 	worker: Modette\Core\Setup\Worker\CacheGenerateWorker()
