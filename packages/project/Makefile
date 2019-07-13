@@ -11,13 +11,13 @@ vendor: composer.json composer.lock
 qa: cs phpstan
 
 lint: vendor
-	vendor/bin/linter boot src tests
+	vendor/bin/parallel-lint --blame --colors boot src tests
 
 cs: vendor
-	vendor/bin/phpcs --cache=var/tmp/codesniffer.dat --standard='ruleset.xml' --colors -nsp boot src tests
+	vendor/bin/phpcs --cache=var/tmp/codesniffer.dat --standard=ruleset.xml --colors -nsp boot src tests
 
 csf: vendor
-	vendor/bin/phpcbf --cache=var/tmp/codesniffer.dat --standard='ruleset.xml' --colors -nsp boot src tests
+	vendor/bin/phpcbf --cache=var/tmp/codesniffer.dat --standard=ruleset.xml --colors -nsp boot src tests
 
 phpstan: vendor
 	vendor/bin/phpstan analyse -l 7 -c phpstan.src.neon src
