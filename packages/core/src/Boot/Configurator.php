@@ -194,6 +194,8 @@ class Configurator
 		// Prepend module configurations to config files list
 		$configFiles = array_merge($this->getModuleConfigFiles(), $this->configFiles);
 
+		$this->parameters['productionMode'] = !$this->parameters['debugMode'];
+
 		$loader = new ContainerLoader(
 			$this->parameters['tempDir'] . '/cache/modette.configurator',
 			$this->parameters['debugMode']
