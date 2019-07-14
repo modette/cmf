@@ -31,7 +31,7 @@ class FrontRouterExtension extends CompilerExtension
 		]);
 	}
 
-	public function loadConfiguration(): void
+	public function beforeCompile(): void
 	{
 		$builder = $this->getContainerBuilder();
 		$config = $this->config;
