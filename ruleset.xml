@@ -39,4 +39,8 @@
             "/>
 		</properties>
 	</rule>
+
+	<rule ref="Squiz.Classes.ValidClassName.NotCamelCaps">
+		<exclude-pattern>packages/module-installer/src/Schemas</exclude-pattern>
+	</rule>
 </ruleset>

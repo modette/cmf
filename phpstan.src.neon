@@ -28,11 +28,16 @@ parameters:
 		# Waiting for nette/utils:3.0
 		- message: '#(.*)should be (contravariant|covariant) with(.*)#'
 		  path: %currentWorkingDirectory%/packages/core-ext-ui/src/FakeTranslator.php
-
 		# nette/application have no typehint specified
 		- message: '#(.*)should be (contravariant|covariant) with(.*)#'
 		  path: %currentWorkingDirectory%/packages/core-ext-ui/src/Utils/FlashMessages.php
-
 		# Broken purposely - form translator is disabled
 		- message: '#(.*)should be (contravariant|covariant) with(.*)#'
 		  path: %currentWorkingDirectory%/packages/core-ext-ui/src/Forms/Form.php
+
+		# ModuleInstaller
+		# Should not happen
+		- message: '#^Parameter \#1 \$input of static method Nette\\Neon\\Neon\:\:decode\(\) expects string, string\|false given\.$#'
+		  path: %currentWorkingDirectory%/packages/module-installer/src/Files/FileIO.php
+		- message: '#^Only booleans are allowed in a ternary operator condition, int\|false given\.$#'
+		  path: %currentWorkingDirectory%/packages/module-installer/src/Files/FileIO.php

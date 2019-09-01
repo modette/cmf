@@ -1,0 +1,6 @@
+parameters:
+	ignoreErrors:
+		- message: '#^Parameter \#1 \$input of static method Nette\\Neon\\Neon\:\:decode\(\) expects string, string\|false given\.$#'
+		  path: %currentWorkingDirectory%/src/Files/FileIO.php
+		- message: '#^Only booleans are allowed in a ternary operator condition, int\|false given\.$#'
+		  path: %currentWorkingDirectory%/src/Files/FileIO.php

@@ -18,7 +18,11 @@
 	],
 	"require": {
 		"php": "^7.2.0",
-		"composer-plugin-api": "^1.0.0"
+		"composer-plugin-api": "^1.0.0",
+		"modette/exceptions": "^1.0.0",
+		"nette/neon": "~3.0.0",
+		"nette/schema": "~1.0.0",
+		"nette/utils": "~3.0.0"
 	},
 	"require-dev": {
 		"composer/composer": "^1.7.0",

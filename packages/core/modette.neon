@@ -1,2 +1,4 @@
-configs:
+version: 1
+
+files:
 	- config/config.neon
