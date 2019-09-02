@@ -42,3 +42,4 @@ parameters:
     - 'minimum-stability'
     - 'prefer-stable'
     - 'extra'
+    - 'replace'

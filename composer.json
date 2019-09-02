@@ -1,20 +1,4 @@
 {
-	"replace": {
-		"modette/core": "self.version",
-		"modette/core-ext-admin": "self.version",
-		"modette/core-ext-api": "self.version",
-		"modette/core-ext-front": "self.version",
-		"modette/core-ext-http": "self.version",
-		"modette/core-ext-mail": "self.version",
-		"modette/core-ext-orm": "self.version",
-		"modette/core-ext-sql": "self.version",
-		"modette/core-ext-templates": "self.version",
-		"modette/core-ext-ui": "self.version",
-		"modette/generator": "self.version",
-		"modette/module-installer": "self.version",
-		"modette/project": "self.version",
-		"modette/code-generator": "self.version"
-	},
 	"type": "project",
 	"description": "Modette root package used for development",
 	"homepage": "https://github.com/modette/modette",
@@ -125,5 +109,21 @@
 		"branch-alias": {
 			"dev-master": "1.0.x-dev"
 		}
+	},
+	"replace": {
+		"modette/code-generator": "self.version",
+		"modette/core": "self.version",
+		"modette/core-ext-admin": "self.version",
+		"modette/core-ext-api": "self.version",
+		"modette/core-ext-front": "self.version",
+		"modette/core-ext-http": "self.version",
+		"modette/core-ext-mail": "self.version",
+		"modette/core-ext-orm": "self.version",
+		"modette/core-ext-sql": "self.version",
+		"modette/core-ext-templates": "self.version",
+		"modette/core-ext-ui": "self.version",
+		"modette/generator": "self.version",
+		"modette/module-installer": "self.version",
+		"modette/project": "self.version"
 	}
 }
