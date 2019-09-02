@@ -55,7 +55,10 @@ class BuildReloadCommand extends Command
 			return 0;
 		}
 
-		$meta = new SetupHelper(WorkerMode::RELOAD(), $this->debugMode, $this->developmentServer, $this->getApplication(), $output);
+		$application = $this->getApplication();
+		assert($application !== null);
+
+		$meta = new SetupHelper(WorkerMode::RELOAD(), $this->debugMode, $this->developmentServer, $application, $output);
 
 		foreach ($workers as $worker) {
 			$style->note(sprintf('Running %s worker', $worker->getName()));
