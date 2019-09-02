@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace Tests\Modette\Generator\Unit;
+namespace Tests\Modette\CodeGenerator\Unit;
 
 use PHPUnit\Framework\TestCase;
 

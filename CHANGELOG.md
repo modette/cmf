@@ -21,6 +21,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - sql
     - templates
     - UI
-    - extension installer
-    - generator
-    - requirements checker
+    - module installer
+    - code generator

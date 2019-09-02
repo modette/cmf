@@ -14,7 +14,7 @@
   },
   "require-dev": {
     "contributte/neonizer": "^0.4.0",
-    "modette/generator": "^1.0.0",
+    "modette/code-generator": "^1.0.0",
     "ninjify/qa": "^0.9.0",
     "pepakriz/phpstan-exception-rules": "^0.8.1",
     "phpstan/extension-installer": "^1.0.0",

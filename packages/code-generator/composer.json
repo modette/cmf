@@ -1,7 +1,7 @@
 {
-	"name": "modette/generator",
-	"description": "Generate your Modette project with simple console commands",
-	"type": "project",
+	"name": "modette/code-generator",
+	"description": "Generate code with simple commands",
+	"type": "library",
 	"license": "MPL-2.0",
 	"keywords": [
 		"cli",
@@ -29,12 +29,12 @@
 	"prefer-stable": true,
 	"autoload": {
 		"psr-4": {
-			"Modette\\Generator\\": "src"
+			"Modette\\CodeGenerator\\": "src"
 		}
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"Tests\\Modette\\Generator\\": "tests"
+			"Tests\\Modette\\CodeGenerator\\": "tests"
 		}
 	},
 	"config": {

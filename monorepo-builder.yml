@@ -5,6 +5,7 @@ parameters:
     require-dev:
       symplify/monorepo-builder: '^6.0.3'
   directories_to_repositories:
+    packages/code-generator: 'git@github.com:modette/code-generator.git'
     packages/core: 'git@github.com:modette/core.git'
     packages/core-ext-admin: 'git@github.com:modette/core-ext-admin.git'
     packages/core-ext-api: 'git@github.com:modette/core-ext-api.git'
@@ -15,7 +16,6 @@ parameters:
     packages/core-ext-sql: 'git@github.com:modette/core-ext-sql.git'
     packages/core-ext-templates: 'git@github.com:modette/core-ext-templates.git'
     packages/core-ext-ui: 'git@github.com:modette/core-ext-ui.git'
-    packages/generator: 'git@github.com:modette/generator.git'
     packages/module-installer: 'git@github.com:modette/module-installer.git'
     packages/project: 'git@github.com:modette/project.git'
   merge_sections:

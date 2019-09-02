@@ -8,6 +8,7 @@
 	<rule ref="SlevomatCodingStandard.Files.TypeNameMatchesFileName">
 		<properties>
 			<property name="rootNamespaces" type="array" value="
+                packages/code-generator/src       => Modette\CodeGenerator,
                 packages/core/src                 => Modette\Core,
                 packages/core-ext-admin/src       => Modette\Admin,
                 packages/core-ext-api/src         => Modette\Api,
@@ -18,9 +19,9 @@
                 packages/core-ext-sql/src         => Modette\Sql,
                 packages/core-ext-templates/src   => Modette\Templates,
                 packages/core-ext-ui/src          => Modette\UI,
-                packages/generator/src            => Modette\Generator,
                 packages/module-installer/src     => Modette\ModuleInstaller,
 
+                packages/code-generator/tests       => Tests\Modette\CodeGenerator,
                 packages/core/tests                 => Tests\Modette\Core,
                 packages/core-ext-admin/tests       => Tests\Modette\Admin,
                 packages/core-ext-api/tests         => Tests\Modette\Api,
@@ -31,7 +32,6 @@
                 packages/core-ext-sql/tests         => Tests\Modette\Sql,
                 packages/core-ext-templates/tests   => Tests\Modette\Templates,
                 packages/core-ext-ui/tests          => Tests\Modette\UI,
-                packages/generator/tests            => Tests\Modette\Generator,
                 packages/module-installer/tests     => Tests\Modette\ModuleInstaller,
 
                 packages/project/src   => App,
