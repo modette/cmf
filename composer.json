@@ -45,7 +45,7 @@
 		"nette/neon": "~3.0.0",
 		"nette/schema": "~1.0.0",
 		"nette/utils": "~3.0.0",
-		"nextras/dbal": "~3.1.0",
+		"nextras/dbal": "~3.2.0",
 		"nextras/migrations": "~3.1.0",
 		"nextras/orm": "~3.1.0",
 		"ramsey/uuid": "^3.8.0"
