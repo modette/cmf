@@ -17,7 +17,7 @@ final class ConfigurationValidator
 	public function validateConfiguration(string $package, string $fileName, array $configuration): RootConfiguration
 	{
 		if (!isset($configuration['version'])) {
-			throw new InvalidConfigurationException($package, $fileName, 'Parameter `version` not provided."');
+			throw new InvalidConfigurationException($package, $fileName, 'The mandatory option \'version\' is missing.');
 		}
 
 		$version = $configuration['version'];
@@ -26,7 +26,7 @@ final class ConfigurationValidator
 			throw new InvalidConfigurationException(
 				$package,
 				$fileName,
-				sprintf('Parameter `version` is out of available range (%s)."', implode(', ', Schema::VERSIONS))
+				sprintf('The option \'version\' expects to be %s, %s given.', implode('|', Schema::VERSIONS), $version)
 			);
 		}
 
