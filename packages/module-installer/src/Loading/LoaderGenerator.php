@@ -7,6 +7,7 @@ use LogicException;
 use Modette\ModuleInstaller\Files\File;
 use Modette\ModuleInstaller\Files\FileIO;
 use Modette\ModuleInstaller\Package\ConfigurationValidator;
+use Modette\ModuleInstaller\Utils\PathResolver;
 use UnexpectedValueException;
 
 final class LoaderGenerator
@@ -14,7 +15,7 @@ final class LoaderGenerator
 
 	public function generateLoader(Composer $composer): void
 	{
-		$installationManager = $composer->getInstallationManager();
+		$pathResolver = new PathResolver($composer);
 		$packages = $composer->getRepositoryManager()->getLocalRepository()->getCanonicalPackages();
 		$excluded = $composer->getPackage()->getExtra()['modette']['excluded'] ?? [];
 
@@ -26,9 +27,7 @@ final class LoaderGenerator
 			}
 
 			// Ignore packages without modette.neon
-			$packageDir = $installationManager->getInstallPath($package);
-
-			if (!file_exists($packageDir . '/' . File::DEFAULT_NAME)) {
+			if (!file_exists($pathResolver->getConfigFileFqn($package))) {
 				unset($packages[$key]);
 			}
 		}
@@ -41,13 +40,11 @@ final class LoaderGenerator
 
 		$io = new FileIO();
 		$validator = new ConfigurationValidator();
-		$rootDir = $this->getRootDir($composer);
 		$configFiles = [];
 
 		foreach ($packages as $package) {
-			$packageDirAbsolute = $installationManager->getInstallPath($package);
-			$packageDirRelative = substr($packageDirAbsolute, strlen($rootDir));
-			$configFile = $packageDirAbsolute . '/' . File::DEFAULT_NAME;
+			$packageDirRelative = $pathResolver->getRelativePath($package);
+			$configFile = $pathResolver->getConfigFileFqn($package);
 			$configuration = $validator->validateConfiguration($package->getName(), File::DEFAULT_NAME, $io->read($configFile));
 
 			foreach ($configuration->getFiles() as $fileConfiguration) {
@@ -61,6 +58,7 @@ final class LoaderGenerator
 
 	private function getLoaderFilePath(Composer $composer): string
 	{
+		$pathResolver = new PathResolver($composer);
 		$extra = $composer->getPackage()->getExtra();
 		$pluginConfig = $extra['modette'] ?? [];
 
@@ -69,7 +67,7 @@ final class LoaderGenerator
 		}
 
 		$configFileRelative = $pluginConfig['modules'];
-		$configFile = $this->getRootDir($composer) . '/' . $configFileRelative;
+		$configFile = $pathResolver->getRootDir() . '/' . $configFileRelative;
 
 		if (!file_exists($configFile)) {
 			throw new UnexpectedValueException(sprintf(
@@ -80,13 +78,6 @@ final class LoaderGenerator
 		}
 
 		return $configFile;
-	}
-
-	private function getRootDir(Composer $composer): string
-	{
-		$vendorDir = $composer->getConfig()->get('vendor-dir');
-
-		return dirname($vendorDir);
 	}
 
 }

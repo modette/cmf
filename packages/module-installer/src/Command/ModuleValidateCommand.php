@@ -8,6 +8,7 @@ use LogicException;
 use Modette\ModuleInstaller\Files\File;
 use Modette\ModuleInstaller\Files\FileIO;
 use Modette\ModuleInstaller\Package\ConfigurationValidator;
+use Modette\ModuleInstaller\Utils\PathResolver;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -52,15 +53,8 @@ final class ModuleValidateCommand extends BaseCommand
 			$package = $composer->getPackage();
 		}
 
-		if ($package === $composer->getPackage()) {
-			// Composer supports ProjectInstaller only during create-project command so let's hope no-one change vendor-dir
-			$packageDirAbsolute = dirname($composer->getConfig()->get('vendor-dir'));
-		} else {
-			$installationManager = $composer->getInstallationManager();
-			$packageDirAbsolute = $installationManager->getInstallPath($package);
-		}
-
-		$configFile = $packageDirAbsolute . '/' . File::DEFAULT_NAME;
+		$pathResolver = new PathResolver($composer);
+		$configFile = $pathResolver->getConfigFileFqn($package);
 		$validator->validateConfiguration($package->getName(), File::DEFAULT_NAME, $fileIO->read($configFile));
 
 		$consoleIO->success(sprintf('%s successfully validated', File::DEFAULT_NAME));
