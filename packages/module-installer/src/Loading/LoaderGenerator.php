@@ -7,6 +7,7 @@ use LogicException;
 use Modette\ModuleInstaller\Files\File;
 use Modette\ModuleInstaller\Files\FileIO;
 use Modette\ModuleInstaller\Package\ConfigurationValidator;
+use Modette\ModuleInstaller\Utils\PluginActivator;
 use UnexpectedValueException;
 
 final class LoaderGenerator
@@ -14,7 +15,7 @@ final class LoaderGenerator
 
 	public function generateLoader(Composer $composer): void
 	{
-		if (!$this->isEnabled($composer)) {
+		if (!PluginActivator::isEnabled($composer)) {
 			return;
 		}
 
@@ -91,20 +92,6 @@ final class LoaderGenerator
 		$vendorDir = $composer->getConfig()->get('vendor-dir');
 
 		return dirname($vendorDir);
-	}
-
-	private function isEnabled(Composer $composer): bool
-	{
-		$extra = $composer->getPackage()->getExtra();
-		$pluginConfig = $extra['modette'] ?? [];
-
-		$enabled = $pluginConfig['enable'] ?? false;
-
-		if (!is_bool($enabled)) {
-			throw new UnexpectedValueException('composer.json key extra.modette.enable must be boolean.');
-		}
-
-		return $enabled;
 	}
 
 }
