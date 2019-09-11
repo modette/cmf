@@ -14,6 +14,7 @@ use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
 use Modette\ModuleInstaller\Command\CommandProvider;
 use Modette\ModuleInstaller\Loading\LoaderGenerator;
+use Modette\ModuleInstaller\Utils\PluginActivator;
 
 final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
 {
@@ -50,20 +51,27 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
 
 	public function install(Event $event): void
 	{
-		$loaderGenerator = new LoaderGenerator();
-		$loaderGenerator->generateLoader($event->getComposer());
+		$this->generateLoader($event->getComposer());
 	}
 
 	public function update(Event $event): void
 	{
-		$loaderGenerator = new LoaderGenerator();
-		$loaderGenerator->generateLoader($event->getComposer());
+		$this->generateLoader($event->getComposer());
 	}
 
 	public function remove(PackageEvent $event): void
 	{
+		$this->generateLoader($event->getComposer());
+	}
+
+	private function generateLoader(Composer $composer): void
+	{
+		if (!PluginActivator::isEnabled($composer)) {
+			return;
+		}
+
 		$loaderGenerator = new LoaderGenerator();
-		$loaderGenerator->generateLoader($event->getComposer());
+		$loaderGenerator->generateLoader($composer);
 	}
 
 }

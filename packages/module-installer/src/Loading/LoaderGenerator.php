@@ -7,7 +7,6 @@ use LogicException;
 use Modette\ModuleInstaller\Files\File;
 use Modette\ModuleInstaller\Files\FileIO;
 use Modette\ModuleInstaller\Package\ConfigurationValidator;
-use Modette\ModuleInstaller\Utils\PluginActivator;
 use UnexpectedValueException;
 
 final class LoaderGenerator
@@ -15,10 +14,6 @@ final class LoaderGenerator
 
 	public function generateLoader(Composer $composer): void
 	{
-		if (!PluginActivator::isEnabled($composer)) {
-			return;
-		}
-
 		$installationManager = $composer->getInstallationManager();
 		$packages = $composer->getRepositoryManager()->getLocalRepository()->getCanonicalPackages();
 		$excluded = $composer->getPackage()->getExtra()['modette']['excluded'] ?? [];
