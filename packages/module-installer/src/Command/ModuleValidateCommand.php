@@ -3,15 +3,20 @@
 namespace Modette\ModuleInstaller\Command;
 
 use Composer\Command\BaseCommand;
+use Composer\Semver\Constraint\EmptyConstraint;
+use LogicException;
 use Modette\ModuleInstaller\Files\File;
 use Modette\ModuleInstaller\Files\FileIO;
 use Modette\ModuleInstaller\Package\ConfigurationValidator;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 final class ModuleValidateCommand extends BaseCommand
 {
+
+	private const OPTION_PACKAGE = 'package';
 
 	/** @var string */
 	protected static $defaultName = 'modette:module:validate';
@@ -20,6 +25,13 @@ final class ModuleValidateCommand extends BaseCommand
 	{
 		$this->setName(self::$defaultName);
 		$this->setDescription(sprintf('Validate %s', File::DEFAULT_NAME));
+
+		$this->addOption(
+			self::OPTION_PACKAGE,
+			'p',
+			InputOption::VALUE_REQUIRED,
+			'Package which is validated (current package is validated if not specified)'
+		);
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int
@@ -29,11 +41,26 @@ final class ModuleValidateCommand extends BaseCommand
 		$fileIO = new FileIO();
 		$consoleIO = new SymfonyStyle($input, $output);
 
-		$package = $composer->getPackage();
-		// Composer supports ProjectInstaller only during create-project command so let's hope no-one change vendor-dir
-		$packageDirAbsolute = dirname($composer->getConfig()->get('vendor-dir'));
-		$configFile = $packageDirAbsolute . '/' . File::DEFAULT_NAME;
+		if (($packageName = $input->getOption(self::OPTION_PACKAGE)) !== null) {
+			assert(is_string($packageName));
+			$package = $composer->getRepositoryManager()->getLocalRepository()->findPackage($packageName, new EmptyConstraint());
 
+			if ($package === null) {
+				throw new LogicException(sprintf('Package \'%s\' does not exists', $packageName));
+			}
+		} else {
+			$package = $composer->getPackage();
+		}
+
+		if ($package === $composer->getPackage()) {
+			// Composer supports ProjectInstaller only during create-project command so let's hope no-one change vendor-dir
+			$packageDirAbsolute = dirname($composer->getConfig()->get('vendor-dir'));
+		} else {
+			$installationManager = $composer->getInstallationManager();
+			$packageDirAbsolute = $installationManager->getInstallPath($package);
+		}
+
+		$configFile = $packageDirAbsolute . '/' . File::DEFAULT_NAME;
 		$validator->validateConfiguration($package->getName(), File::DEFAULT_NAME, $fileIO->read($configFile));
 
 		$consoleIO->success(sprintf('%s successfully validated', File::DEFAULT_NAME));
