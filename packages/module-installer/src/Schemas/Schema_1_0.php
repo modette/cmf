@@ -24,6 +24,9 @@ final class Schema_1_0 implements Schema
 					'file' => Expect::string()->required(),
 				])->castTo('array')
 			)),
+			'ignored' => Expect::arrayOf(
+				Expect::string()
+			),
 		])->castTo('array');
 	}
 

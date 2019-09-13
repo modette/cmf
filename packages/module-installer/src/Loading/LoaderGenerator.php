@@ -42,12 +42,11 @@ final class LoaderGenerator
 		$loaderFilePath = $this->getLoaderFilePath($rootPackageConfiguration);
 
 		$packages = $this->composer->getRepositoryManager()->getLocalRepository()->getCanonicalPackages();
-		$excluded = $this->composer->getPackage()->getExtra()['modette']['excluded'] ?? [];
 
 		// Filter out ignored packages and packages without modette.neon
 		foreach ($packages as $key => $package) {
 			// Package ignored by config
-			if (in_array($package->getName(), $excluded, true)) {
+			if (in_array($package->getName(), $rootPackageConfiguration->getIgnoredPackages(), true)) {
 				unset($packages[$key]);
 			}
 

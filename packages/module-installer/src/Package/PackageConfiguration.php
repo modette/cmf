@@ -14,6 +14,9 @@ final class PackageConfiguration
 	/** @var FileConfiguration[] */
 	private $files;
 
+	/** @var string[] */
+	private $ignoredPackages;
+
 	/**
 	 * @param mixed[] $configuration
 	 */
@@ -22,6 +25,7 @@ final class PackageConfiguration
 		$this->version = $configuration['version'];
 		$this->files = $this->normalizeFiles($configuration['files']);
 		$this->loader = $configuration['loader'] !== null ? new LoaderConfiguration($configuration['loader']) : null;
+		$this->ignoredPackages = $configuration['ignored'];
 	}
 
 	public function getVersion(): float
@@ -40,6 +44,14 @@ final class PackageConfiguration
 	public function getFiles(): array
 	{
 		return $this->files;
+	}
+
+	/**
+	 * @return string[]
+	 */
+	public function getIgnoredPackages(): array
+	{
+		return $this->ignoredPackages;
 	}
 
 	/**
