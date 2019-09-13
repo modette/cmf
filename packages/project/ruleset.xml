@@ -12,4 +12,7 @@
             "/>
 		</properties>
 	</rule>
+
+	<!-- Ignore generated file -->
+	<exclude-pattern>boot/ConfigLoader.php</exclude-pattern>
 </ruleset>
