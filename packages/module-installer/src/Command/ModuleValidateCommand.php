@@ -6,9 +6,7 @@ use Composer\Command\BaseCommand;
 use Composer\Semver\Constraint\EmptyConstraint;
 use LogicException;
 use Modette\ModuleInstaller\Files\File;
-use Modette\ModuleInstaller\Files\FileIO;
 use Modette\ModuleInstaller\Package\ConfigurationValidator;
-use Modette\ModuleInstaller\Utils\PathResolver;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -38,9 +36,8 @@ final class ModuleValidateCommand extends BaseCommand
 	protected function execute(InputInterface $input, OutputInterface $output): int
 	{
 		$composer = $this->getComposer();
-		$validator = new ConfigurationValidator();
-		$fileIO = new FileIO();
-		$consoleIO = new SymfonyStyle($input, $output);
+		$validator = new ConfigurationValidator($composer);
+		$io = new SymfonyStyle($input, $output);
 
 		if (($packageName = $input->getOption(self::OPTION_PACKAGE)) !== null) {
 			assert(is_string($packageName));
@@ -53,11 +50,8 @@ final class ModuleValidateCommand extends BaseCommand
 			$package = $composer->getPackage();
 		}
 
-		$pathResolver = new PathResolver($composer);
-		$configFile = $pathResolver->getConfigFileFqn($package);
-		$validator->validateConfiguration($package->getName(), File::DEFAULT_NAME, $fileIO->read($configFile));
-
-		$consoleIO->success(sprintf('%s successfully validated', File::DEFAULT_NAME));
+		$validator->validateConfiguration($package, File::DEFAULT_NAME);
+		$io->success(sprintf('%s successfully validated', File::DEFAULT_NAME));
 
 		return 0;
 	}

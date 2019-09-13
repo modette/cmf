@@ -70,8 +70,8 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
 			return;
 		}
 
-		$loaderGenerator = new LoaderGenerator();
-		$loaderGenerator->generateLoader($composer);
+		$loaderGenerator = new LoaderGenerator($composer);
+		$loaderGenerator->generateLoader();
 	}
 
 }

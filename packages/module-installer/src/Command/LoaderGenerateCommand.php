@@ -22,11 +22,11 @@ final class LoaderGenerateCommand extends BaseCommand
 
 	protected function execute(InputInterface $input, OutputInterface $output): int
 	{
-		$loaderGenerator = new LoaderGenerator();
-		$loaderGenerator->generateLoader($this->getComposer());
-		$consoleIO = new SymfonyStyle($input, $output);
+		$loaderGenerator = new LoaderGenerator($this->getComposer());
+		$io = new SymfonyStyle($input, $output);
 
-		$consoleIO->success('Modules loader successfully generated');
+		$loaderGenerator->generateLoader();
+		$io->success('Modules loader successfully generated');
 
 		return 0;
 	}

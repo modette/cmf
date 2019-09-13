@@ -4,7 +4,6 @@ namespace Modette\ModuleInstaller\Utils;
 
 use Composer\Composer;
 use Modette\ModuleInstaller\Files\File;
-use Modette\ModuleInstaller\Files\FileIO;
 use Modette\ModuleInstaller\Package\ConfigurationValidator;
 
 final class PluginActivator
@@ -20,11 +19,10 @@ final class PluginActivator
 			return false;
 		}
 
-		$validator = new ConfigurationValidator();
-		$io = new FileIO();
-		$configuration = $validator->validateConfiguration($rootPackage->getName(), File::DEFAULT_NAME, $io->read($configFile));
+		$validator = new ConfigurationValidator($composer);
+		$packageConfiguration = $validator->validateConfiguration($rootPackage, File::DEFAULT_NAME);
 
-		return $configuration->getLoader() !== null;
+		return $packageConfiguration->getLoader() !== null;
 	}
 
 }

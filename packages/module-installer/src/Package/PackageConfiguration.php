@@ -2,7 +2,7 @@
 
 namespace Modette\ModuleInstaller\Package;
 
-final class RootConfiguration
+final class PackageConfiguration
 {
 
 	/** @var float */

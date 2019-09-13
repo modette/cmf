@@ -2,16 +2,17 @@
 
 namespace Modette\ModuleInstaller\Exception;
 
+use Composer\Package\PackageInterface;
 use Modette\Exceptions\LogicalException;
 
 final class InvalidConfigurationException extends LogicalException
 {
 
-	public function __construct(string $package, string $file, string $message)
+	public function __construct(PackageInterface $package, string $file, string $message)
 	{
 		$error = sprintf(
 			'Package %s have invalid %s: %s',
-			$package,
+			$package->getName(),
 			$file,
 			$message
 		);
