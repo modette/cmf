@@ -29,7 +29,8 @@
 		"contributte/phpdoc": "^0.3.0",
 		"contributte/psr7-http-message": "^0.6.0",
 		"modette/core": "^1.0.0",
-		"modette/core-ext-http": "^1.0.0"
+		"modette/core-ext-http": "^1.0.0",
+		"symfony/validator": "^4.3.0"
 	},
 	"require-dev": {
 		"phpstan/extension-installer": "^1.0.0",
