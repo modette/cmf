@@ -6,6 +6,7 @@ use Composer\Downloader\FilesystemException;
 use Modette\Exceptions\Logic\InvalidArgumentException;
 use Modette\Exceptions\Logic\InvalidStateException;
 use Nette\Neon\Neon;
+use Nette\PhpGenerator\PhpFile;
 use Nette\Schema\Helpers;
 use Nette\Utils\Validators;
 
@@ -13,6 +14,7 @@ final class FileIO
 {
 
 	private const INCLUDES_KEY = 'includes';
+
 	private const PREVENT_MERGING_SUFFIX = '!';
 
 	/** @var bool[] */
@@ -94,14 +96,9 @@ final class FileIO
 		return $res;
 	}
 
-	/**
-	 * @param mixed[] $configuration
-	 */
-	public function write(string $file, array $configuration): void
+	public function write(string $file, PhpFile $content): void
 	{
-		$content = Neon::encode($configuration, Neon::BLOCK);
-
-		$written = file_put_contents($file, $content);
+		$written = file_put_contents($file, (string) $content);
 
 		if ($written === false) {
 			throw new FilesystemException(

@@ -18,7 +18,7 @@ class Bootstrap
 			HttpHelper::isLocalhost()
 		);
 
-		$configurator->setModulesConfig(__DIR__ . '/../config/modules/third-party.neon');
+		$configurator->setLoader(new ConfigLoader());
 		$configurator->addParameters(EnvironmentHelper::getEnvironmentParameters());
 
 		$configurator->addConfig(__DIR__ . '/../config/base.neon');

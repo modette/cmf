@@ -4,8 +4,8 @@ namespace Modette\Core\Boot;
 
 use Modette\Core\Boot\Helper\CliHelper;
 use Modette\Core\DI\Container;
+use Modette\ModuleInstaller\Loading\Loader as ModuleLoader;
 use Nette\DI\Compiler;
-use Nette\DI\Config\Adapters\NeonAdapter;
 use Nette\DI\Config\Loader;
 use Nette\DI\ContainerLoader;
 use Nette\DI\Extensions\ExtensionsExtension;
@@ -43,8 +43,8 @@ class Configurator
 	/** @var object[] */
 	private $services = [];
 
-	/** @var string|null */
-	private $modulesConfigFile;
+	/** @var ModuleLoader|null */
+	private $loader;
 
 	public function __construct(string $rootDir)
 	{
@@ -79,9 +79,9 @@ class Configurator
 		Bridge::initialize();
 	}
 
-	public function setModulesConfig(string $modulesConfigFile): void
+	public function setLoader(ModuleLoader $loader): void
 	{
-		$this->modulesConfigFile = $modulesConfigFile;
+		$this->loader = $loader;
 	}
 
 	public function addConfig(string $configFile): self
@@ -174,15 +174,13 @@ class Configurator
 	 */
 	private function getModuleConfigFiles(): array
 	{
-		if ($this->modulesConfigFile === null) {
+		if ($this->loader === null) {
 			return [];
 		}
 
-		$neon = new NeonAdapter();
-		$config = $neon->load($this->modulesConfigFile);
 		$files = [];
 
-		foreach ($config as $file) {
+		foreach ($this->loader->getConfigFiles() as $file) {
 			$files[] = $this->rootDir . $file;
 		}
 

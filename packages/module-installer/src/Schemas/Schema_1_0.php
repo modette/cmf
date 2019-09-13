@@ -16,6 +16,7 @@ final class Schema_1_0 implements Schema
 				Expect::null(),
 				Expect::structure([
 					'file' => Expect::string()->required(),
+					'class' => Expect::string()->required(),
 				])->castTo('array')
 			),
 			'files' => Expect::arrayOf(Expect::anyOf(

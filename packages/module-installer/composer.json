@@ -21,6 +21,7 @@
 		"composer-plugin-api": "^1.0.0",
 		"modette/exceptions": "^1.0.0",
 		"nette/neon": "~3.0.0",
+		"nette/php-generator": "~3.2.0",
 		"nette/schema": "~1.0.0",
 		"nette/utils": "~3.0.0"
 	},
