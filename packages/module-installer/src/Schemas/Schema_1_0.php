@@ -12,6 +12,12 @@ final class Schema_1_0 implements Schema
 	{
 		return Expect::structure([
 			'version' => Expect::anyOf(self::VERSION_1_0),
+			'loader' => Expect::anyOf(
+				Expect::null(),
+				Expect::structure([
+					'file' => Expect::string()->required(),
+				])->castTo('array')
+			),
 			'files' => Expect::arrayOf(Expect::anyOf(
 				Expect::string(),
 				Expect::structure([

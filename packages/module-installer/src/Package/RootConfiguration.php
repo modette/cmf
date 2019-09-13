@@ -8,6 +8,9 @@ final class RootConfiguration
 	/** @var float */
 	private $version;
 
+	/** @var LoaderConfiguration|null */
+	private $loader;
+
 	/** @var FileConfiguration[] */
 	private $files;
 
@@ -18,11 +21,17 @@ final class RootConfiguration
 	{
 		$this->version = $configuration['version'];
 		$this->files = $this->normalizeFiles($configuration['files']);
+		$this->loader = $configuration['loader'] !== null ? new LoaderConfiguration($configuration['loader']) : null;
 	}
 
 	public function getVersion(): float
 	{
 		return $this->version;
+	}
+
+	public function getLoader(): ?LoaderConfiguration
+	{
+		return $this->loader;
 	}
 
 	/**

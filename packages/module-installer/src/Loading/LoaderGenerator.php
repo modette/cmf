@@ -3,7 +3,8 @@
 namespace Modette\ModuleInstaller\Loading;
 
 use Composer\Composer;
-use LogicException;
+use Composer\Package\RootPackageInterface;
+use Exception;
 use Modette\ModuleInstaller\Files\File;
 use Modette\ModuleInstaller\Files\FileIO;
 use Modette\ModuleInstaller\Package\ConfigurationValidator;
@@ -13,10 +14,23 @@ use UnexpectedValueException;
 final class LoaderGenerator
 {
 
+	/** @var FileIO */
+	private $io;
+
+	/** @var ConfigurationValidator */
+	private $validator;
+
+	public function __construct()
+	{
+		$this->io = new FileIO();
+		$this->validator = new ConfigurationValidator();
+	}
+
 	public function generateLoader(Composer $composer): void
 	{
 		$pathResolver = new PathResolver($composer);
 		$packages = $composer->getRepositoryManager()->getLocalRepository()->getCanonicalPackages();
+		$rootPackage = $composer->getPackage();
 		$excluded = $composer->getPackage()->getExtra()['modette']['excluded'] ?? [];
 
 		// Filter out ignored packages and packages without modette.neon
@@ -30,7 +44,14 @@ final class LoaderGenerator
 			if (!file_exists($pathResolver->getConfigFileFqn($package))) {
 				unset($packages[$key]);
 			}
+
+			// Filter out root package, added as last
+			if ($package === $rootPackage) {
+				unset($packages[$key]);
+			}
 		}
+
+		$packages[] = $rootPackage;
 
 		//TODO - sort packages by priority - https://github.com/modette/modette/issues/17
 		// composer show --tree
@@ -38,46 +59,45 @@ final class LoaderGenerator
 		// https://github.com/bulton-fr/dependency-tree
 		// $packages = $this->>sortPackagesByPriority($packages);
 
-		$io = new FileIO();
-		$validator = new ConfigurationValidator();
 		$configFiles = [];
 
 		foreach ($packages as $package) {
 			$packageDirRelative = $pathResolver->getRelativePath($package);
 			$configFile = $pathResolver->getConfigFileFqn($package);
-			$configuration = $validator->validateConfiguration($package->getName(), File::DEFAULT_NAME, $io->read($configFile));
+			$configuration = $this->validator->validateConfiguration($package->getName(), File::DEFAULT_NAME, $this->io->read($configFile));
 
 			foreach ($configuration->getFiles() as $fileConfiguration) {
 				$configFiles[] = $packageDirRelative . '/' . $fileConfiguration->getFile();
 			}
 		}
 
-		$io = new FileIO();
-		$io->write($this->getLoaderFilePath($composer), $configFiles);
+		$this->io->write($this->getLoaderFilePath($composer, $rootPackage), $configFiles);
 	}
 
-	private function getLoaderFilePath(Composer $composer): string
+	private function getLoaderFilePath(Composer $composer, RootPackageInterface $rootPackage): string
 	{
 		$pathResolver = new PathResolver($composer);
-		$extra = $composer->getPackage()->getExtra();
-		$pluginConfig = $extra['modette'] ?? [];
+		$configFile = $pathResolver->getConfigFileFqn($rootPackage);
+		$configuration = $this->validator->validateConfiguration($rootPackage->getName(), File::DEFAULT_NAME, $this->io->read($configFile));
 
-		if (!isset($pluginConfig['modules'])) {
-			throw new LogicException('composer.json key extra.modette.modules must be defined when modette/module-installer is enabled.');
+		$loader = $configuration->getLoader();
+
+		if ($loader === null) {
+			throw new Exception('Should not happen - loader should be always available by this moment. Entry point should check if plugin is activated.');
 		}
 
-		$configFileRelative = $pluginConfig['modules'];
-		$configFile = $pathResolver->getRootDir() . '/' . $configFileRelative;
+		$loaderFile = $pathResolver->getRootDir() . '/' . $loader->getFile();
 
-		if (!file_exists($configFile)) {
+		if (!file_exists($loaderFile)) {
 			throw new UnexpectedValueException(sprintf(
-				'composer.json key extra.modette.modules must be a valid relative path to a config file. Given path is %s, which resolved into %s',
-				$configFileRelative,
-				$configFile
+				'%s key loader.file must be a valid relative path to a config file. Given path is %s, which resolved into %s',
+				File::DEFAULT_NAME,
+				$loader->getFile(),
+				$loaderFile
 			));
 		}
 
-		return $configFile;
+		return $loaderFile;
 	}
 
 }

@@ -3,23 +3,28 @@
 namespace Modette\ModuleInstaller\Utils;
 
 use Composer\Composer;
-use UnexpectedValueException;
+use Modette\ModuleInstaller\Files\File;
+use Modette\ModuleInstaller\Files\FileIO;
+use Modette\ModuleInstaller\Package\ConfigurationValidator;
 
 final class PluginActivator
 {
 
 	public static function isEnabled(Composer $composer): bool
 	{
-		$extra = $composer->getPackage()->getExtra();
-		$pluginConfig = $extra['modette'] ?? [];
+		$pathResolver = new PathResolver($composer);
+		$rootPackage = $composer->getPackage();
+		$configFile = $pathResolver->getConfigFileFqn($rootPackage);
 
-		$enabled = $pluginConfig['enable'] ?? false;
-
-		if (!is_bool($enabled)) {
-			throw new UnexpectedValueException('composer.json key extra.modette.enable must be boolean.');
+		if (!file_exists($configFile)) {
+			return false;
 		}
 
-		return $enabled;
+		$validator = new ConfigurationValidator();
+		$io = new FileIO();
+		$configuration = $validator->validateConfiguration($rootPackage->getName(), File::DEFAULT_NAME, $io->read($configFile));
+
+		return $configuration->getLoader() !== null;
 	}
 
 }

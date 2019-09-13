@@ -1,0 +1,4 @@
+version: 1
+
+loader:
+	file: config/modules/third-party.neon
