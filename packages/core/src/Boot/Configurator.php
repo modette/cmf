@@ -45,14 +45,14 @@ class Configurator
 	/** @var object[] */
 	private $services = [];
 
-	/** @var ModuleLoader|null */
+	/** @var ModuleLoader */
 	private $loader;
 
-	public function __construct(string $rootDir)
+	public function __construct(string $rootDir, ModuleLoader $loader)
 	{
-		// Set parameters
 		$this->rootDir = str_replace('\\', '/', $rootDir);
 		$this->parameters = $this->getDefaultParameters();
+		$this->loader = $loader;
 
 		// Set timezone to UTC
 		date_default_timezone_set('UTC');
@@ -79,11 +79,6 @@ class Configurator
 		Debugger::$strictMode = true;
 		Debugger::enable(!$this->parameters['debugMode'], $this->parameters['logDir']);
 		Bridge::initialize();
-	}
-
-	public function setLoader(ModuleLoader $loader): void
-	{
-		$this->loader = $loader;
 	}
 
 	/**
@@ -169,10 +164,6 @@ class Configurator
 	 */
 	private function loadConfigFiles(): array
 	{
-		if ($this->loader === null) {
-			return [];
-		}
-
 		$files = [];
 
 		foreach ($this->loader->getConfigFiles($this->parameters) as $file) {

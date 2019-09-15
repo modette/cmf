@@ -11,14 +11,13 @@ class Bootstrap
 
 	public static function boot(): Configurator
 	{
-		$configurator = new Configurator(dirname(__DIR__));
+		$configurator = new Configurator(dirname(__DIR__), new ConfigLoader());
 
 		$configurator->setDebugMode(
 			EnvironmentHelper::isEnvironmentDebugMode() ||
 			HttpHelper::isLocalhost()
 		);
 
-		$configurator->setLoader(new ConfigLoader());
 		$configurator->addParameters(EnvironmentHelper::getEnvironmentParameters());
 
 		return $configurator;
