@@ -4,15 +4,10 @@ namespace Boot;
 
 use Modette\ModuleInstaller\Loading\Loader;
 
-final class ConfigLoader implements Loader
+final class ConfigLoader extends Loader
 {
 
-	/**
-	 * @return string[]
-	 */
-	public function getConfigFiles(): array
-	{
-		return [];
-	}
+	/** @var mixed[] */
+	protected $files = [];
 
 }

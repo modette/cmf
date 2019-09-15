@@ -58,7 +58,7 @@ final class ConfigurationValidator
 			throw new InvalidConfigurationException($package, $fileName, $exception->getMessage());
 		}
 
-		return new PackageConfiguration($configuration);
+		return new PackageConfiguration($configuration, $package);
 	}
 
 }
