@@ -15,4 +15,6 @@ abstract class CreateEntityFacade
 		}
 	}
 
+	abstract public function attach(IEntity $entity): void;
+
 }
