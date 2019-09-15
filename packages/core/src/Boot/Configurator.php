@@ -2,6 +2,9 @@
 
 namespace Modette\Core\Boot;
 
+use ArrayAccess;
+use Countable;
+use IteratorAggregate;
 use Modette\Core\Boot\Helper\CliHelper;
 use Modette\Core\DI\Container;
 use Modette\ModuleInstaller\Loading\Loader as ModuleLoader;
@@ -11,8 +14,10 @@ use Nette\DI\ContainerLoader;
 use Nette\DI\Extensions\ExtensionsExtension;
 use Nette\Schema\Helpers as ConfigHelpers;
 use Nette\SmartObject;
+use stdClass;
 use Tracy\Bridges\Nette\Bridge;
 use Tracy\Debugger;
+use Traversable;
 
 /**
  * @method void onCompile(Configurator $configurator, Compiler $compiler)
@@ -26,7 +31,7 @@ class Configurator
 	public $onCompile = [];
 
 	/** @var string[] classes which shouldn't be autowired */
-	public $autowireExcludedClasses = ['ArrayAccess', 'Countable', 'IteratorAggregate', 'stdClass', 'Traversable'];
+	public $autowireExcludedClasses = [ArrayAccess::class, Countable::class, IteratorAggregate::class, stdClass::class, Traversable::class];
 
 	/** @var string */
 	private $rootDir;
