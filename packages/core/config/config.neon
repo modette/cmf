@@ -99,7 +99,7 @@ setup:
 
 tracy:
 	logSeverity: E_ALL
-	maxLen: 150
+	maxLength: 150
 	maxDepth: 3
 	netteMailer: false
 	strictMode: true
