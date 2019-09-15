@@ -17,7 +17,7 @@
 	],
 	"require": {
 		"php": "^7.2.0",
-		"contributte/mail": "^0.4.0",
+		"contributte/mail": "^0.5.0",
 		"modette/core": "^1.0.0"
 	},
 	"require-dev": {
