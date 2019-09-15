@@ -21,9 +21,6 @@ class Bootstrap
 		$configurator->setLoader(new ConfigLoader());
 		$configurator->addParameters(EnvironmentHelper::getEnvironmentParameters());
 
-		$configurator->addConfig(__DIR__ . '/../config/base.neon');
-		$configurator->addConfig(__DIR__ . '/../config/server/local.neon');
-
 		return $configurator;
 	}
 

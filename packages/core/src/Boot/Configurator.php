@@ -31,9 +31,6 @@ class Configurator
 	/** @var string */
 	private $rootDir;
 
-	/** @var string[] */
-	private $configFiles = [];
-
 	/** @var mixed[] */
 	private $parameters;
 
@@ -82,13 +79,6 @@ class Configurator
 	public function setLoader(ModuleLoader $loader): void
 	{
 		$this->loader = $loader;
-	}
-
-	public function addConfig(string $configFile): self
-	{
-		$this->configFiles[] = $configFile;
-
-		return $this;
 	}
 
 	/**
@@ -172,7 +162,7 @@ class Configurator
 	/**
 	 * @return string[]
 	 */
-	private function getModuleConfigFiles(): array
+	private function loadConfigFiles(): array
 	{
 		if ($this->loader === null) {
 			return [];
@@ -189,8 +179,7 @@ class Configurator
 
 	public function loadContainer(): string
 	{
-		// Prepend module configurations to config files list
-		$configFiles = array_merge($this->getModuleConfigFiles(), $this->configFiles);
+		$configFiles = $this->loadConfigFiles();
 
 		$this->parameters['productionMode'] = !$this->parameters['debugMode'];
 

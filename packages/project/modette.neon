@@ -3,3 +3,7 @@ version: 1
 loader:
 	file: boot/ConfigLoader.php
 	class: Boot\ConfigLoader
+
+files:
+	- config/base.neon
+	- config/server/local.neon
