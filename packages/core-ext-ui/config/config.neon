@@ -35,7 +35,6 @@ http:
 	# https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP#Browser_compatibility
 	csp:
 		base-uri: self
-		img-src: "'self' data:"
 		form-action: self
 		frame-ancestors: none
 		block-all-mixed-content: #disallows load http content on https pages
