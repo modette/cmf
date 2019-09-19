@@ -35,7 +35,7 @@ modette.http.frontRouter:
 
 parameters:
 	catchExceptions:
-		api: true
+		api: false
 	debug:
 		panels:
 			api:

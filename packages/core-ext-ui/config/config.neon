@@ -58,7 +58,7 @@ modette.http.frontRouter:
 
 parameters:
 	catchExceptions:
-		ui: true
+		ui: false
 	debug:
 		panels:
 			ui:
