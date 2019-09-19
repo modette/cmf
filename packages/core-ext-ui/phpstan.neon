@@ -11,3 +11,7 @@ parameters:
 		# Broken purposely - form translator is disabled
 		- message: '#(.*)should be (contravariant|covariant) with(.*)#'
 		  path: %currentWorkingDirectory%/src/Forms/Form.php
+
+		# It can be null
+		- message: '#Strict comparison using === between string and null will always evaluate to false\.#'
+		  path: %currentWorkingDirectory%/src/Themes/ThemeAblePresenter.php

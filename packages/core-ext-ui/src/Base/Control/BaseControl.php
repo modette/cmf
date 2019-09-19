@@ -2,9 +2,9 @@
 
 namespace Modette\UI\Base\Control;
 
-use Modette\Templates\Themes\Bridges\NetteApplication\ThemeAbleControl;
 use Modette\UI\Base\Presenter\BasePresenter;
 use Modette\UI\FakeTranslator;
+use Modette\UI\Themes\ThemeAbleControl;
 use Modette\UI\Utils\FlashMessages;
 use Modette\UI\Utils\TranslateShortcut;
 use Nette\Application\UI\Control as NetteControl;

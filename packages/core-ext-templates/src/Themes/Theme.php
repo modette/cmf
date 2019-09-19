@@ -2,27 +2,40 @@
 
 namespace Modette\Templates\Themes;
 
-class Theme
+use Modette\Exceptions\Logic\InvalidStateException;
+use Modette\Templates\Themes\Exception\IncompatibleResolverException;
+use Modette\Templates\Themes\Exception\NoTemplateFoundException;
+use Modette\Templates\Themes\Resolving\Resolver;
+
+final class Theme
 {
 
-	/** @var mixed[] */
-	private $checkers = [ // phpcs:ignore
-		//ControlTypeChecker::TYPE => ControlTypeChecker::class
-		//jaký checker bude pro layout presenteru?
-	];
+	/** @var Resolver[] */
+	private $resolvers;
 
-	public function getTemplate(string $component, string $view, string $componentType): string
+	/**
+	 * @param Resolver[] $resolvers
+	 */
+	public function __construct(array $resolvers)
 	{
-		//většinou renderuju jednu konkrétní šablonu pro kontrolku/presenter/email
+		$this->resolvers = $resolvers;
 	}
 
 	/**
-	 * @return string[]
+	 * @param string[] $parameters
+	 * @throws NoTemplateFoundException
 	 */
-	public function getTemplates(string $component, string $view, string $componentType): array
+	public function getTemplatePath(object $templateAbleObject, string $view, array $parameters = []): string
 	{
-		//pro datagrid mám více šablon
-		return [];
+		foreach ($this->resolvers as $resolver) {
+			try {
+				return $resolver->getTemplatePath($templateAbleObject, $view, $parameters);
+			} catch (IncompatibleResolverException $exception) {
+				continue;
+			}
+		}
+
+		throw new InvalidStateException(sprintf('No theme resolver found for object of type \'%s\'', get_class($templateAbleObject)));
 	}
 
 }

@@ -40,6 +40,10 @@
 		</properties>
 	</rule>
 
+	<rule ref="Squiz.Commenting.FunctionComment.InvalidNoReturn">
+		<exclude-pattern>packages/core-ext-ui/src/Themes/ThemeAblePresenter.php</exclude-pattern>
+	</rule>
+
 	<rule ref="Squiz.Classes.ValidClassName.NotCamelCaps">
 		<exclude-pattern>packages/module-installer/src/Schemas</exclude-pattern>
 	</rule>

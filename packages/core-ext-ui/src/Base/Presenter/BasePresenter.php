@@ -2,13 +2,12 @@
 
 namespace Modette\UI\Base\Presenter;
 
-use Contributte\Application\UI\Presenter\StructuredTemplates;
 use Modette\Core\Logging\LoggerAccessor;
-use Modette\Templates\Themes\Bridges\NetteApplication\ThemeAblePresenter;
 use Modette\UI\Control\Document\DocumentControl;
 use Modette\UI\Control\Document\DocumentFactory;
 use Modette\UI\FakeTranslator;
 use Modette\UI\InternalError\Presenter\InternalErrorPresenter;
+use Modette\UI\Themes\ThemeAblePresenter;
 use Modette\UI\Utils\FlashesMapper;
 use Modette\UI\Utils\FlashMessages;
 use Modette\UI\Utils\TranslateShortcut;
@@ -22,13 +21,12 @@ use Psr\Log\LoggerInterface;
  * @method BasePresenterTemplate getTemplate()
  * @property-read BasePresenter         $presenter
  * @property-read BasePresenterTemplate $template
- * @property-read null $user
+ * @property-read null                  $user
  */
 abstract class BasePresenter extends NettePresenter
 {
 
 	use FlashMessages;
-	use StructuredTemplates;
 	use ThemeAblePresenter;
 	use TranslateShortcut;
 

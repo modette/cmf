@@ -1,0 +1,5 @@
+parameters:
+	ignoreErrors:
+		# Should not happen
+		- message: '#^Parameter \#1 \$path of function dirname expects string, string\|false given.$#'
+		  path: %currentWorkingDirectory%/src/Themes/Utils/Classes.php

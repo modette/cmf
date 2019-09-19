@@ -11,6 +11,14 @@ console.cache:
 			%rootDir%
 		)
 
+latte:
+	templateClass: Modette\Templates\Themes\ThemedTemplate
+
 services:
-	modette.templates.templateCleaner:
-		factory: Modette\Templates\TemplateCleaner
+	modette.templates.templateConfigurator:
+		factory: Modette\Templates\TemplateConfigurator
+
+	modette.template.themes.theme:
+		factory: Modette\Templates\Themes\Theme
+		arguments:
+			- typed(Modette\Templates\Themes\Resolving\Resolver)

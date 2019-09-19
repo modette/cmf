@@ -91,6 +91,11 @@ services:
 		type: Modette\UI\InternalError\Presenter\InternalErrorPresenter
 		factory: Modette\UI\InternalError\Presenter\InternalErrorPresenter
 
+	# Themes
+	modette.ui.themes.resolving.control:
+		factory: Modette\UI\Themes\Resolving\ControlResolver
+		type: Modette\Templates\Themes\Resolving\Resolver
+
 	# Document basic controls
 	modette.ui.control.body.factory:
 		implement: Modette\UI\Control\Body\BodyFactory
