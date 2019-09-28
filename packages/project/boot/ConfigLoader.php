@@ -8,6 +8,6 @@ final class ConfigLoader extends Loader
 {
 
 	/** @var mixed[] */
-	protected $files = [];
+	protected $schema = [];
 
 }
