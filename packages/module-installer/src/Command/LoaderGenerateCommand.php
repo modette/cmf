@@ -26,16 +26,18 @@ final class LoaderGenerateCommand extends BaseCommand
 	protected function execute(InputInterface $input, OutputInterface $output): int
 	{
 		$composer = $this->getComposer();
+		$fileName = File::DEFAULT_NAME;
+		$activator = new PluginActivator($composer, $fileName);
 
-		if (!PluginActivator::isEnabled($composer)) {
+		if (!$activator->isEnabled()) {
 			throw new Exception(sprintf(
 				'Cannot generate module loader, \'%s\' with \'loader\' option must be configured.',
-				File::DEFAULT_NAME
+				$fileName
 			));
 		}
 
 		$io = new SymfonyStyle($input, $output);
-		$loaderGenerator = new LoaderGenerator($composer);
+		$loaderGenerator = new LoaderGenerator($composer, $activator->getConfiguration());
 
 		$loaderGenerator->generateLoader();
 		$io->success('Modules loader successfully generated');

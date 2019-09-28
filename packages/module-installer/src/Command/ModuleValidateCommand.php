@@ -36,6 +36,7 @@ final class ModuleValidateCommand extends BaseCommand
 	protected function execute(InputInterface $input, OutputInterface $output): int
 	{
 		$composer = $this->getComposer();
+		$fileName = File::DEFAULT_NAME;
 		$validator = new ConfigurationValidator($composer);
 		$io = new SymfonyStyle($input, $output);
 
@@ -50,8 +51,8 @@ final class ModuleValidateCommand extends BaseCommand
 			$package = $composer->getPackage();
 		}
 
-		$validator->validateConfiguration($package, File::DEFAULT_NAME);
-		$io->success(sprintf('%s successfully validated', File::DEFAULT_NAME));
+		$validator->validateConfiguration($package, $fileName);
+		$io->success(sprintf('%s successfully validated', $fileName));
 
 		return 0;
 	}

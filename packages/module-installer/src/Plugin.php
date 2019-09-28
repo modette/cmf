@@ -13,6 +13,7 @@ use Composer\Plugin\PluginInterface;
 use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
 use Modette\ModuleInstaller\Command\CommandProvider;
+use Modette\ModuleInstaller\Files\File;
 use Modette\ModuleInstaller\Loading\LoaderGenerator;
 use Modette\ModuleInstaller\Utils\PluginActivator;
 
@@ -66,11 +67,13 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
 
 	private function generateLoader(Composer $composer): void
 	{
-		if (!PluginActivator::isEnabled($composer)) {
+		$activator = new PluginActivator($composer, File::DEFAULT_NAME);
+
+		if (!$activator->isEnabled()) {
 			return;
 		}
 
-		$loaderGenerator = new LoaderGenerator($composer);
+		$loaderGenerator = new LoaderGenerator($composer, $activator->getConfiguration());
 		$loaderGenerator->generateLoader();
 	}
 

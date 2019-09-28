@@ -4,14 +4,15 @@ namespace Modette\ModuleInstaller\Loading;
 
 use Composer\Composer;
 use Composer\Package\PackageInterface;
-use Composer\Package\RootPackageInterface;
 use Exception;
+use Modette\Exceptions\Logic\InvalidStateException;
 use Modette\ModuleInstaller\Files\File;
 use Modette\ModuleInstaller\Files\FileIO;
 use Modette\ModuleInstaller\Package\ConfigurationValidator;
 use Modette\ModuleInstaller\Package\LoaderConfiguration;
 use Modette\ModuleInstaller\Package\PackageConfiguration;
 use Modette\ModuleInstaller\Utils\PathResolver;
+use Modette\ModuleInstaller\Utils\PluginActivator;
 use Nette\PhpGenerator\ClassType;
 use Nette\PhpGenerator\PhpFile;
 
@@ -30,26 +31,31 @@ final class LoaderGenerator
 	/** @var ConfigurationValidator */
 	private $validator;
 
-	public function __construct(Composer $composer)
+	/** @var PackageConfiguration */
+	private $rootPackageConfiguration;
+
+	public function __construct(Composer $composer, PackageConfiguration $rootPackageConfiguration)
 	{
 		$this->composer = $composer;
 		$this->io = new FileIO();
 		$this->pathResolver = new PathResolver($composer);
 		$this->validator = new ConfigurationValidator($composer);
+		$this->rootPackageConfiguration = $rootPackageConfiguration;
 	}
 
 	public function generateLoader(): void
 	{
-		$rootPackage = $this->composer->getPackage();
-		$rootPackageConfiguration = $this->validator->validateConfiguration($rootPackage, File::DEFAULT_NAME);
-		$loaderConfiguration = $rootPackageConfiguration->getLoader();
+		$loaderConfiguration = $this->rootPackageConfiguration->getLoader();
 
 		if ($loaderConfiguration === null) {
-			throw new Exception('Should not happen - loader should be always available by this moment. Entry point should check if plugin is activated.');
+			throw new InvalidStateException(sprintf(
+				'Loader should be always available by this moment. Entry point should check if plugin is activated with \'%s\'',
+				PluginActivator::class
+			));
 		}
 
 		$packages = $this->composer->getRepositoryManager()->getLocalRepository()->getCanonicalPackages();
-		$packages = $this->filterPackages($packages, $rootPackage, $rootPackageConfiguration);
+		$packages = $this->filterPackages($packages, $this->rootPackageConfiguration->getPackage(), $this->rootPackageConfiguration);
 
 		//TODO - sort packages by priority - https://github.com/modette/modette/issues/17
 		// composer show --tree
@@ -63,7 +69,7 @@ final class LoaderGenerator
 			$packageConfigurations[] = $this->validator->validateConfiguration($package, File::DEFAULT_NAME);
 		}
 
-		$packageConfigurations[] = $rootPackageConfiguration;
+		$packageConfigurations[] = $this->rootPackageConfiguration;
 
 		$this->generateClass($loaderConfiguration, $packageConfigurations);
 	}
@@ -72,7 +78,7 @@ final class LoaderGenerator
 	 * @param PackageInterface[] $packages
 	 * @return PackageInterface[]
 	 */
-	private function filterPackages(array $packages, RootPackageInterface $rootPackage, PackageConfiguration $rootPackageConfiguration): array
+	private function filterPackages(array $packages, PackageInterface $rootPackage, PackageConfiguration $rootPackageConfiguration): array
 	{
 		foreach ($packages as $key => $package) {
 			// Package ignored by config
