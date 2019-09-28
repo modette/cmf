@@ -3,11 +3,11 @@
 namespace Modette\ModuleInstaller\Loading;
 
 use Composer\Composer;
-use Composer\Package\PackageInterface;
 use Modette\Exceptions\Logic\InvalidArgumentException;
 use Modette\Exceptions\Logic\InvalidStateException;
 use Modette\ModuleInstaller\Files\File;
 use Modette\ModuleInstaller\Files\FileIO;
+use Modette\ModuleInstaller\Filtering\PackageFilter;
 use Modette\ModuleInstaller\Package\ConfigurationValidator;
 use Modette\ModuleInstaller\Package\LoaderConfiguration;
 use Modette\ModuleInstaller\Package\PackageConfiguration;
@@ -54,14 +54,13 @@ final class LoaderGenerator
 			));
 		}
 
-		$packages = $this->composer->getRepositoryManager()->getLocalRepository()->getCanonicalPackages();
-		$packages = $this->filterPackages($packages, $this->rootPackageConfiguration->getPackage(), $this->rootPackageConfiguration);
+		$filter = new PackageFilter(
+			$this->composer->getRepositoryManager()->getLocalRepository()->getCanonicalPackages(),
+			$this->pathResolver,
+			$this->rootPackageConfiguration
+		);
 
-		//TODO - sort packages by priority - https://github.com/modette/modette/issues/17
-		// composer show --tree
-		// https://github.com/schmittjoh/composer-deps-analyzer
-		// https://github.com/bulton-fr/dependency-tree
-		// $packages = $this->>sortPackagesByPriority($packages);
+		$packages = $filter->getFilteredPackages();
 
 		$packageConfigurations = [];
 
@@ -72,32 +71,6 @@ final class LoaderGenerator
 		$packageConfigurations[] = $this->rootPackageConfiguration;
 
 		$this->generateClass($loaderConfiguration, $packageConfigurations);
-	}
-
-	/**
-	 * @param PackageInterface[] $packages
-	 * @return PackageInterface[]
-	 */
-	private function filterPackages(array $packages, PackageInterface $rootPackage, PackageConfiguration $rootPackageConfiguration): array
-	{
-		foreach ($packages as $key => $package) {
-			// Package ignored by config
-			if (in_array($package->getName(), $rootPackageConfiguration->getIgnoredPackages(), true)) {
-				unset($packages[$key]);
-			}
-
-			// Ignore packages without modette.neon
-			if (!file_exists($this->pathResolver->getConfigFileFqn($package))) {
-				unset($packages[$key]);
-			}
-
-			// Filter out root package, handled separately
-			if ($package === $rootPackage) {
-				unset($packages[$key]);
-			}
-		}
-
-		return $packages;
 	}
 
 	/**
