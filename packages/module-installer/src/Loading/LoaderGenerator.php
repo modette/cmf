@@ -5,12 +5,11 @@ namespace Modette\ModuleInstaller\Loading;
 use Composer\Composer;
 use Modette\Exceptions\Logic\InvalidArgumentException;
 use Modette\Exceptions\Logic\InvalidStateException;
-use Modette\ModuleInstaller\Files\File;
 use Modette\ModuleInstaller\Files\FileIO;
-use Modette\ModuleInstaller\Filtering\PackageFilter;
 use Modette\ModuleInstaller\Package\ConfigurationValidator;
 use Modette\ModuleInstaller\Package\LoaderConfiguration;
 use Modette\ModuleInstaller\Package\PackageConfiguration;
+use Modette\ModuleInstaller\Resolving\ModuleResolver;
 use Modette\ModuleInstaller\Utils\PathResolver;
 use Modette\ModuleInstaller\Utils\PluginActivator;
 use Nette\PhpGenerator\ClassType;
@@ -54,23 +53,14 @@ final class LoaderGenerator
 			));
 		}
 
-		$filter = new PackageFilter(
-			$this->composer->getRepositoryManager()->getLocalRepository()->getCanonicalPackages(),
+		$resolver = new ModuleResolver(
+			$this->composer,
 			$this->pathResolver,
+			$this->validator,
 			$this->rootPackageConfiguration
 		);
 
-		$packages = $filter->getFilteredPackages();
-
-		$packageConfigurations = [];
-
-		foreach ($packages as $package) {
-			$packageConfigurations[] = $this->validator->validateConfiguration($package, File::DEFAULT_NAME);
-		}
-
-		$packageConfigurations[] = $this->rootPackageConfiguration;
-
-		$this->generateClass($loaderConfiguration, $packageConfigurations);
+		$this->generateClass($loaderConfiguration, $resolver->getResolvedConfigurations());
 	}
 
 	/**
