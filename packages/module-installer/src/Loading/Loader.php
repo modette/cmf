@@ -2,7 +2,7 @@
 
 namespace Modette\ModuleInstaller\Loading;
 
-use Exception;
+use Modette\Exceptions\Logic\InvalidStateException;
 
 abstract class Loader
 {
@@ -21,7 +21,7 @@ abstract class Loader
 		foreach ($this->files as $file) {
 			foreach ($file['parameters'] as $parameterName => $parameterValue) {
 				if (!array_key_exists($parameterName, $parameters)) {
-					throw new Exception(sprintf(
+					throw new InvalidStateException(sprintf(
 						'Parameter \'%s\' not available, cannot check config file \'%s\' availability. Be beware of fact that dynamic parameters are not supported.',
 						$parameterName,
 						$file['file']

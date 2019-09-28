@@ -3,7 +3,7 @@
 namespace Modette\ModuleInstaller\Command;
 
 use Composer\Command\BaseCommand;
-use Exception;
+use Modette\Exceptions\Logic\InvalidStateException;
 use Modette\ModuleInstaller\Files\File;
 use Modette\ModuleInstaller\Loading\LoaderGenerator;
 use Modette\ModuleInstaller\Utils\PluginActivator;
@@ -30,7 +30,7 @@ final class LoaderGenerateCommand extends BaseCommand
 		$activator = new PluginActivator($composer, $fileName);
 
 		if (!$activator->isEnabled()) {
-			throw new Exception(sprintf(
+			throw new InvalidStateException(sprintf(
 				'Cannot generate module loader, \'%s\' with \'loader\' option must be configured.',
 				$fileName
 			));

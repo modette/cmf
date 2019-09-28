@@ -4,7 +4,7 @@ namespace Modette\ModuleInstaller\Loading;
 
 use Composer\Composer;
 use Composer\Package\PackageInterface;
-use Exception;
+use Modette\Exceptions\Logic\InvalidArgumentException;
 use Modette\Exceptions\Logic\InvalidStateException;
 use Modette\ModuleInstaller\Files\File;
 use Modette\ModuleInstaller\Files\FileIO;
@@ -109,7 +109,7 @@ final class LoaderGenerator
 		$lastSlashPosition = strrpos($fqn, '\\');
 
 		if ($lastSlashPosition === false) {
-			throw new Exception('Namespace of loader class must be specified.');
+			throw new InvalidArgumentException('Namespace of loader class must be specified.');
 		}
 
 		$classString = substr($fqn, $lastSlashPosition + 1);
