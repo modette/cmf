@@ -2,7 +2,6 @@
 
 namespace Modette\ModuleInstaller\Package;
 
-use Composer\Composer;
 use Composer\Package\PackageInterface;
 use Modette\ModuleInstaller\Exception\InvalidConfigurationException;
 use Modette\ModuleInstaller\Files\FileIO;
@@ -21,10 +20,10 @@ final class ConfigurationValidator
 	/** @var PathResolver */
 	private $pathResolver;
 
-	public function __construct(Composer $composer)
+	public function __construct(FileIO $io, PathResolver $pathResolver)
 	{
-		$this->io = new FileIO();
-		$this->pathResolver = new PathResolver($composer);
+		$this->io = $io;
+		$this->pathResolver = $pathResolver;
 	}
 
 	public function validateConfiguration(PackageInterface $package, string $fileName): PackageConfiguration

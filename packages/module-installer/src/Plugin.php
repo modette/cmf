@@ -14,7 +14,10 @@ use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
 use Modette\ModuleInstaller\Command\CommandProvider;
 use Modette\ModuleInstaller\Files\File;
+use Modette\ModuleInstaller\Files\FileIO;
 use Modette\ModuleInstaller\Loading\LoaderGenerator;
+use Modette\ModuleInstaller\Package\ConfigurationValidator;
+use Modette\ModuleInstaller\Utils\PathResolver;
 use Modette\ModuleInstaller\Utils\PluginActivator;
 
 final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
@@ -67,13 +70,21 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
 
 	private function generateLoader(Composer $composer): void
 	{
-		$activator = new PluginActivator($composer, File::DEFAULT_NAME);
+		$pathResolver = new PathResolver($composer);
+		$fileIo = new FileIO();
+		$validator = new ConfigurationValidator($fileIo, $pathResolver);
+		$activator = new PluginActivator(
+			$composer->getPackage(),
+			$validator,
+			$pathResolver,
+			File::DEFAULT_NAME
+		);
 
 		if (!$activator->isEnabled()) {
 			return;
 		}
 
-		$loaderGenerator = new LoaderGenerator($composer, $activator->getConfiguration());
+		$loaderGenerator = new LoaderGenerator($composer, $fileIo, $pathResolver, $validator, $activator->getRootPackageConfiguration());
 		$loaderGenerator->generateLoader();
 	}
 

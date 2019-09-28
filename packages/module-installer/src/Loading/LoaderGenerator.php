@@ -34,12 +34,12 @@ final class LoaderGenerator
 	/** @var PackageConfiguration */
 	private $rootPackageConfiguration;
 
-	public function __construct(Composer $composer, PackageConfiguration $rootPackageConfiguration)
+	public function __construct(Composer $composer, FileIO $io, PathResolver $pathResolver, ConfigurationValidator $validator, PackageConfiguration $rootPackageConfiguration)
 	{
 		$this->composer = $composer;
-		$this->io = new FileIO();
-		$this->pathResolver = new PathResolver($composer);
-		$this->validator = new ConfigurationValidator($composer);
+		$this->io = $io;
+		$this->pathResolver = $pathResolver;
+		$this->validator = $validator;
 		$this->rootPackageConfiguration = $rootPackageConfiguration;
 	}
 

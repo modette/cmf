@@ -2,7 +2,7 @@
 
 namespace Modette\ModuleInstaller\Utils;
 
-use Composer\Composer;
+use Composer\Package\PackageInterface;
 use Modette\Exceptions\Logic\InvalidStateException;
 use Modette\ModuleInstaller\Package\ConfigurationValidator;
 use Modette\ModuleInstaller\Package\PackageConfiguration;
@@ -10,8 +10,14 @@ use Modette\ModuleInstaller\Package\PackageConfiguration;
 final class PluginActivator
 {
 
-	/** @var Composer */
-	private $composer;
+	/** @var PackageInterface */
+	private $rootPackage;
+
+	/** @var ConfigurationValidator */
+	private $validator;
+
+	/** @var PathResolver */
+	private $pathResolver;
 
 	/** @var string */
 	private $fileName;
@@ -22,9 +28,11 @@ final class PluginActivator
 	/** @var string|null */
 	private $configFileFqn;
 
-	public function __construct(Composer $composer, string $fileName)
+	public function __construct(PackageInterface $rootPackage, ConfigurationValidator $validator, PathResolver $pathResolver, string $fileName)
 	{
-		$this->composer = $composer;
+		$this->rootPackage = $rootPackage;
+		$this->validator = $validator;
+		$this->pathResolver = $pathResolver;
 		$this->fileName = $fileName;
 	}
 
@@ -34,10 +42,10 @@ final class PluginActivator
 			return false;
 		}
 
-		return $this->getConfiguration()->getLoader() !== null;
+		return $this->getRootPackageConfiguration()->getLoader() !== null;
 	}
 
-	public function getConfiguration(): PackageConfiguration
+	public function getRootPackageConfiguration(): PackageConfiguration
 	{
 		if ($this->configuration !== null) {
 			return $this->configuration;
@@ -51,8 +59,7 @@ final class PluginActivator
 			));
 		}
 
-		$validator = new ConfigurationValidator($this->composer);
-		$configuration = $this->configuration = $validator->validateConfiguration($this->composer->getPackage(), $this->fileName);
+		$configuration = $this->configuration = $this->validator->validateConfiguration($this->rootPackage, $this->fileName);
 
 		return $configuration;
 	}
@@ -63,9 +70,7 @@ final class PluginActivator
 			return $this->configFileFqn;
 		}
 
-		$pathResolver = new PathResolver($this->composer);
-		$rootPackage = $this->composer->getPackage();
-		$configFile = $this->configFileFqn = $pathResolver->getConfigFileFqn($rootPackage, $this->fileName);
+		$configFile = $this->configFileFqn = $this->pathResolver->getConfigFileFqn($this->rootPackage, $this->fileName);
 
 		return $configFile;
 	}

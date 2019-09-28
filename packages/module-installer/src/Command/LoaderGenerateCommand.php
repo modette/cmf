@@ -5,7 +5,10 @@ namespace Modette\ModuleInstaller\Command;
 use Composer\Command\BaseCommand;
 use Modette\Exceptions\Logic\InvalidStateException;
 use Modette\ModuleInstaller\Files\File;
+use Modette\ModuleInstaller\Files\FileIO;
 use Modette\ModuleInstaller\Loading\LoaderGenerator;
+use Modette\ModuleInstaller\Package\ConfigurationValidator;
+use Modette\ModuleInstaller\Utils\PathResolver;
 use Modette\ModuleInstaller\Utils\PluginActivator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -27,7 +30,16 @@ final class LoaderGenerateCommand extends BaseCommand
 	{
 		$composer = $this->getComposer();
 		$fileName = File::DEFAULT_NAME;
-		$activator = new PluginActivator($composer, $fileName);
+
+		$pathResolver = new PathResolver($composer);
+		$fileIo = new FileIO();
+		$validator = new ConfigurationValidator($fileIo, $pathResolver);
+		$activator = new PluginActivator(
+			$composer->getPackage(),
+			$validator,
+			$pathResolver,
+			$fileName
+		);
 
 		if (!$activator->isEnabled()) {
 			throw new InvalidStateException(sprintf(
@@ -37,7 +49,7 @@ final class LoaderGenerateCommand extends BaseCommand
 		}
 
 		$io = new SymfonyStyle($input, $output);
-		$loaderGenerator = new LoaderGenerator($composer, $activator->getConfiguration());
+		$loaderGenerator = new LoaderGenerator($composer, $fileIo, $pathResolver, $validator, $activator->getRootPackageConfiguration());
 
 		$loaderGenerator->generateLoader();
 		$io->success('Modules loader successfully generated');

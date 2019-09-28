@@ -6,7 +6,9 @@ use Composer\Command\BaseCommand;
 use Composer\Semver\Constraint\EmptyConstraint;
 use LogicException;
 use Modette\ModuleInstaller\Files\File;
+use Modette\ModuleInstaller\Files\FileIO;
 use Modette\ModuleInstaller\Package\ConfigurationValidator;
+use Modette\ModuleInstaller\Utils\PathResolver;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -37,7 +39,8 @@ final class ModuleValidateCommand extends BaseCommand
 	{
 		$composer = $this->getComposer();
 		$fileName = File::DEFAULT_NAME;
-		$validator = new ConfigurationValidator($composer);
+		$pathResolver = new PathResolver($composer);
+		$validator = new ConfigurationValidator(new FileIO(), $pathResolver);
 		$io = new SymfonyStyle($input, $output);
 
 		if (($packageName = $input->getOption(self::OPTION_PACKAGE)) !== null) {
