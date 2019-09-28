@@ -65,7 +65,7 @@ final class PluginActivator
 
 		$pathResolver = new PathResolver($this->composer);
 		$rootPackage = $this->composer->getPackage();
-		$configFile = $this->configFileFqn = $pathResolver->getConfigFileFqn($rootPackage);
+		$configFile = $this->configFileFqn = $pathResolver->getConfigFileFqn($rootPackage, $this->fileName);
 
 		return $configFile;
 	}

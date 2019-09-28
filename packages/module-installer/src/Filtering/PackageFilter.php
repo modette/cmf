@@ -3,6 +3,7 @@
 namespace Modette\ModuleInstaller\Filtering;
 
 use Composer\Package\PackageInterface;
+use Modette\ModuleInstaller\Files\File;
 use Modette\ModuleInstaller\Package\PackageConfiguration;
 use Modette\ModuleInstaller\Utils\PathResolver;
 
@@ -50,7 +51,7 @@ final class PackageFilter
 			}
 
 			// Ignore packages without modette.neon
-			if (!file_exists($this->pathResolver->getConfigFileFqn($package))) {
+			if (!file_exists($this->pathResolver->getConfigFileFqn($package, File::DEFAULT_NAME))) {
 				unset($packages[$key]);
 			}
 

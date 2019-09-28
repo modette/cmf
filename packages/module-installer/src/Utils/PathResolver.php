@@ -4,7 +4,6 @@ namespace Modette\ModuleInstaller\Utils;
 
 use Composer\Composer;
 use Composer\Package\PackageInterface;
-use Modette\ModuleInstaller\Files\File;
 
 final class PathResolver
 {
@@ -33,7 +32,7 @@ final class PathResolver
 		return substr($this->getAbsolutePath($package), strlen($this->getRootDir()));
 	}
 
-	public function getConfigFileFqn(PackageInterface $package, string $fileName = File::DEFAULT_NAME): string
+	public function getConfigFileFqn(PackageInterface $package, string $fileName): string
 	{
 		return $this->getAbsolutePath($package) . '/' . $fileName;
 	}

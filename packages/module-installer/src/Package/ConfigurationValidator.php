@@ -29,7 +29,7 @@ final class ConfigurationValidator
 
 	public function validateConfiguration(PackageInterface $package, string $fileName): PackageConfiguration
 	{
-		$configFile = $this->pathResolver->getConfigFileFqn($package);
+		$configFile = $this->pathResolver->getConfigFileFqn($package, $fileName);
 		$configuration = $this->io->read($configFile);
 
 		if (!isset($configuration['version'])) {
