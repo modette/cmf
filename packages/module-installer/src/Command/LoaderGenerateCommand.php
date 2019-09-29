@@ -2,9 +2,7 @@
 
 namespace Modette\ModuleInstaller\Command;
 
-use Composer\Command\BaseCommand;
 use Modette\Exceptions\Logic\InvalidStateException;
-use Modette\ModuleInstaller\Files\File;
 use Modette\ModuleInstaller\Files\FileIO;
 use Modette\ModuleInstaller\Loading\LoaderGenerator;
 use Modette\ModuleInstaller\Package\ConfigurationValidator;
@@ -22,6 +20,8 @@ final class LoaderGenerateCommand extends BaseCommand
 
 	protected function configure(): void
 	{
+		parent::configure();
+
 		$this->setName(self::$defaultName);
 		$this->setDescription('Generate modules loader');
 	}
@@ -29,7 +29,9 @@ final class LoaderGenerateCommand extends BaseCommand
 	protected function execute(InputInterface $input, OutputInterface $output): int
 	{
 		$composer = $this->getComposer();
-		$fileName = File::DEFAULT_NAME;
+
+		$fileName = $input->getOption(self::OPTION_FILE);
+		assert(is_string($fileName));
 
 		$pathResolver = new PathResolver($composer);
 		$fileIo = new FileIO();

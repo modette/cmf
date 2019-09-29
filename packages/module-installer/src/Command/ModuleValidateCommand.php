@@ -2,7 +2,6 @@
 
 namespace Modette\ModuleInstaller\Command;
 
-use Composer\Command\BaseCommand;
 use Composer\Semver\Constraint\EmptyConstraint;
 use LogicException;
 use Modette\ModuleInstaller\Files\File;
@@ -24,6 +23,8 @@ final class ModuleValidateCommand extends BaseCommand
 
 	protected function configure(): void
 	{
+		parent::configure();
+
 		$this->setName(self::$defaultName);
 		$this->setDescription(sprintf('Validate %s', File::DEFAULT_NAME));
 
@@ -38,7 +39,10 @@ final class ModuleValidateCommand extends BaseCommand
 	protected function execute(InputInterface $input, OutputInterface $output): int
 	{
 		$composer = $this->getComposer();
-		$fileName = File::DEFAULT_NAME;
+
+		$fileName = $input->getOption(self::OPTION_FILE);
+		assert(is_string($fileName));
+
 		$pathResolver = new PathResolver($composer);
 		$validator = new ConfigurationValidator(new FileIO(), $pathResolver);
 		$io = new SymfonyStyle($input, $output);
