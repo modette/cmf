@@ -2,7 +2,7 @@
 
 namespace Modette\ModuleInstaller\Loading;
 
-use Composer\Composer;
+use Composer\Repository\WritableRepositoryInterface;
 use Modette\Exceptions\Logic\InvalidArgumentException;
 use Modette\Exceptions\Logic\InvalidStateException;
 use Modette\ModuleInstaller\Files\FileIO;
@@ -18,8 +18,8 @@ use Nette\PhpGenerator\PhpFile;
 final class LoaderGenerator
 {
 
-	/** @var Composer */
-	private $composer;
+	/** @var WritableRepositoryInterface */
+	private $repository;
 
 	/** @var FileIO */
 	private $io;
@@ -33,9 +33,9 @@ final class LoaderGenerator
 	/** @var PackageConfiguration */
 	private $rootPackageConfiguration;
 
-	public function __construct(Composer $composer, FileIO $io, PathResolver $pathResolver, ConfigurationValidator $validator, PackageConfiguration $rootPackageConfiguration)
+	public function __construct(WritableRepositoryInterface $repository, FileIO $io, PathResolver $pathResolver, ConfigurationValidator $validator, PackageConfiguration $rootPackageConfiguration)
 	{
-		$this->composer = $composer;
+		$this->repository = $repository;
 		$this->io = $io;
 		$this->pathResolver = $pathResolver;
 		$this->validator = $validator;
@@ -54,7 +54,7 @@ final class LoaderGenerator
 		}
 
 		$resolver = new ModuleResolver(
-			$this->composer,
+			$this->repository,
 			$this->pathResolver,
 			$this->validator,
 			$this->rootPackageConfiguration

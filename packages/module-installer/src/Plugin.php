@@ -84,7 +84,14 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
 			return;
 		}
 
-		$loaderGenerator = new LoaderGenerator($composer, $fileIo, $pathResolver, $validator, $activator->getRootPackageConfiguration());
+		$loaderGenerator = new LoaderGenerator(
+			$composer->getRepositoryManager()->getLocalRepository(),
+			$fileIo,
+			$pathResolver,
+			$validator,
+			$activator->getRootPackageConfiguration()
+		);
+
 		$loaderGenerator->generateLoader();
 	}
 

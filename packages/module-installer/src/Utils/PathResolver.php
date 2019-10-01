@@ -18,13 +18,11 @@ final class PathResolver
 
 	public function getAbsolutePath(PackageInterface $package): string
 	{
-		$installationManager = $this->composer->getInstallationManager();
-
 		if ($package === $this->composer->getPackage()) {
 			return $this->getRootDir();
 		}
 
-		return $installationManager->getInstallPath($package);
+		return $this->composer->getInstallationManager()->getInstallPath($package);
 	}
 
 	public function getRelativePath(PackageInterface $package): string

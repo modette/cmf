@@ -2,8 +2,8 @@
 
 namespace Modette\ModuleInstaller\Resolving;
 
-use Composer\Composer;
 use Composer\Package\PackageInterface;
+use Composer\Repository\WritableRepositoryInterface;
 use Modette\ModuleInstaller\Files\File;
 use Modette\ModuleInstaller\Package\ConfigurationValidator;
 use Modette\ModuleInstaller\Package\PackageConfiguration;
@@ -12,8 +12,8 @@ use Modette\ModuleInstaller\Utils\PathResolver;
 final class ModuleResolver
 {
 
-	/** @var Composer */
-	private $composer;
+	/** @var WritableRepositoryInterface */
+	private $repository;
 
 	/** @var PathResolver */
 	private $pathResolver;
@@ -24,9 +24,9 @@ final class ModuleResolver
 	/** @var PackageConfiguration */
 	private $rootPackageConfiguration;
 
-	public function __construct(Composer $composer, PathResolver $pathResolver, ConfigurationValidator $validator, PackageConfiguration $rootPackageConfiguration)
+	public function __construct(WritableRepositoryInterface $repository, PathResolver $pathResolver, ConfigurationValidator $validator, PackageConfiguration $rootPackageConfiguration)
 	{
-		$this->composer = $composer;
+		$this->repository = $repository;
 		$this->pathResolver = $pathResolver;
 		$this->validator = $validator;
 		$this->rootPackageConfiguration = $rootPackageConfiguration;
@@ -37,7 +37,7 @@ final class ModuleResolver
 	 */
 	public function getResolvedConfigurations(): array
 	{
-		$packages = $this->composer->getRepositoryManager()->getLocalRepository()->getCanonicalPackages();
+		$packages = $this->repository->getCanonicalPackages();
 
 		$packageConfigurations = [];
 

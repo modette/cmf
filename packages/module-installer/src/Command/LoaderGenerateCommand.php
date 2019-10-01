@@ -51,7 +51,13 @@ final class LoaderGenerateCommand extends BaseCommand
 		}
 
 		$io = new SymfonyStyle($input, $output);
-		$loaderGenerator = new LoaderGenerator($composer, $fileIo, $pathResolver, $validator, $activator->getRootPackageConfiguration());
+		$loaderGenerator = new LoaderGenerator(
+			$composer->getRepositoryManager()->getLocalRepository(),
+			$fileIo,
+			$pathResolver,
+			$validator,
+			$activator->getRootPackageConfiguration()
+		);
 
 		$loaderGenerator->generateLoader();
 		$io->success('Modules loader successfully generated');
