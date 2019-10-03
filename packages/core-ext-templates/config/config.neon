@@ -13,6 +13,7 @@ console.cache:
 
 latte:
 	templateClass: Modette\Templates\Themes\ThemedTemplate
+	strictTypes: true
 
 services:
 	modette.templates.templateConfigurator:
