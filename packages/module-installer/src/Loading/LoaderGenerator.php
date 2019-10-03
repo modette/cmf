@@ -6,7 +6,7 @@ use Composer\Repository\WritableRepositoryInterface;
 use Composer\Semver\Constraint\EmptyConstraint;
 use Modette\Exceptions\Logic\InvalidArgumentException;
 use Modette\Exceptions\Logic\InvalidStateException;
-use Modette\ModuleInstaller\Files\FileIO;
+use Modette\ModuleInstaller\Files\Writer;
 use Modette\ModuleInstaller\Package\ConfigurationValidator;
 use Modette\ModuleInstaller\Package\LoaderConfiguration;
 use Modette\ModuleInstaller\Package\PackageConfiguration;
@@ -22,8 +22,8 @@ final class LoaderGenerator
 	/** @var WritableRepositoryInterface */
 	private $repository;
 
-	/** @var FileIO */
-	private $io;
+	/** @var Writer */
+	private $writer;
 
 	/** @var PathResolver */
 	private $pathResolver;
@@ -34,10 +34,10 @@ final class LoaderGenerator
 	/** @var PackageConfiguration */
 	private $rootPackageConfiguration;
 
-	public function __construct(WritableRepositoryInterface $repository, FileIO $io, PathResolver $pathResolver, ConfigurationValidator $validator, PackageConfiguration $rootPackageConfiguration)
+	public function __construct(WritableRepositoryInterface $repository, Writer $writer, PathResolver $pathResolver, ConfigurationValidator $validator, PackageConfiguration $rootPackageConfiguration)
 	{
 		$this->repository = $repository;
-		$this->io = $io;
+		$this->writer = $writer;
 		$this->pathResolver = $pathResolver;
 		$this->validator = $validator;
 		$this->rootPackageConfiguration = $rootPackageConfiguration;
@@ -133,7 +133,7 @@ final class LoaderGenerator
 			->setComment('@var mixed[]');
 
 		$loaderFilePath = $this->pathResolver->getRootDir() . '/' . $loaderConfiguration->getFile();
-		$this->io->write($loaderFilePath, $file);
+		$this->writer->write($loaderFilePath, $file);
 	}
 
 }

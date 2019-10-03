@@ -6,11 +6,10 @@ use Composer\Downloader\FilesystemException;
 use Modette\Exceptions\Logic\InvalidArgumentException;
 use Modette\Exceptions\Logic\InvalidStateException;
 use Nette\Neon\Neon;
-use Nette\PhpGenerator\PhpFile;
 use Nette\Schema\Helpers;
 use Nette\Utils\Validators;
 
-final class FileIO
+final class NeonReader
 {
 
 	private const INCLUDES_KEY = 'includes';
@@ -94,17 +93,6 @@ final class FileIO
 		}
 
 		return $res;
-	}
-
-	public function write(string $file, PhpFile $content): void
-	{
-		$written = file_put_contents($file, (string) $content);
-
-		if ($written === false) {
-			throw new FilesystemException(
-				'An error occurred during writing of modules config file.'
-			);
-		}
 	}
 
 }

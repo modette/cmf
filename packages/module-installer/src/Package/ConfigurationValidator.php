@@ -4,7 +4,7 @@ namespace Modette\ModuleInstaller\Package;
 
 use Composer\Package\PackageInterface;
 use Modette\ModuleInstaller\Exception\InvalidConfigurationException;
-use Modette\ModuleInstaller\Files\FileIO;
+use Modette\ModuleInstaller\Files\NeonReader;
 use Modette\ModuleInstaller\Schemas\Schema;
 use Modette\ModuleInstaller\Schemas\Schema_1_0;
 use Modette\ModuleInstaller\Utils\PathResolver;
@@ -14,22 +14,22 @@ use Nette\Schema\ValidationException;
 final class ConfigurationValidator
 {
 
-	/** @var FileIO */
-	private $io;
+	/** @var NeonReader */
+	private $reader;
 
 	/** @var PathResolver */
 	private $pathResolver;
 
-	public function __construct(FileIO $io, PathResolver $pathResolver)
+	public function __construct(NeonReader $reader, PathResolver $pathResolver)
 	{
-		$this->io = $io;
+		$this->reader = $reader;
 		$this->pathResolver = $pathResolver;
 	}
 
 	public function validateConfiguration(PackageInterface $package, string $fileName): PackageConfiguration
 	{
 		$configFile = $this->pathResolver->getConfigFileFqn($package, $fileName);
-		$configuration = $this->io->read($configFile);
+		$configuration = $this->reader->read($configFile);
 
 		if (!isset($configuration['version'])) {
 			throw new InvalidConfigurationException($package, $fileName, 'The mandatory option \'version\' is missing.');

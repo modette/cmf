@@ -13,7 +13,8 @@ use Composer\Plugin\PluginInterface;
 use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
 use Modette\ModuleInstaller\Command\CommandProvider;
-use Modette\ModuleInstaller\Files\FileIO;
+use Modette\ModuleInstaller\Files\NeonReader;
+use Modette\ModuleInstaller\Files\Writer;
 use Modette\ModuleInstaller\Loading\LoaderGenerator;
 use Modette\ModuleInstaller\Package\ConfigurationValidator;
 use Modette\ModuleInstaller\Utils\PathResolver;
@@ -72,8 +73,7 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
 	private function generateLoader(Composer $composer): void
 	{
 		$pathResolver = new PathResolver($composer);
-		$fileIo = new FileIO();
-		$validator = new ConfigurationValidator($fileIo, $pathResolver);
+		$validator = new ConfigurationValidator(new NeonReader(), $pathResolver);
 		$activator = new PluginActivator(
 			$composer->getPackage(),
 			$validator,
@@ -87,7 +87,7 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
 
 		$loaderGenerator = new LoaderGenerator(
 			$composer->getRepositoryManager()->getLocalRepository(),
-			$fileIo,
+			new Writer(),
 			$pathResolver,
 			$validator,
 			$activator->getRootPackageConfiguration()

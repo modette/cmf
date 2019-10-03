@@ -3,7 +3,8 @@
 namespace Modette\ModuleInstaller\Command;
 
 use Modette\Exceptions\Logic\InvalidStateException;
-use Modette\ModuleInstaller\Files\FileIO;
+use Modette\ModuleInstaller\Files\NeonReader;
+use Modette\ModuleInstaller\Files\Writer;
 use Modette\ModuleInstaller\Loading\LoaderGenerator;
 use Modette\ModuleInstaller\Package\ConfigurationValidator;
 use Modette\ModuleInstaller\Utils\PathResolver;
@@ -34,8 +35,7 @@ final class LoaderGenerateCommand extends BaseCommand
 		assert(is_string($fileName));
 
 		$pathResolver = new PathResolver($composer);
-		$fileIo = new FileIO();
-		$validator = new ConfigurationValidator($fileIo, $pathResolver);
+		$validator = new ConfigurationValidator(new NeonReader(), $pathResolver);
 		$activator = new PluginActivator(
 			$composer->getPackage(),
 			$validator,
@@ -53,7 +53,7 @@ final class LoaderGenerateCommand extends BaseCommand
 		$io = new SymfonyStyle($input, $output);
 		$loaderGenerator = new LoaderGenerator(
 			$composer->getRepositoryManager()->getLocalRepository(),
-			$fileIo,
+			new Writer(),
 			$pathResolver,
 			$validator,
 			$activator->getRootPackageConfiguration()

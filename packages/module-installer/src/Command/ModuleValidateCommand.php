@@ -4,7 +4,7 @@ namespace Modette\ModuleInstaller\Command;
 
 use Composer\Semver\Constraint\EmptyConstraint;
 use LogicException;
-use Modette\ModuleInstaller\Files\FileIO;
+use Modette\ModuleInstaller\Files\NeonReader;
 use Modette\ModuleInstaller\Package\ConfigurationValidator;
 use Modette\ModuleInstaller\Plugin;
 use Modette\ModuleInstaller\Utils\PathResolver;
@@ -44,7 +44,7 @@ final class ModuleValidateCommand extends BaseCommand
 		assert(is_string($fileName));
 
 		$pathResolver = new PathResolver($composer);
-		$validator = new ConfigurationValidator(new FileIO(), $pathResolver);
+		$validator = new ConfigurationValidator(new NeonReader(), $pathResolver);
 		$io = new SymfonyStyle($input, $output);
 
 		if (($packageName = $input->getOption(self::OPTION_PACKAGE)) !== null) {
