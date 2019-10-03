@@ -5,6 +5,9 @@ namespace Modette\ModuleInstaller\Configuration;
 final class LoaderConfiguration
 {
 
+	public const FILE_OPTION = 'file';
+	public const CLASS_OPTION = 'class';
+
 	/** @var string */
 	private $file;
 
@@ -16,8 +19,8 @@ final class LoaderConfiguration
 	 */
 	public function __construct(array $configuration)
 	{
-		$this->file = $configuration['file'];
-		$this->class = $configuration['class'];
+		$this->file = $configuration[self::FILE_OPTION];
+		$this->class = $configuration[self::CLASS_OPTION];
 	}
 
 	public function getFile(): string

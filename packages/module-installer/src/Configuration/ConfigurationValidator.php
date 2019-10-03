@@ -31,17 +31,26 @@ final class ConfigurationValidator
 		$configFile = $this->pathResolver->getConfigFileFqn($package, $fileName);
 		$configuration = $this->reader->read($configFile);
 
-		if (!isset($configuration['version'])) {
-			throw new InvalidConfigurationException($package, $fileName, 'The mandatory option \'version\' is missing.');
+		if (!isset($configuration[PackageConfiguration::VERSION_OPTION])) {
+			throw new InvalidConfigurationException(
+				$package,
+				$fileName,
+				sprintf('The mandatory option \'%s\' is missing.', PackageConfiguration::VERSION_OPTION)
+			);
 		}
 
-		$version = $configuration['version'];
+		$version = $configuration[PackageConfiguration::VERSION_OPTION];
 
 		if (!in_array($version, Schema::VERSIONS, true)) {
 			throw new InvalidConfigurationException(
 				$package,
 				$fileName,
-				sprintf('The option \'version\' expects to be %s, %s given.', implode('|', Schema::VERSIONS), $version)
+				sprintf(
+					'The option \'%s\' expects to be %s, %s given.',
+					PackageConfiguration::VERSION_OPTION,
+					implode('|', Schema::VERSIONS),
+					$version
+				)
 			);
 		}
 

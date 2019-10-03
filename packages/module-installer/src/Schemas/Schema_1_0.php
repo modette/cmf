@@ -2,6 +2,9 @@
 
 namespace Modette\ModuleInstaller\Schemas;
 
+use Modette\ModuleInstaller\Configuration\FileConfiguration;
+use Modette\ModuleInstaller\Configuration\LoaderConfiguration;
+use Modette\ModuleInstaller\Configuration\PackageConfiguration;
 use Nette\Schema\Elements\Structure;
 use Nette\Schema\Expect;
 
@@ -11,27 +14,27 @@ final class Schema_1_0 implements Schema
 	public function getStructure(): Structure
 	{
 		return Expect::structure([
-			'version' => Expect::anyOf(self::VERSION_1_0),
-			'loader' => Expect::anyOf(
+			PackageConfiguration::VERSION_OPTION => Expect::anyOf(self::VERSION_1_0),
+			PackageConfiguration::LOADER_OPTION => Expect::anyOf(
 				Expect::null(),
 				Expect::structure([
-					'file' => Expect::string()->required(),
-					'class' => Expect::string()->required(),
+					LoaderConfiguration::FILE_OPTION => Expect::string()->required(),
+					LoaderConfiguration::CLASS_OPTION => Expect::string()->required(),
 				])->castTo('array')
 			),
-			'files' => Expect::listOf(Expect::anyOf(
+			PackageConfiguration::FILES_OPTION => Expect::listOf(Expect::anyOf(
 				Expect::string(),
 				Expect::structure([
-					'file' => Expect::string()->required(),
-					'parameters' => Expect::arrayOf(
+					FileConfiguration::FILE_OPTION => Expect::string()->required(),
+					FileConfiguration::PARAMETERS_OPTION => Expect::arrayOf(
 						Expect::anyOf(Expect::array(), Expect::scalar(), Expect::null())
 					),
-					'packages' => Expect::listOf(
+					FileConfiguration::PACKAGES_OPTION => Expect::listOf(
 						Expect::string()
 					),
 				])->castTo('array')
 			)),
-			'ignore' => Expect::listOf(
+			PackageConfiguration::IGNORE_OPTION => Expect::listOf(
 				Expect::string()
 			),
 		])->castTo('array');

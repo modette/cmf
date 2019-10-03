@@ -7,6 +7,11 @@ use Composer\Package\PackageInterface;
 final class PackageConfiguration
 {
 
+	public const VERSION_OPTION = 'version';
+	public const LOADER_OPTION = 'loader';
+	public const FILES_OPTION = 'files';
+	public const IGNORE_OPTION = 'ignore';
+
 	/** @var float */
 	private $version;
 
@@ -27,10 +32,10 @@ final class PackageConfiguration
 	 */
 	public function __construct(array $configuration, PackageInterface $package)
 	{
-		$this->version = $configuration['version'];
-		$this->files = $this->normalizeFiles($configuration['files']);
-		$this->loader = $configuration['loader'] !== null ? new LoaderConfiguration($configuration['loader']) : null;
-		$this->ignoredPackages = $configuration['ignore'];
+		$this->version = $configuration[self::VERSION_OPTION];
+		$this->files = $this->normalizeFiles($configuration[self::FILES_OPTION]);
+		$this->loader = $configuration[self::LOADER_OPTION] !== null ? new LoaderConfiguration($configuration[self::LOADER_OPTION]) : null;
+		$this->ignoredPackages = $configuration[self::IGNORE_OPTION];
 		$this->package = $package;
 	}
 
@@ -76,9 +81,9 @@ final class PackageConfiguration
 		foreach ($files as $file) {
 			if (is_string($file)) {
 				$file = [
-					'file' => $file,
-					'parameters' => [],
-					'packages' => [],
+					FileConfiguration::FILE_OPTION => $file,
+					FileConfiguration::PARAMETERS_OPTION => [],
+					FileConfiguration::PACKAGES_OPTION => [],
 				];
 			}
 
