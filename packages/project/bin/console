@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php declare(strict_types = 1);
 
-use Boot\Bootstrap;
+use App\Bootstrap;
 use Symfony\Component\Console\Application;
 
 require __DIR__ . '/../vendor/autoload.php';

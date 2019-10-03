@@ -8,11 +8,10 @@
 			<property name="rootNamespaces" type="array" value="
                 src   => App,
                 tests => Tests\App,
-                boot  => Boot,
             "/>
 		</properties>
 	</rule>
 
 	<!-- Ignore generated file -->
-	<exclude-pattern>boot/ConfigLoader.php</exclude-pattern>
+	<exclude-pattern>src/ConfigLoader.php</exclude-pattern>
 </ruleset>

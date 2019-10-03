@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace Boot;
+namespace App;
 
 use Modette\ModuleInstaller\Loading\Loader;
 
