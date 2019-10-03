@@ -4,8 +4,8 @@ namespace Modette\ModuleInstaller\Command;
 
 use Composer\Semver\Constraint\EmptyConstraint;
 use LogicException;
+use Modette\ModuleInstaller\Configuration\ConfigurationValidator;
 use Modette\ModuleInstaller\Files\NeonReader;
-use Modette\ModuleInstaller\Package\ConfigurationValidator;
 use Modette\ModuleInstaller\Plugin;
 use Modette\ModuleInstaller\Utils\PathResolver;
 use Symfony\Component\Console\Input\InputInterface;

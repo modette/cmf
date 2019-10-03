@@ -2,7 +2,7 @@
 
 namespace Modette\ModuleInstaller\Resolving;
 
-use Modette\ModuleInstaller\Package\PackageConfiguration;
+use Modette\ModuleInstaller\Configuration\PackageConfiguration;
 
 final class Module
 {

@@ -4,8 +4,8 @@ namespace Modette\ModuleInstaller\Utils;
 
 use Composer\Package\PackageInterface;
 use Modette\Exceptions\Logic\InvalidStateException;
-use Modette\ModuleInstaller\Package\ConfigurationValidator;
-use Modette\ModuleInstaller\Package\PackageConfiguration;
+use Modette\ModuleInstaller\Configuration\ConfigurationValidator;
+use Modette\ModuleInstaller\Configuration\PackageConfiguration;
 
 final class PluginActivator
 {

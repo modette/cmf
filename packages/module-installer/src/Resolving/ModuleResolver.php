@@ -6,8 +6,8 @@ use Composer\Package\Link;
 use Composer\Package\PackageInterface;
 use Composer\Repository\WritableRepositoryInterface;
 use Composer\Semver\Constraint\EmptyConstraint;
-use Modette\ModuleInstaller\Package\ConfigurationValidator;
-use Modette\ModuleInstaller\Package\PackageConfiguration;
+use Modette\ModuleInstaller\Configuration\ConfigurationValidator;
+use Modette\ModuleInstaller\Configuration\PackageConfiguration;
 use Modette\ModuleInstaller\Plugin;
 use Modette\ModuleInstaller\Utils\PathResolver;
 

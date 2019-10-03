@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace Modette\ModuleInstaller\Package;
+namespace Modette\ModuleInstaller\Configuration;
 
 use Composer\Package\PackageInterface;
 

@@ -13,10 +13,10 @@ use Composer\Plugin\PluginInterface;
 use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
 use Modette\ModuleInstaller\Command\CommandProvider;
+use Modette\ModuleInstaller\Configuration\ConfigurationValidator;
 use Modette\ModuleInstaller\Files\NeonReader;
 use Modette\ModuleInstaller\Files\Writer;
 use Modette\ModuleInstaller\Loading\LoaderGenerator;
-use Modette\ModuleInstaller\Package\ConfigurationValidator;
 use Modette\ModuleInstaller\Utils\PathResolver;
 use Modette\ModuleInstaller\Utils\PluginActivator;
 

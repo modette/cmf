@@ -3,10 +3,10 @@
 namespace Modette\ModuleInstaller\Command;
 
 use Modette\Exceptions\Logic\InvalidStateException;
+use Modette\ModuleInstaller\Configuration\ConfigurationValidator;
 use Modette\ModuleInstaller\Files\NeonReader;
 use Modette\ModuleInstaller\Files\Writer;
 use Modette\ModuleInstaller\Loading\LoaderGenerator;
-use Modette\ModuleInstaller\Package\ConfigurationValidator;
 use Modette\ModuleInstaller\Utils\PathResolver;
 use Modette\ModuleInstaller\Utils\PluginActivator;
 use Symfony\Component\Console\Input\InputInterface;
