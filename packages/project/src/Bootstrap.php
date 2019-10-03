@@ -6,7 +6,7 @@ use Modette\Core\Boot\Configurator;
 use Modette\Core\Boot\Helper\EnvironmentHelper;
 use Modette\Core\Boot\Helper\HttpHelper;
 
-class Bootstrap
+final class Bootstrap
 {
 
 	public static function boot(): Configurator
