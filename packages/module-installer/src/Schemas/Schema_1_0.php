@@ -26,6 +26,9 @@ final class Schema_1_0 implements Schema
 					'parameters' => Expect::arrayOf(
 						Expect::anyOf(Expect::array(), Expect::scalar(), Expect::null())
 					),
+					'packages' => Expect::listOf(
+						Expect::string()
+					),
 				])->castTo('array')
 			)),
 			'ignored' => Expect::arrayOf(

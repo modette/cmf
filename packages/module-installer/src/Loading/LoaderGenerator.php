@@ -3,6 +3,7 @@
 namespace Modette\ModuleInstaller\Loading;
 
 use Composer\Repository\WritableRepositoryInterface;
+use Composer\Semver\Constraint\EmptyConstraint;
 use Modette\Exceptions\Logic\InvalidArgumentException;
 use Modette\Exceptions\Logic\InvalidStateException;
 use Modette\ModuleInstaller\Files\FileIO;
@@ -81,9 +82,16 @@ final class LoaderGenerator
 			$packageDirRelative = $this->pathResolver->getRelativePath($packageConfiguration->getPackage());
 
 			foreach ($packageConfiguration->getFiles() as $fileConfiguration) {
+				// Skip configuration if required package is not installed
+				foreach ($fileConfiguration->getRequiredPackages() as $package) {
+					if ($this->repository->findPackage($package, new EmptyConstraint()) === null) {
+						continue 2;
+					}
+				}
+
 				$schema[] = [
 					'file' => $packageDirRelative . '/' . $fileConfiguration->getFile(),
-					'parameters' => $fileConfiguration->getParameters(),
+					'parameters' => $fileConfiguration->getRequiredParameters(),
 				];
 			}
 		}

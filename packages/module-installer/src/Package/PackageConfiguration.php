@@ -78,6 +78,7 @@ final class PackageConfiguration
 				$file = [
 					'file' => $file,
 					'parameters' => [],
+					'packages' => [],
 				];
 			}
 

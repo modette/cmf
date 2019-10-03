@@ -11,6 +11,9 @@ final class FileConfiguration
 	/** @var mixed[] */
 	private $parameters;
 
+	/** @var string[] */
+	private $packages;
+
 	/**
 	 * @param mixed[] $configuration
 	 */
@@ -18,6 +21,7 @@ final class FileConfiguration
 	{
 		$this->file = $configuration['file'];
 		$this->parameters = $configuration['parameters'];
+		$this->packages = $configuration['packages'];
 	}
 
 	public function getFile(): string
@@ -28,9 +32,17 @@ final class FileConfiguration
 	/**
 	 * @return mixed[]
 	 */
-	public function getParameters(): array
+	public function getRequiredParameters(): array
 	{
 		return $this->parameters;
+	}
+
+	/**
+	 * @return string[]
+	 */
+	public function getRequiredPackages(): array
+	{
+		return $this->packages;
 	}
 
 }
