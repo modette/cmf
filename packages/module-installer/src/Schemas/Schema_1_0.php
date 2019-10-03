@@ -19,7 +19,7 @@ final class Schema_1_0 implements Schema
 					'class' => Expect::string()->required(),
 				])->castTo('array')
 			),
-			'files' => Expect::arrayOf(Expect::anyOf(
+			'files' => Expect::listOf(Expect::anyOf(
 				Expect::string(),
 				Expect::structure([
 					'file' => Expect::string()->required(),
@@ -31,7 +31,7 @@ final class Schema_1_0 implements Schema
 					),
 				])->castTo('array')
 			)),
-			'ignored' => Expect::arrayOf(
+			'ignored' => Expect::listOf(
 				Expect::string()
 			),
 		])->castTo('array');
