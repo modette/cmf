@@ -44,13 +44,19 @@ final class ModuleResolver
 		/** @var Module[] $modules */
 		$modules = [];
 
+		/** @var string[] $ignored */
+		$ignored = [];
+
 		foreach ($packages as $package) {
 			if (!$this->isApplicable($package)) {
 				continue;
 			}
 
-			$modules[$package->getName()] = new Module($this->validator->validateConfiguration($package, Plugin::DEFAULT_FILE_NAME));
+			$modules[$package->getName()] = $module = new Module($this->validator->validateConfiguration($package, Plugin::DEFAULT_FILE_NAME));
+			$ignored = array_merge($ignored, $module->getConfiguration()->getIgnoredPackages());
 		}
+
+		$ignored = array_merge($ignored, $this->rootPackageConfiguration->getIgnoredPackages());
 
 		foreach ($modules as $module) {
 			$module->setDependents(
@@ -83,6 +89,11 @@ final class ModuleResolver
 		$packageConfigurations = [];
 
 		foreach ($modules as $module) {
+			// Skip package configuration if listed in ignored
+			if (in_array($module->getConfiguration()->getPackage()->getName(), $ignored, true)) {
+				continue;
+			}
+
 			$packageConfigurations[] = $module->getConfiguration();
 		}
 
@@ -92,16 +103,15 @@ final class ModuleResolver
 	}
 
 	/**
-	 * Filter out packages ignored by config, with no modette.neon and root package (which is handled separately)
+	 * Filter out packages with no modette.neon and root package (which is handled separately)
 	 */
 	private function isApplicable(PackageInterface $package): bool
 	{
 		static $cache = [];
 		$name = $package->getName();
 		return $cache[$name]
-			?? $cache[$name] = (!in_array($name, $this->rootPackageConfiguration->getIgnoredPackages(), true)
-					&& file_exists($this->pathResolver->getConfigFileFqn($package, Plugin::DEFAULT_FILE_NAME))
-					&& $package !== $this->rootPackageConfiguration->getPackage());
+			?? $cache[$name] = (file_exists($this->pathResolver->getConfigFileFqn($package, Plugin::DEFAULT_FILE_NAME))
+				&& $package !== $this->rootPackageConfiguration->getPackage());
 	}
 
 	private function getPackageFromLink(Link $link): ?PackageInterface

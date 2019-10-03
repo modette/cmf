@@ -31,7 +31,7 @@ final class Schema_1_0 implements Schema
 					),
 				])->castTo('array')
 			)),
-			'ignored' => Expect::listOf(
+			'ignore' => Expect::listOf(
 				Expect::string()
 			),
 		])->castTo('array');

@@ -30,7 +30,7 @@ final class PackageConfiguration
 		$this->version = $configuration['version'];
 		$this->files = $this->normalizeFiles($configuration['files']);
 		$this->loader = $configuration['loader'] !== null ? new LoaderConfiguration($configuration['loader']) : null;
-		$this->ignoredPackages = $configuration['ignored'];
+		$this->ignoredPackages = $configuration['ignore'];
 		$this->package = $package;
 	}
 
