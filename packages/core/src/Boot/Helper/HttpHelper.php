@@ -5,15 +5,13 @@ namespace Modette\Core\Boot\Helper;
 class HttpHelper
 {
 
-	public const COOKIE_SECRET = 'nette-debug';
-
 	/**
 	 * @param string[] $cookieList
 	 */
-	public static function hasDebugCookie(array $cookieList = []): bool
+	public static function hasDebugCookie(array $cookieList = [], string $cookieName = 'modette-debug'): bool
 	{
-		$cookie = is_string($_COOKIE[self::COOKIE_SECRET] ?? null)
-			? $_COOKIE[self::COOKIE_SECRET]
+		$cookie = is_string($_COOKIE[$cookieName] ?? null)
+			? $_COOKIE[$cookieName]
 			: null;
 
 		if ($cookie === null) {
