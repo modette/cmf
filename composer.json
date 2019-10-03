@@ -1,7 +1,7 @@
 {
 	"type": "project",
-	"description": "Modette root package used for development",
-	"homepage": "https://github.com/modette/modette",
+	"description": "Modette CMF root package used for development",
+	"homepage": "https://github.com/modette/cmf",
 	"license": "MPL-2.0",
 	"authors": [
 		{

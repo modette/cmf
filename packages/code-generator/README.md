@@ -7,4 +7,4 @@
 [![Latest stable](https://img.shields.io/packagist/v/modette/generator.svg?style=flat-square)](https://packagist.org/packages/modette/generator)
 [![PHPStan](https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat-square)](https://github.com/phpstan/phpstan)
 
-For documentation see [main package](https://github.com/modette/modette)
+For documentation see [main package](https://github.com/modette/cmf)

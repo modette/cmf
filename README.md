@@ -3,8 +3,8 @@
 </p>
 
 <p align="center">
-  <a href="https://travis-ci.org/modette/modette"><img src="https://img.shields.io/travis/modette/modette.svg?style=flat-square" alt="Build Status"/></a>
-  <a href="https://coveralls.io/r/modette/modette"><img src="https://img.shields.io/coveralls/modette/modette.svg?style=flat-square" alt="Code Coverage"/></a>
+  <a href="https://travis-ci.org/modette/cmf"><img src="https://img.shields.io/travis/modette/cmf.svg?style=flat-square" alt="Build Status"/></a>
+  <a href="https://coveralls.io/r/modette/cmf"><img src="https://img.shields.io/coveralls/modette/cmf.svg?style=flat-square" alt="Code Coverage"/></a>
   <a href="https://packagist.org/packages/modette/core"><img src="https://img.shields.io/packagist/l/modette/core.svg?style=flat-square" alt="License"/></a>
   <a href="https://packagist.org/packages/modette/core"><img src="https://img.shields.io/packagist/dm/modette/core.svg?style=flat-square" alt="Downloads this Month"/></a>
   <a href="https://packagist.org/packages/modette/core"><img src="https://img.shields.io/packagist/dt/modette/core.svg?style=flat-square" alt="Downloads total"/></a>
