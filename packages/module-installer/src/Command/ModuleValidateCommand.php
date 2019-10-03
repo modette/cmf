@@ -4,9 +4,9 @@ namespace Modette\ModuleInstaller\Command;
 
 use Composer\Semver\Constraint\EmptyConstraint;
 use LogicException;
-use Modette\ModuleInstaller\Files\File;
 use Modette\ModuleInstaller\Files\FileIO;
 use Modette\ModuleInstaller\Package\ConfigurationValidator;
+use Modette\ModuleInstaller\Plugin;
 use Modette\ModuleInstaller\Utils\PathResolver;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -26,7 +26,7 @@ final class ModuleValidateCommand extends BaseCommand
 		parent::configure();
 
 		$this->setName(self::$defaultName);
-		$this->setDescription(sprintf('Validate %s', File::DEFAULT_NAME));
+		$this->setDescription(sprintf('Validate %s', Plugin::DEFAULT_FILE_NAME));
 
 		$this->addOption(
 			self::OPTION_PACKAGE,

@@ -6,9 +6,9 @@ use Composer\Package\Link;
 use Composer\Package\PackageInterface;
 use Composer\Repository\WritableRepositoryInterface;
 use Composer\Semver\Constraint\EmptyConstraint;
-use Modette\ModuleInstaller\Files\File;
 use Modette\ModuleInstaller\Package\ConfigurationValidator;
 use Modette\ModuleInstaller\Package\PackageConfiguration;
+use Modette\ModuleInstaller\Plugin;
 use Modette\ModuleInstaller\Utils\PathResolver;
 
 final class ModuleResolver
@@ -49,7 +49,7 @@ final class ModuleResolver
 				continue;
 			}
 
-			$modules[$package->getName()] = new Module($this->validator->validateConfiguration($package, File::DEFAULT_NAME));
+			$modules[$package->getName()] = new Module($this->validator->validateConfiguration($package, Plugin::DEFAULT_FILE_NAME));
 		}
 
 		foreach ($modules as $module) {
@@ -100,7 +100,7 @@ final class ModuleResolver
 		$name = $package->getName();
 		return $cache[$name]
 			?? $cache[$name] = (!in_array($name, $this->rootPackageConfiguration->getIgnoredPackages(), true)
-					&& file_exists($this->pathResolver->getConfigFileFqn($package, File::DEFAULT_NAME))
+					&& file_exists($this->pathResolver->getConfigFileFqn($package, Plugin::DEFAULT_FILE_NAME))
 					&& $package !== $this->rootPackageConfiguration->getPackage());
 	}
 

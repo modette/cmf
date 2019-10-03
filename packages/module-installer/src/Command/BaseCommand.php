@@ -3,7 +3,7 @@
 namespace Modette\ModuleInstaller\Command;
 
 use Composer\Command\BaseCommand as ComposerBaseCommand;
-use Modette\ModuleInstaller\Files\File;
+use Modette\ModuleInstaller\Plugin;
 use Symfony\Component\Console\Input\InputOption;
 
 abstract class BaseCommand extends ComposerBaseCommand
@@ -17,8 +17,8 @@ abstract class BaseCommand extends ComposerBaseCommand
 			self::OPTION_FILE,
 			'f',
 			InputOption::VALUE_REQUIRED,
-			sprintf('Use different config file than %s (for tests)', File::DEFAULT_NAME),
-			File::DEFAULT_NAME
+			sprintf('Use different config file than %s (for tests)', Plugin::DEFAULT_FILE_NAME),
+			Plugin::DEFAULT_FILE_NAME
 		);
 	}
 

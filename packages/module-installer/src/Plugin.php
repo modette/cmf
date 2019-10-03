@@ -13,7 +13,6 @@ use Composer\Plugin\PluginInterface;
 use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
 use Modette\ModuleInstaller\Command\CommandProvider;
-use Modette\ModuleInstaller\Files\File;
 use Modette\ModuleInstaller\Files\FileIO;
 use Modette\ModuleInstaller\Loading\LoaderGenerator;
 use Modette\ModuleInstaller\Package\ConfigurationValidator;
@@ -22,6 +21,8 @@ use Modette\ModuleInstaller\Utils\PluginActivator;
 
 final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
 {
+
+	public const DEFAULT_FILE_NAME = 'modette.neon';
 
 	/**
 	 * @return string[]
@@ -77,7 +78,7 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
 			$composer->getPackage(),
 			$validator,
 			$pathResolver,
-			File::DEFAULT_NAME
+			self::DEFAULT_FILE_NAME
 		);
 
 		if (!$activator->isEnabled()) {
