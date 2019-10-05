@@ -3,7 +3,9 @@
 namespace Modette\UI\InternalError\Presenter;
 
 use Modette\UI\Base\Presenter\BasePresenter;
+use Nette\Application\BadRequestException;
 use Nette\Application\Request;
+use Nette\Http\IResponse;
 use Nette\Utils\Strings;
 use Psr\Log\LogLevel;
 use Throwable;
@@ -29,33 +31,30 @@ class InternalErrorPresenter extends BasePresenter
 		$this->errorPresenters[] = [$presenter, $regex];
 	}
 
-	public function actionDefault(Throwable $exception, ?Request $request = null): void
+	public function actionDefault(Throwable $exception, ?Request $request): void
 	{
-		$code = $exception->getCode();
-		$level = ($code >= 400 && $code <= 499) ? LogLevel::WARNING : LogLevel::ERROR;
+		// Log error
+		$this->getLogger()->log(
+			$exception instanceof BadRequestException ? LogLevel::WARNING : LogLevel::ERROR,
+			$exception->getMessage(),
+			[
+				'presenter' => $request !== null ? $request->getPresenterName() : 'unknown',
+				'exception' => $exception,
+			]
+		);
 
-		$context = [
-			'presenter' => $request !== null ? $request->getPresenterName() : 'unknown',
-			'file' => $exception->getFile(),
-			'line' => $exception->getLine(),
-		];
-
-		$this->getLogger()->log($level, sprintf(
-			'Code %s: %s',
-			$code,
-			$exception->getMessage()
-		), $context);
-
+		// Forward to error presenter if matches pattern
 		if ($request !== null) {
 			foreach ($this->errorPresenters as [$presenter, $regex]) {
 				if (Strings::match($request->getPresenterName(), $regex) !== null) {
-					$this->forward($presenter, ['exception' => $exception]);
+					$this->forward($presenter, ['error' => $exception, 'request' => $request]);
 				}
 			}
+		}
 
-			if ($this->defaultErrorPresenter !== null) {
-				$this->forward($this->defaultErrorPresenter, ['exception' => $exception]);
-			}
+		// Forward to default error presenter
+		if ($this->defaultErrorPresenter !== null) {
+			$this->forward($this->defaultErrorPresenter, ['exception' => $exception, 'request' => $request]);
 		}
 
 		// Note error in ajax request
@@ -66,14 +65,21 @@ class InternalErrorPresenter extends BasePresenter
 
 	public function renderDefault(Throwable $exception): void
 	{
-		$this['document-head-meta']->setRobots(['noindex']);
+		if ($exception instanceof BadRequestException) {
+			// Use view requested by BadRequestException or generic 404/500
+			$code = $exception->getCode();
+			if (in_array($code, self::SUPPORTED_VIEWS, true)) {
+				$view = $code;
+			} else {
+				$view = $code >= 400 && $code <= 499 ? 404 : 500;
+			}
+		} else {
+			// Use generic view for real error
+			$code = IResponse::S500_INTERNAL_SERVER_ERROR;
+			$view = 500;
+		}
 
-		$code = $exception->getCode();
-
-		$view = in_array($code, self::SUPPORTED_VIEWS, true)
-			? $code
-			: ($code >= 500 ? 500 : 400);
-
+		// Set page title
 		$this['document-head-title']->setMain(
 			$this->getTranslator()->translate(sprintf(
 				'modette.ui.presenter.error.%s.title',
@@ -81,7 +87,9 @@ class InternalErrorPresenter extends BasePresenter
 			))
 		);
 
+		$this->getHttpResponse()->setCode($code);
 		$this->setView((string) $view);
+		$this['document-head-meta']->setRobots(['noindex']);
 	}
 
 	public function sendPayload(): void

@@ -3,8 +3,6 @@ services:
 	modette.front.error.presenter:
 		type: Modette\Front\Error\Presenter\ErrorPresenter
 		factory: Modette\Front\Error\Presenter\ErrorPresenter
-		arguments:
-			debugMode: %debugMode%
 	modette.ui.internalError.presenter:
 		setup:
 			- setDefaultErrorPresenter(':Modette:Front:Error:default')

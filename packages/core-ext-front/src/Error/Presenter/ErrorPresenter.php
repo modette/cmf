@@ -3,6 +3,7 @@
 namespace Modette\Front\Error\Presenter;
 
 use Modette\Front\Base\Presenter\BaseFrontPresenter;
+use Nette\Application\BadRequestException;
 use Nette\Http\IResponse;
 use Throwable;
 
@@ -10,15 +11,6 @@ class ErrorPresenter extends BaseFrontPresenter
 {
 
 	protected const SUPPORTED_VIEWS = [400, 403, 404, 410, 500];
-
-	/** @var bool */
-	private $debugMode;
-
-	public function __construct(bool $debugMode)
-	{
-		parent::__construct();
-		$this->debugMode = $debugMode;
-	}
 
 	public function actionDefault(): void
 	{
@@ -28,31 +20,27 @@ class ErrorPresenter extends BaseFrontPresenter
 		}
 	}
 
-	public function renderDefault(?Throwable $exception = null): void
+	public function renderDefault(?Throwable $error = null): void
 	{
-		$this['document-head-meta']->setRobots(['noindex']);
-
-		$code = $exception !== null ? $exception->getCode() : 400;
-
-		if ($exception !== null) {
-			// Exception was thrown and InternalErrorPresenter forwarded here
-			$view = in_array($code, self::SUPPORTED_VIEWS, true)
-				? $code
-				: ($code >= 500 ? 500 : 400);
-		} elseif (
-			$this->debugMode &&
-			isset($this->request->parameters['view']) &&
-			in_array($this->request->parameters['view'], self::SUPPORTED_VIEWS, true)
-		) {
-			// Developer requested specific view - useful for testing
-			$view = $this->request->parameters['view'];
-			$this->getHttpResponse()->setCode($view);
-		} else {
-			// Page was accessed directly by user -> simulate error
+		if ($error === null) {
+			// Direct access, act as user error
+			$code = IResponse::S404_NOT_FOUND;
 			$view = 404;
-			$this->getHttpResponse()->setCode(IResponse::S404_NOT_FOUND);
+		} elseif ($error instanceof BadRequestException) {
+			// Use view requested by BadRequestException or generic 404/500
+			$code = $error->getCode();
+			if (in_array($code, self::SUPPORTED_VIEWS, true)) {
+				$view = $code;
+			} else {
+				$view = $code >= 400 && $code <= 499 ? 404 : 500;
+			}
+		} else {
+			// Use generic view for real error
+			$code = IResponse::S500_INTERNAL_SERVER_ERROR;
+			$view = 500;
 		}
 
+		// Set page title
 		$this['document-head-title']->setMain(
 			$this->getTranslator()->translate(sprintf(
 				'modette.ui.presenter.error.%s.title',
@@ -60,7 +48,9 @@ class ErrorPresenter extends BaseFrontPresenter
 			))
 		);
 
+		$this->getHttpResponse()->setCode($code);
 		$this->setView((string) $view);
+		$this['document-head-meta']->setRobots(['noindex']);
 	}
 
 	public function sendPayload(): void

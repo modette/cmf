@@ -11,8 +11,6 @@ services:
 	modette.admin.error.presenter:
 		type: Modette\Admin\Error\Presenter\ErrorPresenter
 		factory: Modette\Admin\Error\Presenter\ErrorPresenter
-		arguments:
-			debugMode: %debugMode%
 	modette.ui.internalError.presenter:
 		setup:
 			- addErrorPresenter(':Modette:Admin:Error:default', '#.*:(Admin|Administration):.*#')
