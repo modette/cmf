@@ -11,7 +11,7 @@ use Modette\UI\Themes\ThemeAblePresenter;
 use Modette\UI\Utils\FlashesMapper;
 use Modette\UI\Utils\FlashMessages;
 use Modette\UI\Utils\TranslateShortcut;
-use Nette\Application\UI\Presenter as NettePresenter;
+use Nette\Application\UI\Presenter;
 use Nette\Bridges\ApplicationLatte\TemplateFactory;
 use Psr\Log\LoggerInterface;
 
@@ -23,7 +23,7 @@ use Psr\Log\LoggerInterface;
  * @property-read BasePresenterTemplate $template
  * @property-read null                  $user
  */
-abstract class BasePresenter extends NettePresenter
+abstract class BasePresenter extends Presenter
 {
 
 	use FlashMessages;
