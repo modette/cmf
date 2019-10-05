@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace App;
+namespace App\Boot;
 
 use Modette\Core\Boot\Configurator;
 use Modette\Core\Boot\Helper\EnvironmentHelper;
@@ -11,7 +11,7 @@ final class Bootstrap
 
 	public static function boot(): Configurator
 	{
-		$configurator = new Configurator(dirname(__DIR__), new ConfigLoader());
+		$configurator = new Configurator(dirname(__DIR__, 2), new ConfigLoader());
 
 		$configurator->setDebugMode(
 			EnvironmentHelper::isEnvironmentDebugMode() ||

@@ -1,8 +1,8 @@
 version: 1
 
 loader:
-	file: src/ConfigLoader.php
-	class: App\ConfigLoader
+	file: src/Boot/ConfigLoader.php
+	class: App\Boot\ConfigLoader
 
 files:
 	- config/base.neon
