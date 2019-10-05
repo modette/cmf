@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace Modette\UI\Base\Control;
+namespace Modette\UI\Control\Base;
 
 use Modette\Templates\Themes\ThemedTemplate;
 use Modette\UI\Base\Presenter\BasePresenter;

@@ -2,7 +2,7 @@
 
 namespace Modette\UI\Control\Links;
 
-use Modette\UI\Base\Control\BaseControlTemplate;
+use Modette\UI\Control\Base\BaseControlTemplate;
 
 /**
  * @property string[]   $links

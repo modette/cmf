@@ -2,7 +2,7 @@
 
 namespace Modette\UI\Control\Title;
 
-use Modette\UI\Base\Control\BaseControlTemplate;
+use Modette\UI\Control\Base\BaseControlTemplate;
 
 /**
  * @property string $title

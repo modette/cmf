@@ -2,7 +2,7 @@
 
 namespace Modette\UI\Control\Breadcrumb;
 
-use Modette\UI\Base\Control\BaseControlTemplate;
+use Modette\UI\Control\Base\BaseControlTemplate;
 
 /**
  * @property mixed[] $links
