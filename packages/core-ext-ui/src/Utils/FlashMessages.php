@@ -2,7 +2,7 @@
 
 namespace Modette\UI\Utils;
 
-use Modette\UI\Base\Presenter\BasePresenter;
+use Modette\UI\Presenter\Base\BasePresenter;
 use stdClass;
 
 /**

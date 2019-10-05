@@ -2,8 +2,8 @@
 
 namespace Modette\UI\Control\Base;
 
-use Modette\UI\Base\Presenter\BasePresenter;
 use Modette\UI\FakeTranslator;
+use Modette\UI\Presenter\Base\BasePresenter;
 use Modette\UI\Themes\ThemeAbleControl;
 use Modette\UI\Utils\FlashMessages;
 use Modette\UI\Utils\TranslateShortcut;

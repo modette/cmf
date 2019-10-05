@@ -2,7 +2,7 @@
 
 namespace Modette\UI\InternalError\Presenter;
 
-use Modette\UI\Base\Presenter\BasePresenter;
+use Modette\UI\Presenter\Base\BasePresenter;
 use Nette\Application\BadRequestException;
 use Nette\Application\Request;
 use Nette\Http\IResponse;

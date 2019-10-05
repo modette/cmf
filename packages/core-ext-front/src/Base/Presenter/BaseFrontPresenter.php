@@ -2,7 +2,7 @@
 
 namespace Modette\Front\Base\Presenter;
 
-use Modette\UI\Base\Presenter\BasePresenter;
+use Modette\UI\Presenter\Base\BasePresenter;
 
 abstract class BaseFrontPresenter extends BasePresenter
 {

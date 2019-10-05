@@ -3,7 +3,7 @@
 namespace Modette\UI\Control\Base;
 
 use Modette\Templates\Themes\ThemedTemplate;
-use Modette\UI\Base\Presenter\BasePresenter;
+use Modette\UI\Presenter\Base\BasePresenter;
 
 /**
  * @property-read BaseControl   $control

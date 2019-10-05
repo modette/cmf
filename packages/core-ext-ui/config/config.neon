@@ -18,7 +18,7 @@ application:
 	silentLinks: false
 
 decorator:
-	Modette\UI\Base\Presenter\BasePresenter:
+	Modette\UI\Presenter\Base\BasePresenter:
 		setup:
 			- $absoluteUrls = true
 			- injectSecondary(developmentServer: %server.development%)
