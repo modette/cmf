@@ -14,10 +14,10 @@ lint: vendor
 	vendor/bin/parallel-lint --blame --colors packages/**/src packages/**/tests tests
 
 cs: vendor
-	vendor/bin/phpcs --cache=tmp/codesniffer.dat --standard=ruleset.xml --colors -nsp packages/**/src packages/**/tests tests
+	vendor/bin/phpcs --cache=var/tmp/codesniffer.dat --standard=ruleset.xml --colors -nsp packages/**/src packages/**/tests tests
 
 csf: vendor
-	vendor/bin/phpcbf --cache=tmp/codesniffer.dat --standard=ruleset.xml --colors -nsp packages/**/src packages/**/tests tests
+	vendor/bin/phpcbf --cache=var/tmp/codesniffer.dat --standard=ruleset.xml --colors -nsp packages/**/src packages/**/tests tests
 
 phpstan: vendor
 	vendor/bin/phpstan analyse -l 7 -c phpstan.src.neon packages/**/src
@@ -29,10 +29,10 @@ tests: vendor
 	vendor/bin/phpunit
 
 coverage-clover: vendor
-	phpdbg -qrr vendor/bin/phpunit --coverage-clover tmp/coverage.xml
+	phpdbg -qrr vendor/bin/phpunit --coverage-clover var/tmp/coverage.xml
 
 coverage-html: vendor
-	phpdbg -qrr vendor/bin/phpunit --coverage-html tmp/coverage-html
+	phpdbg -qrr vendor/bin/phpunit --coverage-html var/tmp/coverage-html
 
 # Meta
 

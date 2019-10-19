@@ -1,7 +1,7 @@
 <phpunit
 	bootstrap="vendor/autoload.php"
 	cacheResult="true"
-	cacheResultFile="tmp/.phpunit.result.cache"
+	cacheResultFile="var/tmp/.phpunit.result.cache"
 	colors="true"
 	verbose="true"
 >
