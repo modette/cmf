@@ -49,4 +49,7 @@
 	<rule ref="Squiz.Classes.ValidClassName.NotCamelCaps">
 		<exclude-pattern>packages/module-installer/src/Schemas</exclude-pattern>
 	</rule>
+
+	<!-- Ignore generated file -->
+	<exclude-pattern>tests/Loader.php</exclude-pattern>
 </ruleset>

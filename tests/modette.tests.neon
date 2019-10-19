@@ -1,0 +1,9 @@
+version: 1
+
+loader:
+	class: Tests\Modette\Monorepo\Loader
+	file: tests/Loader.php
+
+files:
+	- packages/core/config/config.neon
+	- tests/config/config.tests.neon
