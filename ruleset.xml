@@ -52,4 +52,5 @@
 
 	<!-- Ignore generated file -->
 	<exclude-pattern>tests/Loader.php</exclude-pattern>
+	<exclude-pattern>tests/generate-loader.php</exclude-pattern>
 </ruleset>

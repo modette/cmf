@@ -32,6 +32,7 @@ jobs:
         - stage: Quality Assurance
           php: 7.3
           script:
+              - php tests/generate-loader.php
               - make qa
 
         - stage: Test Coverage
