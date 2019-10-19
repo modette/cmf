@@ -70,7 +70,6 @@
 	"autoload": {
 		"psr-4": {
 			"App\\": "packages/project/src",
-			"Boot\\": "packages/project/boot",
 			"Modette\\Admin\\": "packages/core-ext-admin/src",
 			"Modette\\Api\\": "packages/core-ext-api/src",
 			"Modette\\CodeGenerator\\": "packages/code-generator/src",
