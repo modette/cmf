@@ -95,6 +95,7 @@
 			"Tests\\Modette\\Http\\": "packages/core-ext-http/tests",
 			"Tests\\Modette\\Mail\\": "packages/core-ext-mail/tests",
 			"Tests\\Modette\\ModuleInstaller\\": "packages/module-installer/tests",
+			"Tests\\Modette\\Monorepo\\": "tests",
 			"Tests\\Modette\\Orm\\": "packages/core-ext-orm/tests",
 			"Tests\\Modette\\Sql\\": "packages/core-ext-sql/tests",
 			"Tests\\Modette\\Templates\\": "packages/core-ext-templates/tests",

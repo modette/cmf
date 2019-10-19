@@ -36,6 +36,8 @@
 
                 packages/project/src   => App,
                 packages/project/tests => Tests\App,
+
+                tests => Tests\Modette\Monorepo,
             "/>
 		</properties>
 	</rule>

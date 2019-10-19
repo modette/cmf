@@ -4,6 +4,9 @@ parameters:
   data_to_append:
     require-dev:
       symplify/monorepo-builder: '^6.0.3'
+    autoload-dev:
+        psr-4:
+            Tests\Modette\Monorepo\: 'tests'
   directories_to_repositories:
     packages/code-generator: 'git@github.com:modette/code-generator.git'
     packages/core: 'git@github.com:modette/core.git'
