@@ -1,3 +1,22 @@
+dbal:
+	connections:
+		default:
+			autowired: true
+			driver: pgsql
+
+migrations:
+	dbal: nextras
+	driver: pgsql
+
 # TODO - compiled container initialization fails without it
 di:
 	debugger: false
+
+# TODO - needs change
+modette.admin:
+	sign:
+		signInAction: Example
+		signOutAction: Example
+
+phpdoc:
+	temp: %tempDir%/cache/doctrine.annotations
