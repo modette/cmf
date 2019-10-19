@@ -17,8 +17,8 @@ final class Bootstrap
 			EnvironmentHelper::isEnvironmentDebugMode() ||
 			HttpHelper::isLocalhost()
 		);
-
 		$configurator->addParameters(EnvironmentHelper::getEnvironmentParameters());
+		$configurator->enableDebugger();
 
 		return $configurator;
 	}

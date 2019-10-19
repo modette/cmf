@@ -74,7 +74,7 @@ class Configurator
 		$this->parameters['debugMode'] = $debugMode;
 	}
 
-	private function enableDebugger(): void
+	public function enableDebugger(): void
 	{
 		Debugger::$strictMode = true;
 		Debugger::enable(!$this->parameters['debugMode'], $this->parameters['logDir']);
@@ -197,8 +197,6 @@ class Configurator
 
 	public function initializeContainer(): Container
 	{
-		$this->enableDebugger();
-
 		$containerClass = $this->loadContainer();
 		/** @var Container $container */
 		$container = new $containerClass($this->dynamicParameters);
