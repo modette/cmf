@@ -32,6 +32,11 @@ final class PathResolver
 
 	public function getConfigFileFqn(PackageInterface $package, string $fileName): string
 	{
+		// File name is absolute, use it
+		if (realpath($fileName) === $fileName && file_exists($fileName)) {
+			return $fileName;
+		}
+
 		return $this->getAbsolutePath($package) . '/' . $fileName;
 	}
 
