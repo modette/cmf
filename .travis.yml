@@ -16,7 +16,7 @@ script:
     # Ensure syntax is valid for all tested PHP versions
     - make lint
     # Check all packages use same dependencies
-    - make meta-validate
+    - make monorepo-validate
     # Tests
     - make tests
 

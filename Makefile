@@ -1,4 +1,4 @@
-.PHONY: qa lint cs csf phpstan tests coverage-clover coverage-html meta-update meta-validate
+.PHONY: qa lint cs csf phpstan tests coverage-clover coverage-html monorepo-update monorepo-validate
 
 all:
 	@awk 'BEGIN {FS = ":.*##"; printf "Usage:\n  make \033[36m<target>\033[0m\n\nTargets:\n"}'
@@ -35,10 +35,10 @@ coverage-clover: vendor ## Generate code coverage in XML format
 coverage-html: vendor ## Generate code coverage in HTML format
 	phpdbg -qrr vendor/bin/phpunit --coverage-html var/tmp/coverage-html
 
-# Meta
+# Monorepo
 
-meta-update: vendor ## Update monorepo metadata
+monorepo-update: vendor ## Update monorepo metadata
 	vendor/bin/monorepo-builder merge
 
-meta-validate: vendor ## Validate monorepo metadata
+monorepo-validate: vendor ## Validate monorepo metadata
 	vendor/bin/monorepo-builder validate
