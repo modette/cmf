@@ -18,11 +18,26 @@ class ContainerCompilationTest extends TestCase
 	/**
 	 * @doesNotPerformAssertions
 	 */
-	public function test(): void
+	public function testProductionConsole(): void
+	{
+		$configurator = new Configurator(dirname(__DIR__, 3), new Loader());
+		$configurator->setDebugMode(false);
+		$configurator->addParameters([
+			'consoleMode' => true,
+		]);
+		$configurator->initializeContainer();
+	}
+
+	/**
+	 * @doesNotPerformAssertions
+	 */
+	public function testDebugConsole(): void
 	{
 		$configurator = new Configurator(dirname(__DIR__, 3), new Loader());
 		$configurator->setDebugMode(true);
-
+		$configurator->addParameters([
+			'consoleMode' => true,
+		]);
 		$configurator->initializeContainer();
 	}
 
