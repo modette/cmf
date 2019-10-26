@@ -12,6 +12,9 @@ final class PackageConfiguration
 	public const FILES_OPTION = 'files';
 	public const IGNORE_OPTION = 'ignore';
 
+	/** @var string */
+	private $schemaPath;
+
 	/** @var float */
 	private $version;
 
@@ -30,13 +33,20 @@ final class PackageConfiguration
 	/**
 	 * @param mixed[] $configuration
 	 */
-	public function __construct(array $configuration, PackageInterface $package)
+	public function __construct(array $configuration, PackageInterface $package, string $schemaFile)
 	{
+		$lastSlashPosition = strrpos($schemaFile, '/');
+		$this->schemaPath = $lastSlashPosition === false ? '' : substr($schemaFile, 0, $lastSlashPosition);
 		$this->version = $configuration[self::VERSION_OPTION];
 		$this->files = $this->normalizeFiles($configuration[self::FILES_OPTION]);
 		$this->loader = $configuration[self::LOADER_OPTION] !== null ? new LoaderConfiguration($configuration[self::LOADER_OPTION]) : null;
 		$this->ignoredPackages = $configuration[self::IGNORE_OPTION];
 		$this->package = $package;
+	}
+
+	public function getSchemaPath(): string
+	{
+		return $this->schemaPath;
 	}
 
 	public function getVersion(): float

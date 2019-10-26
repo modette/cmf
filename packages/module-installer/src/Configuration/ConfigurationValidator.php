@@ -26,15 +26,16 @@ final class ConfigurationValidator
 		$this->pathResolver = $pathResolver;
 	}
 
-	public function validateConfiguration(PackageInterface $package, string $fileName): PackageConfiguration
+	public function validateConfiguration(PackageInterface $package, string $unresolvedFileName): PackageConfiguration
 	{
-		$configFile = $this->pathResolver->getConfigFileFqn($package, $fileName);
-		$configuration = $this->reader->read($configFile);
+		$schemaFileFullName = $this->pathResolver->getSchemaFileFullName($package, $unresolvedFileName);
+		$schemaFileRelativeName = $this->pathResolver->getSchemaFileRelativeName($package, $schemaFileFullName);
+		$configuration = $this->reader->read($schemaFileFullName);
 
 		if (!isset($configuration[PackageConfiguration::VERSION_OPTION])) {
 			throw new InvalidConfigurationException(
 				$package,
-				$fileName,
+				$schemaFileRelativeName,
 				sprintf('The mandatory option \'%s\' is missing.', PackageConfiguration::VERSION_OPTION)
 			);
 		}
@@ -44,7 +45,7 @@ final class ConfigurationValidator
 		if (!in_array($version, Schema::VERSIONS, true)) {
 			throw new InvalidConfigurationException(
 				$package,
-				$fileName,
+				$schemaFileRelativeName,
 				sprintf(
 					'The option \'%s\' expects to be %s, %s given.',
 					PackageConfiguration::VERSION_OPTION,
@@ -63,10 +64,10 @@ final class ConfigurationValidator
 		try {
 			$configuration = $processor->process($structure, $configuration);
 		} catch (ValidationException $exception) {
-			throw new InvalidConfigurationException($package, $fileName, $exception->getMessage());
+			throw new InvalidConfigurationException($package, $schemaFileRelativeName, $exception->getMessage());
 		}
 
-		return new PackageConfiguration($configuration, $package);
+		return new PackageConfiguration($configuration, $package, $schemaFileRelativeName);
 	}
 
 }

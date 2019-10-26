@@ -110,7 +110,7 @@ final class ModuleResolver
 		static $cache = [];
 		$name = $package->getName();
 		return $cache[$name]
-			?? $cache[$name] = (file_exists($this->pathResolver->getConfigFileFqn($package, Plugin::DEFAULT_FILE_NAME))
+			?? $cache[$name] = (file_exists($this->pathResolver->getSchemaFileFullName($package, Plugin::DEFAULT_FILE_NAME))
 				&& $package !== $this->rootPackageConfiguration->getPackage());
 	}
 

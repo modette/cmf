@@ -167,7 +167,7 @@ class Configurator
 		$files = [];
 
 		foreach ($this->loader->getConfigFiles($this->parameters) as $file) {
-			$files[] = $this->rootDir . $file;
+			$files[] = $this->rootDir . '/' . $file;
 		}
 
 		return $files;

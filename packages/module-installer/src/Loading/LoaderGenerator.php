@@ -90,7 +90,11 @@ final class LoaderGenerator
 				}
 
 				$schema[] = [
-					'file' => $packageDirRelative . '/' . $fileConfiguration->getFile(),
+					'file' => $this->pathResolver->buildPathFromParts([
+						$packageDirRelative,
+						$packageConfiguration->getSchemaPath(),
+						$fileConfiguration->getFile(),
+					]),
 					'parameters' => $fileConfiguration->getRequiredParameters(),
 				];
 			}
@@ -132,7 +136,11 @@ final class LoaderGenerator
 			->setVisibility(ClassType::VISIBILITY_PROTECTED)
 			->setComment('@var mixed[]');
 
-		$loaderFilePath = $this->pathResolver->getRootDir() . '/' . $loaderConfiguration->getFile();
+		$loaderFilePath = $this->pathResolver->buildPathFromParts([
+			$this->pathResolver->getRootDir(),
+			$this->rootPackageConfiguration->getSchemaPath(),
+			$loaderConfiguration->getFile(),
+		]);
 		$this->writer->write($loaderFilePath, $file);
 	}
 
