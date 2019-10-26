@@ -4,6 +4,7 @@ namespace Modette\ModuleInstaller\Utils;
 
 use Composer\Composer;
 use Composer\Package\PackageInterface;
+use Modette\ModuleInstaller\Monorepo\SimulatedPackage;
 
 final class PathResolver
 {
@@ -20,6 +21,10 @@ final class PathResolver
 	{
 		if ($package === $this->composer->getPackage()) {
 			return $this->getRootDir();
+		}
+
+		if ($package instanceof SimulatedPackage) {
+			return $package->getPackageDirectory();
 		}
 
 		return $this->composer->getInstallationManager()->getInstallPath($package);

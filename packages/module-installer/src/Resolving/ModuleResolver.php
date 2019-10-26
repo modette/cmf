@@ -2,14 +2,21 @@
 
 namespace Modette\ModuleInstaller\Resolving;
 
+use Composer\Json\JsonFile;
 use Composer\Package\Link;
+use Composer\Package\Loader\ArrayLoader;
+use Composer\Package\Loader\ValidatingArrayLoader;
 use Composer\Package\PackageInterface;
 use Composer\Repository\WritableRepositoryInterface;
 use Composer\Semver\Constraint\EmptyConstraint;
+use Modette\Exceptions\Logic\InvalidArgumentException;
 use Modette\ModuleInstaller\Configuration\ConfigurationValidator;
 use Modette\ModuleInstaller\Configuration\PackageConfiguration;
+use Modette\ModuleInstaller\Monorepo\SimulatedPackage;
 use Modette\ModuleInstaller\Plugin;
 use Modette\ModuleInstaller\Utils\PathResolver;
+use Nette\Utils\Finder;
+use SplFileInfo;
 
 final class ModuleResolver
 {
@@ -39,7 +46,9 @@ final class ModuleResolver
 	 */
 	public function getResolvedConfigurations(): array
 	{
+		/** @var PackageInterface[] $packages */
 		$packages = $this->repository->getCanonicalPackages();
+		$packages = array_merge($packages, $this->getSimulatedPackages());
 
 		/** @var Module[] $modules */
 		$modules = [];
@@ -49,6 +58,15 @@ final class ModuleResolver
 
 		foreach ($packages as $package) {
 			if (!$this->isApplicable($package)) {
+				if ($package instanceof SimulatedPackage) {
+					throw new InvalidArgumentException(sprintf(
+						'Cannot set "%s" as a "%s" child module. Given package does not have "%s" file.',
+						$package->getName(),
+						$package->getParentName(),
+						Plugin::DEFAULT_FILE_NAME
+					));
+				}
+
 				continue;
 			}
 
@@ -61,7 +79,7 @@ final class ModuleResolver
 		foreach ($modules as $module) {
 			$module->setDependents(
 				$this->packagesToModules(
-					$this->flatten($this->getDependents($module->getConfiguration()->getPackage()->getName())),
+					$this->flatten($this->getDependents($module->getConfiguration()->getPackage()->getName(), $packages)),
 					$modules
 				)
 			);
@@ -103,6 +121,70 @@ final class ModuleResolver
 	}
 
 	/**
+	 * Returns list of explicitly allowed packages, which are part of monorepo like they were really installed
+	 *
+	 * @return SimulatedPackage[]
+	 */
+	public function getSimulatedPackages(): array
+	{
+		$loader = new ValidatingArrayLoader(new ArrayLoader());
+
+		$parentPackage = $this->rootPackageConfiguration->getPackage();
+		$parentPackageName = $parentPackage->getName();
+		$parentFullPath = $this->pathResolver->getAbsolutePath($parentPackage);
+		$replacedNames = $this->linksToNames($parentPackage->getReplaces());
+
+		$packages = [];
+
+		foreach ($this->rootPackageConfiguration->getChildModules() as $pathPattern => $names) {
+			$foundInPathNames = [];
+
+			foreach (Finder::findDirectories($pathPattern)->from($parentFullPath)->limitDepth(1) as $directory) {
+				assert($directory instanceof SplFileInfo);
+				$directoryPath = $directory->getPathname();
+				foreach (Finder::findFiles('composer.json')->in($directoryPath) as $file) {
+					assert($file instanceof SplFileInfo);
+
+					$composerFilePath = $file->getPathname();
+					$config = JsonFile::parseJson(file_get_contents($composerFilePath), $composerFilePath) + ['version' => '999.999.999'];
+
+					$package = $loader->load($config, SimulatedPackage::class);
+					assert($package instanceof SimulatedPackage);
+					$packageName = $package->getName();
+
+					if (in_array($packageName, $names, true)) {
+						$package->setParentName($parentPackageName);
+						$package->setPackageDirectory($directoryPath);
+						$packages[] = $package;
+						$foundInPathNames[] = $packageName;
+					}
+				}
+			}
+
+			foreach ($names as $name) {
+				if (!in_array($name, $replacedNames, true)) {
+					throw new InvalidArgumentException(sprintf(
+						'Cannot set "%s" as a "%s" child module. Child modules option is reserved for packages replaced by composer.json "replaces" option.',
+						$name,
+						$parentPackageName
+					));
+				}
+
+				if (!in_array($name, $foundInPathNames, true)) {
+					throw new InvalidArgumentException(sprintf(
+						'Child module "%s" was not found by pattern "%s" in path "%s". Ensure pattern is correct.',
+						$name,
+						$pathPattern,
+						$parentFullPath
+					));
+				}
+			}
+		}
+
+		return $packages;
+	}
+
+	/**
 	 * Filter out packages with no modette.neon and root package (which is handled separately)
 	 */
 	private function isApplicable(PackageInterface $package): bool
@@ -112,6 +194,17 @@ final class ModuleResolver
 		return $cache[$name]
 			?? $cache[$name] = (file_exists($this->pathResolver->getSchemaFileFullName($package, Plugin::DEFAULT_FILE_NAME))
 				&& $package !== $this->rootPackageConfiguration->getPackage());
+	}
+
+	/**
+	 * @param Link[] $links
+	 * @return string[]
+	 */
+	private function linksToNames(array $links): array
+	{
+		return array_map(static function (Link $link): string {
+			return $link->getTarget();
+		}, $links);
 	}
 
 	private function getPackageFromLink(Link $link): ?PackageInterface
@@ -170,11 +263,12 @@ final class ModuleResolver
 	/**
 	 * Returns a list of packages causing the requested needle packages to be installed.
 	 *
-	 * @param string        $needle The package name to inspect.
-	 * @param string[]|null $packagesFound Used internally when recurring
+	 * @param string             $needle The package name to inspect.
+	 * @param PackageInterface[] $packages
+	 * @param string[]|null      $packagesFound Used internally when recurring
 	 * @return mixed[][] ['packageName' => [$package, $dependents|null]]
 	 */
-	private function getDependents(string $needle, ?array $packagesFound = null): array
+	private function getDependents(string $needle, array $packages, ?array $packagesFound = null): array
 	{
 		$needle = strtolower($needle);
 		$results = [];
@@ -185,7 +279,7 @@ final class ModuleResolver
 		}
 
 		// Loop over all currently installed packages.
-		foreach ($this->repository->getPackages() as $package) {
+		foreach ($packages as $package) {
 			// Skip non-module packages
 			if (!$this->isApplicable($package)) {
 				continue;
@@ -223,7 +317,7 @@ final class ModuleResolver
 					}
 
 					$packagesInTree[] = $link->getSource();
-					$dependents = $this->getDependents($link->getSource(), $packagesInTree);
+					$dependents = $this->getDependents($link->getSource(), $packages, $packagesInTree);
 					$results[$link->getSource()] = [$package, $dependents];
 				}
 			}

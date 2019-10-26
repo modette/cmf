@@ -11,6 +11,7 @@ final class PackageConfiguration
 	public const LOADER_OPTION = 'loader';
 	public const FILES_OPTION = 'files';
 	public const IGNORE_OPTION = 'ignore';
+	public const CHILD_MODULES_OPTION = 'child-modules';
 
 	/** @var string */
 	private $schemaPath;
@@ -27,6 +28,9 @@ final class PackageConfiguration
 	/** @var string[] */
 	private $ignoredPackages;
 
+	/** @var string[][] */
+	private $childModules;
+
 	/** @var PackageInterface */
 	private $package;
 
@@ -41,6 +45,7 @@ final class PackageConfiguration
 		$this->files = $this->normalizeFiles($configuration[self::FILES_OPTION]);
 		$this->loader = $configuration[self::LOADER_OPTION] !== null ? new LoaderConfiguration($configuration[self::LOADER_OPTION]) : null;
 		$this->ignoredPackages = $configuration[self::IGNORE_OPTION];
+		$this->childModules = $configuration[self::CHILD_MODULES_OPTION];
 		$this->package = $package;
 	}
 
@@ -73,6 +78,14 @@ final class PackageConfiguration
 	public function getIgnoredPackages(): array
 	{
 		return $this->ignoredPackages;
+	}
+
+	/**
+	 * @return string[][]
+	 */
+	public function getChildModules(): array
+	{
+		return $this->childModules;
 	}
 
 	public function getPackage(): PackageInterface

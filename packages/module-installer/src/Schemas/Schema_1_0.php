@@ -37,6 +37,11 @@ final class Schema_1_0 implements Schema
 			PackageConfiguration::IGNORE_OPTION => Expect::listOf(
 				Expect::string()
 			),
+			PackageConfiguration::CHILD_MODULES_OPTION => Expect::arrayOf(
+				Expect::listOf(
+					Expect::string()
+				)
+			),
 		])->castTo('array');
 	}
 

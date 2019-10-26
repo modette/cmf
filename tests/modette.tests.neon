@@ -5,15 +5,18 @@ loader:
 	file: Loader.php
 
 files:
-	- ../packages/core/config/config.neon
-	- ../packages/core-ext-templates/config/config.neon
-	- ../packages/core-ext-sql/config/config.neon
-	- ../packages/core-ext-orm/config/config.neon
-	- ../packages/core-ext-mail/config/config.neon
-	- ../packages/core-ext-http/config/config.neon
-	- ../packages/core-ext-ui/config/config.neon
-	- ../packages/core-ext-api/config/config.neon
-	- ../packages/core-ext-admin/config/config.neon
-	- ../packages/core-ext-front/config/config.neon
-	- ../packages/code-generator/config/config.neon
 	- config/config.tests.neon
+
+child-modules:
+	packages/**:
+		- modette/code-generator
+		- modette/core
+		- modette/core-ext-admin
+		- modette/core-ext-api
+		- modette/core-ext-front
+		- modette/core-ext-http
+		- modette/core-ext-mail
+		- modette/core-ext-orm
+		- modette/core-ext-sql
+		- modette/core-ext-templates
+		- modette/core-ext-ui
