@@ -1,0 +1,12 @@
+version: 1
+
+loader:
+	class: Tests\Modette\Http\Loader
+	file: Loader.php
+
+files:
+	- ../config/config.neon
+	- config/config.tests.neon
+
+simulated-modules:
+	modette/core: ../../core

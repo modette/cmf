@@ -1,0 +1,3 @@
+modette.http.frontRouter:
+	api:
+		enable: true
