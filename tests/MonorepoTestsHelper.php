@@ -2,6 +2,7 @@
 
 namespace Tests\Modette\Monorepo;
 
+use Modette\Core\Boot\Configurator;
 use Modette\ModuleInstaller\Tests\PluginTestsHelper;
 
 final class MonorepoTestsHelper
@@ -28,6 +29,12 @@ final class MonorepoTestsHelper
 		if (!class_exists(Loader::class)) {
 			require_once __DIR__ . '/Loader.php';
 		}
+	}
+
+	public static function createConfigurator(): Configurator
+	{
+		self::generateLoader();
+		return new Configurator(dirname(__DIR__), new Loader());
 	}
 
 }
