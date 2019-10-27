@@ -89,14 +89,21 @@ final class LoaderGenerator
 					}
 				}
 
-				$schema[] = [
+				$item = [
 					'file' => $this->pathResolver->buildPathFromParts([
 						$packageDirRelative,
 						$packageConfiguration->getSchemaPath(),
 						$fileConfiguration->getFile(),
 					]),
-					'parameters' => $fileConfiguration->getRequiredParameters(),
 				];
+
+				$parameters = $fileConfiguration->getRequiredParameters();
+
+				if ($parameters !== []) {
+					$item['parameters'] = $parameters;
+				}
+
+				$schema[] = $item;
 			}
 		}
 

@@ -24,7 +24,7 @@ abstract class Loader
 		$resolved = [];
 
 		foreach ($this->schema as $item) {
-			foreach ($item['parameters'] as $parameterName => $parameterValue) {
+			foreach ($item['parameters'] ?? [] as $parameterName => $parameterValue) {
 				if (!array_key_exists($parameterName, $parameters)) {
 					throw new InvalidStateException(sprintf(
 						'Parameter \'%s\' not available, cannot check config file \'%s\' availability. Be beware of fact that dynamic parameters are not supported.',
