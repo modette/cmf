@@ -11,10 +11,13 @@ final class PackageConfiguration
 	public const LOADER_OPTION = 'loader';
 	public const FILES_OPTION = 'files';
 	public const IGNORE_OPTION = 'ignore';
-	public const CHILD_MODULES_OPTION = 'child-modules';
+	public const SIMULATED_MODULES_OPTION = 'simulated-modules';
 
 	/** @var string */
 	private $schemaPath;
+
+	/** @var string */
+	private $schemaFile;
 
 	/** @var float */
 	private $version;
@@ -28,8 +31,8 @@ final class PackageConfiguration
 	/** @var string[] */
 	private $ignoredPackages;
 
-	/** @var string[][] */
-	private $childModules;
+	/** @var string[] */
+	private $simulatedModules;
 
 	/** @var PackageInterface */
 	private $package;
@@ -41,17 +44,23 @@ final class PackageConfiguration
 	{
 		$lastSlashPosition = strrpos($schemaFile, '/');
 		$this->schemaPath = $lastSlashPosition === false ? '' : substr($schemaFile, 0, $lastSlashPosition);
+		$this->schemaFile = $schemaFile;
 		$this->version = $configuration[self::VERSION_OPTION];
 		$this->files = $this->normalizeFiles($configuration[self::FILES_OPTION]);
 		$this->loader = $configuration[self::LOADER_OPTION] !== null ? new LoaderConfiguration($configuration[self::LOADER_OPTION]) : null;
 		$this->ignoredPackages = $configuration[self::IGNORE_OPTION];
-		$this->childModules = $configuration[self::CHILD_MODULES_OPTION];
+		$this->simulatedModules = $configuration[self::SIMULATED_MODULES_OPTION];
 		$this->package = $package;
 	}
 
 	public function getSchemaPath(): string
 	{
 		return $this->schemaPath;
+	}
+
+	public function getSchemaFile(): string
+	{
+		return $this->schemaFile;
 	}
 
 	public function getVersion(): float
@@ -81,11 +90,11 @@ final class PackageConfiguration
 	}
 
 	/**
-	 * @return string[][]
+	 * @return string[]
 	 */
-	public function getChildModules(): array
+	public function getSimulatedModules(): array
 	{
-		return $this->childModules;
+		return $this->simulatedModules;
 	}
 
 	public function getPackage(): PackageInterface

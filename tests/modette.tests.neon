@@ -7,16 +7,15 @@ loader:
 files:
 	- config/config.tests.neon
 
-child-modules:
-	packages/**:
-		- modette/code-generator
-		- modette/core
-		- modette/core-ext-admin
-		- modette/core-ext-api
-		- modette/core-ext-front
-		- modette/core-ext-http
-		- modette/core-ext-mail
-		- modette/core-ext-orm
-		- modette/core-ext-sql
-		- modette/core-ext-templates
-		- modette/core-ext-ui
+simulated-modules:
+	modette/code-generator: ../packages/code-generator
+	modette/core: ../packages/core
+	modette/core-ext-admin: ../packages/core-ext-admin
+	modette/core-ext-api: ../packages/core-ext-api
+	modette/core-ext-front: ../packages/core-ext-front
+	modette/core-ext-http: ../packages/core-ext-http
+	modette/core-ext-mail: ../packages/core-ext-mail
+	modette/core-ext-orm: ../packages/core-ext-orm
+	modette/core-ext-sql: ../packages/core-ext-sql
+	modette/core-ext-templates: ../packages/core-ext-templates
+	modette/core-ext-ui: ../packages/core-ext-ui

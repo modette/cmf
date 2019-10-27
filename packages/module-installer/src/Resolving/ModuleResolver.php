@@ -15,8 +15,6 @@ use Modette\ModuleInstaller\Configuration\PackageConfiguration;
 use Modette\ModuleInstaller\Monorepo\SimulatedPackage;
 use Modette\ModuleInstaller\Plugin;
 use Modette\ModuleInstaller\Utils\PathResolver;
-use Nette\Utils\Finder;
-use SplFileInfo;
 
 final class ModuleResolver
 {
@@ -60,7 +58,7 @@ final class ModuleResolver
 			if (!$this->isApplicable($package)) {
 				if ($package instanceof SimulatedPackage) {
 					throw new InvalidArgumentException(sprintf(
-						'Cannot set "%s" as a "%s" child module. Given package does not have "%s" file.',
+						'Cannot set "%s" as a "%s" simulated module. Given package does not have "%s" file.',
 						$package->getName(),
 						$package->getParentName(),
 						Plugin::DEFAULT_FILE_NAME
@@ -132,53 +130,52 @@ final class ModuleResolver
 		$parentPackage = $this->rootPackageConfiguration->getPackage();
 		$parentPackageName = $parentPackage->getName();
 		$parentFullPath = $this->pathResolver->getAbsolutePath($parentPackage);
-		$replacedNames = $this->linksToNames($parentPackage->getReplaces());
 
 		$packages = [];
 
-		foreach ($this->rootPackageConfiguration->getChildModules() as $pathPattern => $names) {
-			$foundInPathNames = [];
-
-			foreach (Finder::findDirectories($pathPattern)->from($parentFullPath)->limitDepth(1) as $directory) {
-				assert($directory instanceof SplFileInfo);
-				$directoryPath = $directory->getPathname();
-				foreach (Finder::findFiles('composer.json')->in($directoryPath) as $file) {
-					assert($file instanceof SplFileInfo);
-
-					$composerFilePath = $file->getPathname();
-					$config = JsonFile::parseJson(file_get_contents($composerFilePath), $composerFilePath) + ['version' => '999.999.999'];
-
-					$package = $loader->load($config, SimulatedPackage::class);
-					assert($package instanceof SimulatedPackage);
-					$packageName = $package->getName();
-
-					if (in_array($packageName, $names, true)) {
-						$package->setParentName($parentPackageName);
-						$package->setPackageDirectory($directoryPath);
-						$packages[] = $package;
-						$foundInPathNames[] = $packageName;
-					}
-				}
+		foreach ($this->rootPackageConfiguration->getSimulatedModules() as $name => $path) {
+			// Package exists, simulation not needed
+			if ($this->repository->findPackage($name, new EmptyConstraint()) !== null) {
+				continue;
 			}
 
-			foreach ($names as $name) {
-				if (!in_array($name, $replacedNames, true)) {
-					throw new InvalidArgumentException(sprintf(
-						'Cannot set "%s" as a "%s" child module. Child modules option is reserved for packages replaced by composer.json "replaces" option.',
-						$name,
-						$parentPackageName
-					));
-				}
+			$directoryPath = $this->pathResolver->buildPathFromParts([
+				$parentFullPath,
+				$this->rootPackageConfiguration->getSchemaPath(),
+				$path,
+			]);
+			$composerFilePath = $this->pathResolver->buildPathFromParts([
+				$directoryPath,
+				'composer.json',
+			]);
 
-				if (!in_array($name, $foundInPathNames, true)) {
-					throw new InvalidArgumentException(sprintf(
-						'Child module "%s" was not found by pattern "%s" in path "%s". Ensure pattern is correct.',
-						$name,
-						$pathPattern,
-						$parentFullPath
-					));
-				}
+			if (!file_exists($composerFilePath)) {
+				throw new InvalidArgumentException(sprintf(
+					'Package "%s" is not installed and path "%s" is invalid, "%s" not found.',
+					$name,
+					$path,
+					$composerFilePath
+				));
 			}
+
+			$config = JsonFile::parseJson(file_get_contents($composerFilePath), $composerFilePath) + ['version' => '999.999.999'];
+
+			$package = $loader->load($config, SimulatedPackage::class);
+			assert($package instanceof SimulatedPackage);
+			$packageName = $package->getName();
+
+			if ($name !== $packageName) {
+				throw new InvalidArgumentException(sprintf(
+					'Path "%s" contains package "%s" while package "%s" was expected by configuration.',
+					$path,
+					$packageName,
+					$name
+				));
+			}
+
+			$package->setParentName($parentPackageName);
+			$package->setPackageDirectory($directoryPath);
+			$packages[] = $package;
 		}
 
 		return $packages;
@@ -194,17 +191,6 @@ final class ModuleResolver
 		return $cache[$name]
 			?? $cache[$name] = (file_exists($this->pathResolver->getSchemaFileFullName($package, Plugin::DEFAULT_FILE_NAME))
 				&& $package !== $this->rootPackageConfiguration->getPackage());
-	}
-
-	/**
-	 * @param Link[] $links
-	 * @return string[]
-	 */
-	private function linksToNames(array $links): array
-	{
-		return array_map(static function (Link $link): string {
-			return $link->getTarget();
-		}, $links);
 	}
 
 	private function getPackageFromLink(Link $link): ?PackageInterface
