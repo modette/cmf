@@ -7,6 +7,7 @@ use Composer\Semver\Constraint\EmptyConstraint;
 use Modette\Exceptions\Logic\InvalidArgumentException;
 use Modette\Exceptions\Logic\InvalidStateException;
 use Modette\ModuleInstaller\Configuration\ConfigurationValidator;
+use Modette\ModuleInstaller\Configuration\FileConfiguration;
 use Modette\ModuleInstaller\Configuration\LoaderConfiguration;
 use Modette\ModuleInstaller\Configuration\PackageConfiguration;
 use Modette\ModuleInstaller\Files\Writer;
@@ -76,7 +77,11 @@ final class LoaderGenerator
 			throw new InvalidArgumentException('Namespace of loader class must be specified.');
 		}
 
-		$schema = [];
+		$itemsByPriority = [
+			FileConfiguration::PRIORITY_VALUE_HIGH => [],
+			FileConfiguration::PRIORITY_VALUE_NORMAL => [],
+			FileConfiguration::PRIORITY_VALUE_LOW => [],
+		];
 
 		foreach ($packageConfigurations as $packageConfiguration) {
 			$packageDirRelative = $this->pathResolver->getRelativePath($packageConfiguration->getPackage());
@@ -103,9 +108,15 @@ final class LoaderGenerator
 					$item['parameters'] = $parameters;
 				}
 
-				$schema[] = $item;
+				$itemsByPriority[$fileConfiguration->getPriority()][] = $item;
 			}
 		}
+
+		$schema = array_merge(
+			$itemsByPriority[FileConfiguration::PRIORITY_VALUE_HIGH],
+			$itemsByPriority[FileConfiguration::PRIORITY_VALUE_NORMAL],
+			$itemsByPriority[FileConfiguration::PRIORITY_VALUE_LOW]
+		);
 
 		if (class_exists($fqn)) {
 			if (!is_subclass_of($fqn, Loader::class)) {

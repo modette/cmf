@@ -116,6 +116,7 @@ final class PackageConfiguration
 					FileConfiguration::FILE_OPTION => $file,
 					FileConfiguration::PARAMETERS_OPTION => [],
 					FileConfiguration::PACKAGES_OPTION => [],
+					FileConfiguration::PRIORITY_OPTION => FileConfiguration::PRIORITY_DEFAULT,
 				];
 			}
 

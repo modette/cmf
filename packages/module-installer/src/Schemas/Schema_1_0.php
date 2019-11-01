@@ -33,6 +33,8 @@ final class Schema_1_0 implements Schema
 					FileConfiguration::PACKAGES_OPTION => Expect::listOf(
 						Expect::string()
 					),
+					FileConfiguration::PRIORITY_OPTION => Expect::anyOf(...FileConfiguration::PRIORITIES)
+						->default(FileConfiguration::PRIORITY_DEFAULT),
 				])->castTo('array')
 			)),
 			PackageConfiguration::IGNORE_OPTION => Expect::listOf(
