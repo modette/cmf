@@ -31,7 +31,7 @@ final class PackageConfiguration
 	/** @var string[] */
 	private $ignoredPackages;
 
-	/** @var string[] */
+	/** @var SimulatedModuleConfiguration[] */
 	private $simulatedModules;
 
 	/** @var PackageInterface */
@@ -49,7 +49,7 @@ final class PackageConfiguration
 		$this->files = $this->normalizeFiles($configuration[self::FILES_OPTION]);
 		$this->loader = $configuration[self::LOADER_OPTION] !== null ? new LoaderConfiguration($configuration[self::LOADER_OPTION]) : null;
 		$this->ignoredPackages = $configuration[self::IGNORE_OPTION];
-		$this->simulatedModules = $configuration[self::SIMULATED_MODULES_OPTION];
+		$this->simulatedModules = $this->normalizeSimulatedModules($configuration[self::SIMULATED_MODULES_OPTION]);
 		$this->package = $package;
 	}
 
@@ -90,7 +90,7 @@ final class PackageConfiguration
 	}
 
 	/**
-	 * @return string[]
+	 * @return SimulatedModuleConfiguration[]
 	 */
 	public function getSimulatedModules(): array
 	{
@@ -120,6 +120,31 @@ final class PackageConfiguration
 			}
 
 			$normalized[] = new FileConfiguration($file);
+		}
+
+		return $normalized;
+	}
+
+	/**
+	 * @param mixed[] $modules
+	 * @return SimulatedModuleConfiguration[]
+	 */
+	private function normalizeSimulatedModules(array $modules): array
+	{
+		$normalized = [];
+
+		foreach ($modules as $name => $module) {
+			if (is_string($module)) {
+				$module = [
+					SimulatedModuleConfiguration::NAME_OPTION => $name,
+					SimulatedModuleConfiguration::PATH_OPTION => $module,
+					SimulatedModuleConfiguration::OPTIONAL_OPTION => SimulatedModuleConfiguration::OPTIONAL_DEFAULT,
+				];
+			} else {
+				$module[SimulatedModuleConfiguration::NAME_OPTION] = $name;
+			}
+
+			$normalized[] = new SimulatedModuleConfiguration($module);
 		}
 
 		return $normalized;

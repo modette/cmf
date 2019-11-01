@@ -12,6 +12,7 @@ use Composer\Semver\Constraint\EmptyConstraint;
 use Modette\Exceptions\Logic\InvalidArgumentException;
 use Modette\ModuleInstaller\Configuration\ConfigurationValidator;
 use Modette\ModuleInstaller\Configuration\PackageConfiguration;
+use Modette\ModuleInstaller\Configuration\SimulatedModuleConfiguration;
 use Modette\ModuleInstaller\Monorepo\SimulatedPackage;
 use Modette\ModuleInstaller\Plugin;
 use Modette\ModuleInstaller\Utils\PathResolver;
@@ -133,11 +134,15 @@ final class ModuleResolver
 
 		$packages = [];
 
-		foreach ($this->rootPackageConfiguration->getSimulatedModules() as $name => $path) {
+		foreach ($this->rootPackageConfiguration->getSimulatedModules() as $module) {
+			$name = $module->getName();
+
 			// Package exists, simulation not needed
 			if ($this->repository->findPackage($name, new EmptyConstraint()) !== null) {
 				continue;
 			}
+
+			$path = $module->getPath();
 
 			$directoryPath = $this->pathResolver->buildPathFromParts([
 				$parentFullPath,
@@ -150,11 +155,16 @@ final class ModuleResolver
 			]);
 
 			if (!file_exists($composerFilePath)) {
+				if ($module->isOptional()) {
+					continue;
+				}
+
 				throw new InvalidArgumentException(sprintf(
-					'Package "%s" is not installed and path "%s" is invalid, "%s" not found.',
+					'Package "%s" is not installed and simulated module path "%s" is invalid, "%s" not found. If it is an optional dependency then set %s: true',
 					$name,
 					$path,
-					$composerFilePath
+					$composerFilePath,
+					SimulatedModuleConfiguration::OPTIONAL_OPTION
 				));
 			}
 

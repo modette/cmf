@@ -5,6 +5,7 @@ namespace Modette\ModuleInstaller\Schemas;
 use Modette\ModuleInstaller\Configuration\FileConfiguration;
 use Modette\ModuleInstaller\Configuration\LoaderConfiguration;
 use Modette\ModuleInstaller\Configuration\PackageConfiguration;
+use Modette\ModuleInstaller\Configuration\SimulatedModuleConfiguration;
 use Nette\Schema\Elements\Structure;
 use Nette\Schema\Expect;
 
@@ -37,9 +38,13 @@ final class Schema_1_0 implements Schema
 			PackageConfiguration::IGNORE_OPTION => Expect::listOf(
 				Expect::string()
 			),
-			PackageConfiguration::SIMULATED_MODULES_OPTION => Expect::arrayOf(
-				Expect::string()
-			),
+			PackageConfiguration::SIMULATED_MODULES_OPTION => Expect::arrayOf(Expect::anyOf(
+				Expect::string(),
+				Expect::structure([
+					SimulatedModuleConfiguration::PATH_OPTION => Expect::string()->required(),
+					SimulatedModuleConfiguration::OPTIONAL_OPTION => Expect::bool(SimulatedModuleConfiguration::OPTIONAL_DEFAULT),
+				])->castTo('array')
+			)),
 		])->castTo('array');
 	}
 
