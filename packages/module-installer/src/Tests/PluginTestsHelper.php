@@ -6,6 +6,7 @@ use Composer\Composer;
 use Composer\Console\Application;
 use Composer\Factory;
 use Composer\IO\BufferIO;
+use Modette\Exceptions\Logic\InvalidStateException;
 use Modette\ModuleInstaller\Command\LoaderGenerateCommand;
 use Modette\ModuleInstaller\Command\ModuleValidateCommand;
 use Modette\ModuleInstaller\Plugin;
@@ -15,11 +16,23 @@ use Symfony\Component\Console\Tester\CommandTester;
 final class PluginTestsHelper
 {
 
+	private static function checkComposerAvailability(): void
+	{
+		if (!class_exists(Composer::class)) {
+			throw new InvalidStateException(sprintf(
+				'Install Composer via \'composer require --dev composer/composer\' to use \'%s\'',
+				self::class
+			));
+		}
+	}
+
 	/**
 	 * @return object[] [$plugin, $composer, $io]
 	 */
 	public static function initializePlugin(): array
 	{
+		self::checkComposerAvailability();
+
 		$io = new BufferIO('', OutputInterface::VERBOSITY_VERBOSE);
 		$composer = Factory::create($io);
 		$plugin = new Plugin();
