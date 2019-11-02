@@ -121,10 +121,7 @@ services:
 
 session:
 	autoStart: smart
-	# TODO - add support for automatic configuration of cookieDomain, cookiePath and cookieSecure
-	#cookieDomain: '?->getUrl()->getDomain(2)'(@Nette\Http\IRequest)
 	cookieHttponly: true
-	#cookiePath: '?->getUrl()->getBasePath()'(@Nette\Http\IRequest) # Cookie path same as $basePath
 	cookieSamesite: Lax
 	cookieSecure: auto
 	debugger: %debug.panels.ui.session%
