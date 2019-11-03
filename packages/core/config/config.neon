@@ -9,6 +9,7 @@ extensions:
 	events: Contributte\EventDispatcher\DI\EventDispatcherExtension
 	flysystem: Contributte\Flysystem\DI\FlysystemExtension
 	inject: Nette\DI\Extensions\InjectExtension
+	parametersValidation: Modette\Core\DI\ParametersValidationExtension
 	php: Nette\DI\Extensions\PhpExtension
 	tracy: Tracy\Bridges\Nette\TracyExtension(%debugMode%, %consoleMode%)
 	tracy.bluescreens: Contributte\Tracy\DI\TracyBlueScreensExtension
