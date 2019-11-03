@@ -27,6 +27,8 @@ class Configurator
 
 	use SmartObject;
 
+	private const SERVICE_NAME = 'modette.core.boot.configurator';
+
 	/** @var callable[] function(Configurator $configurator, Compiler $compiler): void; Occurs after the compiler is created */
 	public $onCompile = [];
 
@@ -150,7 +152,7 @@ class Configurator
 
 		$builder = $compiler->getContainerBuilder();
 		$builder->addExcludedClasses($this->autowireExcludedClasses);
-		$builder->addImportedDefinition('modette.core.boot.configurator')
+		$builder->addImportedDefinition(self::SERVICE_NAME)
 			->setType(static::class);
 
 		$compiler->addExtension('extensions', new ExtensionsExtension());
@@ -206,7 +208,7 @@ class Configurator
 			$container->addService($name, $service);
 		}
 
-		$container->addService('modette.core.boot.configurator', $this);
+		$container->addService(self::SERVICE_NAME, $this);
 
 		$container->initialize();
 
