@@ -174,6 +174,23 @@ class Configurator
 		return $files;
 	}
 
+	/**
+	 * @return mixed[]
+	 */
+	private function loadModulesMeta(): array
+	{
+		$meta = [];
+
+		foreach ($this->loader->getModulesMeta() as $moduleName => $moduleMeta) {
+			$dir = $moduleMeta['dir'];
+			$moduleMeta['dir'] = $dir === '' ? $this->rootDir : $this->rootDir . '/' . $dir;
+
+			$meta[$moduleName] = $moduleMeta;
+		}
+
+		return $meta;
+	}
+
 	public function loadContainer(): string
 	{
 		$configFiles = $this->loadConfigFiles();
@@ -181,7 +198,7 @@ class Configurator
 		$this->parameters['productionMode'] = !$this->parameters['debugMode'];
 		$this->parameters['httpMode'] = !$this->parameters['consoleMode'];
 
-		$this->parameters['modules'] = $this->loader->getModulesMeta();
+		$this->parameters['modules'] = $this->loadModulesMeta();
 
 		$loader = new ContainerLoader(
 			$this->parameters['tempDir'] . '/cache/modette.configurator',

@@ -61,16 +61,9 @@ class ParametersValidationExtension extends CompilerExtension
 		// TODO - appDir validation requires proper scope configuration in monorepo
 		$dirs = ['rootDir', /*'appDir',*/ 'logDir', 'tempDir', 'vendorDir'];
 
-		foreach ($dirs as $dirName) {
-			$dirValue = $this->checkParameterExistence($parameters, $dirName);
-
-			if (!is_dir($dirValue)) {
-				throw new InvalidStateException(sprintf(
-					'Parameter \'%s\' must contain path to an existing directory, \'%s\' given.',
-					$dirName,
-					$dirValue
-				));
-			}
+		foreach ($dirs as $key) {
+			$dir = $this->checkParameterExistence($parameters, $key);
+			$this->checkDirectoryExistence($dir, $key);
 		}
 	}
 
@@ -80,20 +73,22 @@ class ParametersValidationExtension extends CompilerExtension
 	private function checkModulesMeta(array $parameters): void
 	{
 		$modules = $this->checkParameterExistence($parameters, 'modules');
-		$rootDir = $parameters['rootDir'];
 
 		foreach ($modules as $moduleName => $moduleMeta) {
-			$relativeDir = $moduleMeta['dir'];
-			$absoluteDir = $rootDir . '/' . $relativeDir;
+			$dir = $moduleMeta['dir'];
 			$key = 'modules > ' . $moduleName . ' > dir';
+			$this->checkDirectoryExistence($dir, $key);
+		}
+	}
 
-			if (!is_dir($absoluteDir)) {
-				throw new InvalidStateException(sprintf(
-					'Parameter \'%s\' must contain path to an existing directory, \'%s\' given.',
-					$key,
-					$relativeDir
-				));
-			}
+	private function checkDirectoryExistence(string $dir, string $key): void
+	{
+		if (!is_dir($dir)) {
+			throw new InvalidStateException(sprintf(
+				'Parameter \'%s\' must contain path to an existing directory, \'%s\' given.',
+				$key,
+				$dir
+			));
 		}
 	}
 
