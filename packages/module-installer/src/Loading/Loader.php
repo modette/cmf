@@ -10,6 +10,9 @@ abstract class Loader
 	/** @var mixed[] */
 	protected $schema = [];
 
+	/** @var mixed[] */
+	protected $modulesMeta = [];
+
 	final public function __construct()
 	{
 		// Disallow method override so it's safe to create magically
@@ -52,6 +55,14 @@ abstract class Loader
 	public function getSchema(): array
 	{
 		return $this->schema;
+	}
+
+	/**
+	 * @return mixed[]
+	 */
+	public function getModulesMeta(): array
+	{
+		return $this->modulesMeta;
 	}
 
 }
