@@ -201,8 +201,8 @@ class Configurator
 	public function initializeContainer(): Container
 	{
 		$containerClass = $this->loadContainer();
-		/** @var Container $container */
 		$container = new $containerClass($this->dynamicParameters);
+		assert($container instanceof Container);
 
 		foreach ($this->services as $name => $service) {
 			$container->addService($name, $service);

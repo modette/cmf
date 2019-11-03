@@ -37,12 +37,12 @@ class CombinedFrontRouter implements FrontRouter
 		$newPath = substr($url->getPath(), strlen($url->getBasePath()));
 
 		if (Strings::startsWith($newPath, 'api')) {
-			/** @var ApiApplication $application */
 			$application = $this->container->getService($this->apiApplicationName);
+			assert($application instanceof ApiApplication);
 			$application->run();
 		} else {
-			/** @var UIApplication $application */
 			$application = $this->container->getService($this->uiApplicationName);
+			assert($application instanceof UIApplication);
 			$application->run();
 		}
 	}

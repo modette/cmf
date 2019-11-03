@@ -22,8 +22,8 @@ class ApiFrontRouter implements FrontRouter
 
 	public function run(): void
 	{
-		/** @var ApiApplication $application */
 		$application = $this->container->getService($this->apiApplicationName);
+		assert($application instanceof ApiApplication);
 		$application->run();
 	}
 

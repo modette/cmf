@@ -22,8 +22,8 @@ class UIFrontRouter implements FrontRouter
 
 	public function run(): void
 	{
-		/** @var UIApplication $application */
 		$application = $this->container->getService($this->uiApplicationName);
+		assert($application instanceof UIApplication);
 		$application->run();
 	}
 

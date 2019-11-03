@@ -36,8 +36,8 @@ class PresenterFactoryCallback
 			));
 		}
 
-		/** @var IPresenter $service */
 		$service = $this->container->createService($services[0]);
+		assert($service instanceof IPresenter);
 
 		return $service;
 	}
