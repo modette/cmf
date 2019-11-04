@@ -5,5 +5,5 @@ loader:
 	class: App\Boot\ConfigLoader
 
 files:
-	- config/base.neon
-	- config/server/local.neon
+	- resources/config/base.neon
+	- resources/config/server/local.neon

@@ -56,8 +56,8 @@
     "neonizer": {
       "files": [
         {
-          "dist-file": "config/server/local.template.neon",
-          "file": "config/server/local.neon"
+          "dist-file": "resources/config/server/local.template.neon",
+          "file": "resources/config/server/local.neon"
         }
       ]
     }

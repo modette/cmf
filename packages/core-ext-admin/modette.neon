@@ -1,4 +1,4 @@
 version: 1
 
 files:
-	- config/config.neon
+	- resources/config/config.neon
