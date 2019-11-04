@@ -1,4 +1,6 @@
 parameters:
+	tmpDir: %currentWorkingDirectory%/var/tmp
+
 	ignoreErrors:
 		- message: '#^Parameter \#1 \$input of static method Nette\\Neon\\Neon\:\:decode\(\) expects string, string\|false given\.$#'
 		  path: %currentWorkingDirectory%/src/Files/NeonReader.php

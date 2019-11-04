@@ -1,7 +1,9 @@
 includes:
 	- vendor/nextras/orm-phpstan/extension.neon
 
-parameters: 
+parameters:
+	tmpDir: %currentWorkingDirectory%/var/tmp
+
 	ignoreErrors:
 		- message: '#^Variable property access on Nextras\\Orm\\Entity\\IEntity\.$#'
 		  path: %currentWorkingDirectory%/src/Collection/Synchronizer.php

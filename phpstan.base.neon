@@ -2,7 +2,10 @@ includes:
 	- vendor/nextras/orm-phpstan/extension.neon
 
 parameters:
+	tmpDir: %currentWorkingDirectory%/var/tmp
+
 	exceptionRules:
 		reportUnusedCatchesOfUncheckedExceptions: true
 		checkedExceptions:
 			- Modette\Exceptions\Check\CheckedException
+

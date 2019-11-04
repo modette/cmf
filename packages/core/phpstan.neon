@@ -1,4 +1,6 @@
 parameters:
+	tmpDir: %currentWorkingDirectory%/var/tmp
+
 	ignoreErrors:
 		- message: '#^Only booleans are allowed in a negated boolean, mixed given\.$#'
 		  path: %currentWorkingDirectory%/src/Boot/Configurator.php

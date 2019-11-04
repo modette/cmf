@@ -1,4 +1,6 @@
 parameters:
+	tmpDir: %currentWorkingDirectory%/var/tmp
+
 	ignoreErrors:
 		# Should not happen
 		- message: '#^Parameter \#1 \$path of function dirname expects string, string\|false given.$#'
