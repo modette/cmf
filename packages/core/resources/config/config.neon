@@ -74,7 +74,7 @@ parameters:
 			di:
 				container: %debugMode%
 	storage:
-		internalDir: %rootDir%/var/storage
+		internalDir: %rootDir%/var/data
 	server:
 		development: false
 
