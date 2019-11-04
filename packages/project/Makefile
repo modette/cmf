@@ -15,10 +15,10 @@ lint: vendor ## Check PHP files syntax
 	vendor/bin/parallel-lint --blame --colors src tests
 
 cs: vendor ## Check PHP files coding style
-	vendor/bin/phpcs --cache=var/tmp/codesniffer.dat --standard=ruleset.xml --colors -nsp src tests
+	vendor/bin/phpcs --cache=var/tmp/codesniffer.dat --standard=ruleset.xml --extensions=php,phtml --colors -nsp src tests
 
 csf: vendor ## Fix PHP files coding style
-	vendor/bin/phpcbf --cache=var/tmp/codesniffer.dat --standard=ruleset.xml --colors -nsp src tests
+	vendor/bin/phpcbf --cache=var/tmp/codesniffer.dat --standard=ruleset.xml --extensions=php,phtml --colors -nsp src tests
 
 phpstan: vendor ## Analyse code with PHPStan
 	vendor/bin/phpstan analyse -l 7 -c phpstan.src.neon src
