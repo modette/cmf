@@ -1,3 +1,6 @@
+includes:
+	- vendor/phpstan/phpstan/conf/bleedingEdge.neon
+
 parameters:
 	tmpDir: %currentWorkingDirectory%/var/tmp
 
@@ -6,3 +9,5 @@ parameters:
 		  path: %currentWorkingDirectory%/src/Boot/Configurator.php
 		- message: '#^Parameter \#2 \$keys of closure expects array, array\<int, string\>\|false given\.$#'
 		  path: %currentWorkingDirectory%/src/Boot/Helper/EnvironmentHelper.php
+		- message: '#^Method Modette\\Core\\DI\\Container\:\:findByTag\(\) should return array but return statement is missing\.$#'
+		  path: %currentWorkingDirectory%/src/DI/Container.php

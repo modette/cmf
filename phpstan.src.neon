@@ -20,6 +20,9 @@ parameters:
 		  path: %currentWorkingDirectory%/packages/core/src/Boot/Configurator.php
 		- message: '#^Parameter \#2 \$keys of closure expects array, array\<int, string\>\|false given\.$#'
 		  path: %currentWorkingDirectory%/packages/core/src/Boot/Helper/EnvironmentHelper.php
+		# Intentional
+		- message: '#^Method Modette\\Core\\DI\\Container\:\:findByTag\(\) should return array but return statement is missing\.$#'
+		  path: %currentWorkingDirectory%/packages/core/src/DI/Container.php
 
 		# ORM
 		# Intended
