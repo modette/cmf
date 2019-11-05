@@ -144,7 +144,7 @@ class Configurator
 		$loader->setParameters($this->parameters);
 
 		foreach ($configFiles as $configFile) {
-			$compiler->loadConfig($configFile);
+			$compiler->loadConfig($configFile, $loader);
 		}
 
 		$compiler->addConfig(['parameters' => $this->parameters]);
