@@ -121,7 +121,6 @@ services:
 
 session:
 	autoStart: smart
-	cookieHttponly: true
 	cookieSamesite: Lax
 	cookieSecure: auto
 	debugger: %debug.panels.ui.session%
@@ -130,6 +129,3 @@ session:
 	readAndClose: true
 	sidBitsPerCharacter: 6 # 4-6
 	sidLength: 128 # 22-250 (256 is max, but filesystems...)
-	useCookies: true
-	useOnlyCookies: true
-	useStrictMode: true
