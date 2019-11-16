@@ -9,6 +9,7 @@ use stdClass;
 /**
  * @property-read string     $baseUrl
  * @property-read stdClass[] $flashes
+ * @property-read mixed[]	 $parameters
  */
 class ThemedTemplate extends Template
 {

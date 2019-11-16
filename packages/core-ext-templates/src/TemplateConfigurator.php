@@ -5,6 +5,7 @@ namespace Modette\Templates;
 use Contributte\Events\Extra\Event\Latte\TemplateCreateEvent;
 use Modette\Templates\Themes\Theme;
 use Modette\Templates\Themes\ThemedTemplate;
+use Nette\DI\Container;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class TemplateConfigurator implements EventSubscriberInterface
@@ -12,6 +13,9 @@ class TemplateConfigurator implements EventSubscriberInterface
 
 	/** @var Theme */
 	private $theme;
+
+	/** @var Container */
+	private $container;
 
 	/**
 	 * @return mixed[]
@@ -21,9 +25,10 @@ class TemplateConfigurator implements EventSubscriberInterface
 		return [TemplateCreateEvent::class => 'configureTemplate'];
 	}
 
-	public function __construct(Theme $theme)
+	public function __construct(Theme $theme, Container $container)
 	{
 		$this->theme = $theme;
+		$this->container = $container;
 	}
 
 	public function configureTemplate(TemplateCreateEvent $event): void
@@ -36,6 +41,8 @@ class TemplateConfigurator implements EventSubscriberInterface
 		unset($template->basePath, $template->user);
 
 		$template->setTheme($this->theme);
+
+		$template->add('parameters', $this->container->getParameters());
 	}
 
 }
