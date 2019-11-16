@@ -6,7 +6,6 @@ use Modette\UI\FakeTranslator;
 use Modette\UI\Presenter\Base\BasePresenter;
 use Modette\UI\Themes\ThemeAbleControl;
 use Modette\UI\Utils\FlashMessages;
-use Modette\UI\Utils\TranslateShortcut;
 use Nette\Application\UI\Control as NetteControl;
 use Psr\Log\LoggerInterface;
 
@@ -21,7 +20,6 @@ abstract class BaseControl extends NetteControl
 
 	use FlashMessages;
 	use ThemeAbleControl;
-	use TranslateShortcut;
 
 	public function getLogger(): LoggerInterface
 	{

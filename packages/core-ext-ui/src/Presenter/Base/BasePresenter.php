@@ -10,7 +10,6 @@ use Modette\UI\InternalError\Presenter\InternalErrorPresenter;
 use Modette\UI\Themes\ThemeAblePresenter;
 use Modette\UI\Utils\FlashesMapper;
 use Modette\UI\Utils\FlashMessages;
-use Modette\UI\Utils\TranslateShortcut;
 use Nette\Application\UI\Presenter;
 use Nette\Bridges\ApplicationLatte\TemplateFactory;
 use Psr\Log\LoggerInterface;
@@ -28,7 +27,6 @@ abstract class BasePresenter extends Presenter
 
 	use FlashMessages;
 	use ThemeAblePresenter;
-	use TranslateShortcut;
 
 	/** @var bool */
 	protected $developmentServer;
