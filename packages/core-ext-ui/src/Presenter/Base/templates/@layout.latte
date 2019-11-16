@@ -1,0 +1,13 @@
+{php
+    $presenter['document-head-meta']->addMeta('viewport', 'width=device-width, initial-scale=1');
+    $presenter['document-head-meta']->addHttpEquiv('X-UA-Compatible', 'IE=edge');
+}
+{control document:start}
+	{ifset container}
+		{include container}
+	{else}
+		<p>
+			Define <code>{l}block container{r}</code> to render layout template
+		</p>
+	{/ifset}
+{control document:end}
