@@ -62,7 +62,7 @@ parameters:
 	debug:
 		panels:
 			ui:
-				#navigation: false # TODO - https://github.com/contributte/tracy/issues/15
+				navigation: false
 				routes: false
 				session: false
 
@@ -129,3 +129,6 @@ session:
 	readAndClose: true
 	sidBitsPerCharacter: 6 # 4-6
 	sidLength: 128 # 22-250 (256 is max, but filesystems...)
+
+tracy.navigation:
+	debug: %debug.panels.ui.navigation%
