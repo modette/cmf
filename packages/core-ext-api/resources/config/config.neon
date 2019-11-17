@@ -39,9 +39,9 @@ parameters:
 	debug:
 		panels:
 			api:
-				middlewares: %debugMode%
-				#routes: %debugMode% # TODO - https://github.com/apitte/debug/issues/6
-				openApi: %debugMode%
+				middlewares: false
+				#routes: false # TODO - https://github.com/apitte/debug/issues/6
+				openApi: false
 
 services:
 	middleware.tryCatch:

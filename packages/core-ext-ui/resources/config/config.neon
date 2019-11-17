@@ -62,9 +62,9 @@ parameters:
 	debug:
 		panels:
 			ui:
-				#navigation: %debugMode% # TODO - https://github.com/contributte/tracy/issues/15
-				routes: %debugMode%
-				session: %debugMode%
+				#navigation: false # TODO - https://github.com/contributte/tracy/issues/15
+				routes: false
+				session: false
 
 routing:
 	cache: true

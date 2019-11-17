@@ -72,7 +72,7 @@ parameters:
 	debug:
 		panels:
 			di:
-				container: %debugMode%
+				container: false
 				parameters: %debugMode%
 	storage:
 		internalDir: %rootDir%/var/data

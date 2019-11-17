@@ -12,7 +12,7 @@ migrations:
 parameters:
 	debug:
 		panels:
-			dbal: %debugMode%
+			dbal: false
 
 setup:
 	workers:
