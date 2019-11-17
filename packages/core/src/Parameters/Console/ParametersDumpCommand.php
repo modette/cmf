@@ -2,6 +2,7 @@
 
 namespace Modette\Core\Parameters\Console;
 
+use Modette\Core\Parameters\Utils\ParametersSorter;
 use Nette\DI\Container;
 use Nette\DI\Statement;
 use Symfony\Component\Console\Command\Command;
@@ -10,13 +11,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class ParametersDumpCommand extends Command
 {
-
-	private const TYPE_ARRAY = 'array';
-	private const TYPE_BOOL = 'bool';
-	private const TYPE_NUMBER = 'number';
-	private const TYPE_STRING = 'string';
-	private const TYPE_NULL = 'null';
-	private const TYPE_OTHER = 'other';
 
 	/** @var string */
 	protected static $defaultName = 'nette:di:parameters';
@@ -38,55 +32,22 @@ final class ParametersDumpCommand extends Command
 
 	protected function execute(InputInterface $input, OutputInterface $output): int
 	{
-		$this->printArray($output, $this->container->getParameters());
+		$this->printSortedParameters(
+			$output,
+			ParametersSorter::sort($this->container->getParameters())
+		);
 
 		return 0;
 	}
 
 	/**
-	 * @param mixed[] $array
+	 * @param mixed[] $parameters
 	 */
-	private function printArray(OutputInterface $output, array $array, string $spaces = '  '): void
+	private function printSortedParameters(OutputInterface $output, array $parameters, string $spaces = '  '): void
 	{
-		ksort($array);
-		$byType = [
-			self::TYPE_ARRAY => [],
-			self::TYPE_BOOL => [],
-			self::TYPE_NUMBER => [],
-			self::TYPE_STRING => [],
-			self::TYPE_NULL => [],
-			self::TYPE_OTHER => [],
-		];
+		$lastKey = array_keys($parameters)[count($parameters) - 1];
 
-		foreach ($array as $key => $item) {
-			if (is_array($item)) {
-				$type = self::TYPE_ARRAY;
-			} elseif (is_bool($item)) {
-				$type = self::TYPE_BOOL;
-			} elseif (is_int($item) || is_float($item)) {
-				$type = self::TYPE_NUMBER;
-			} elseif (is_string($item)) {
-				$type = self::TYPE_STRING;
-			} elseif ($item === null) {
-				$type = self::TYPE_NULL;
-			} else {
-				$type = self::TYPE_OTHER;
-			}
-
-			$byType[$type][$key] = $item;
-		}
-
-		$sorted = array_merge(
-			$byType[self::TYPE_BOOL],
-			$byType[self::TYPE_STRING],
-			$byType[self::TYPE_NUMBER],
-			$byType[self::TYPE_NULL],
-			$byType[self::TYPE_OTHER],
-			$byType[self::TYPE_ARRAY]
-		);
-		$lastKey = array_keys($sorted)[count($sorted) - 1];
-
-		foreach ($sorted as $key => $item) {
+		foreach ($parameters as $key => $item) {
 			if (is_array($item)) {
 				$output->writeln(sprintf(
 					'%s<fg=cyan>%s</>:',
@@ -94,7 +55,7 @@ final class ParametersDumpCommand extends Command
 					$key
 				));
 
-				$this->printArray($output, $item, $spaces . '  ');
+				$this->printSortedParameters($output, $item, $spaces . '  ');
 			} else {
 				$output->writeln(sprintf(
 					'%s<fg=cyan>%s</>: %s',
@@ -105,9 +66,9 @@ final class ParametersDumpCommand extends Command
 
 				if ($key === $lastKey) {
 					$output->writeln('');
-				} elseif (is_array(next($sorted))) {
+				} elseif (is_array(next($parameters))) {
 					$output->writeln('');
-					prev($sorted);
+					prev($parameters);
 				}
 			}
 		}

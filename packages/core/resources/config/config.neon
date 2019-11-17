@@ -9,6 +9,7 @@ extensions:
 	events: Contributte\EventDispatcher\DI\EventDispatcherExtension
 	flysystem: Contributte\Flysystem\DI\FlysystemExtension
 	inject: Nette\DI\Extensions\InjectExtension
+	parametersPanel: Modette\Core\Parameters\DI\ParametersPanelExtension
 	parametersValidation: Modette\Core\Parameters\DI\ParametersValidationExtension
 	php: Nette\DI\Extensions\PhpExtension
 	tracy: Tracy\Bridges\Nette\TracyExtension(%debugMode%, %consoleMode%)
@@ -72,10 +73,14 @@ parameters:
 		panels:
 			di:
 				container: %debugMode%
+				parameters: %debugMode%
 	storage:
 		internalDir: %rootDir%/var/data
 	server:
 		development: false
+
+parametersPanel:
+	debug: %debug.panels.di.parameters%
 
 services:
 	cache.cache:

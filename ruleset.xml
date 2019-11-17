@@ -50,6 +50,10 @@
 		<exclude-pattern>packages/module-installer/src/Schemas</exclude-pattern>
 	</rule>
 
+	<rule ref="Generic.Files.InlineHTML.Found">
+		<exclude-pattern>*.phtml</exclude-pattern>
+	</rule>
+
 	<!-- Ignore generated file -->
 	<exclude-pattern>tests/Loader.php</exclude-pattern>
 	<exclude-pattern>tests/generate-loader.php</exclude-pattern>
