@@ -81,6 +81,8 @@ services:
 	cache.cache:
 		type: Nette\Caching\Cache
 		factory: Nette\Caching\Cache
+	di.parameters.command:
+		factory: Modette\Core\DI\Console\ParametersDumpCommand
 	logger.accessor:
 		implement: Modette\Core\Logging\LoggerAccessor
 		factory: @Monolog\Logger
