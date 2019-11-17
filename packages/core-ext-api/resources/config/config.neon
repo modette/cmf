@@ -16,7 +16,8 @@ api:
 				validator: Apitte\Core\Mapping\Validator\SymfonyValidator(@phpdoc.reader)
 		Apitte\Console\DI\ConsolePlugin:
 		Apitte\Debug\DI\DebugPlugin:
-			debug: %debugMode%
+			debug:
+				panel: %debug.panels.api.routes%
 		Apitte\Middlewares\DI\MiddlewaresPlugin:
 			autobasepath: true
 			tracy: false
@@ -40,7 +41,7 @@ parameters:
 		panels:
 			api:
 				middlewares: false
-				#routes: false # TODO - https://github.com/apitte/debug/issues/6
+				routes: false
 				openApi: false
 
 services:
