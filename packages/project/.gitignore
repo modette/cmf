@@ -6,4 +6,4 @@
 /vendor
 
 # Application
-/config/server/local.neon
+/resources/config/server/local.neon
