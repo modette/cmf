@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace Modette\Core\DI\Console;
+namespace Modette\Core\Parameters\Console;
 
 use Nette\DI\Container;
 use Nette\DI\Statement;

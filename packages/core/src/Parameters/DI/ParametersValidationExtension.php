@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace Modette\Core\DI;
+namespace Modette\Core\Parameters\DI;
 
 use Modette\Core\Boot\Configurator;
 use Modette\Exceptions\Logic\InvalidStateException;
