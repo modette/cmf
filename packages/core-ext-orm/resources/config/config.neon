@@ -8,7 +8,3 @@ orm:
 
 services:
 	modette.orm.listeners.updatedAtListener: Modette\Orm\Listener\UpdatedAtListener
-
-#TODO - podpora trait v eventech
-#	- https://github.com/contributte/nextras-orm-events/blob/master/src/DI/NextrasOrmEventsExtension.php#L117-L129
-#	- https://github.com/nextras/orm/pull/318/files

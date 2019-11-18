@@ -31,7 +31,7 @@
 		"contributte/middlewares": "^0.9.0",
 		"contributte/model": "^0.2.0",
 		"contributte/monolog": "^0.4.0",
-		"contributte/nextras-orm-events": "^0.5.0",
+		"contributte/nextras-orm-events": "^0.6.0",
 		"contributte/phpdoc": "^0.3.0",
 		"contributte/psr7-http-message": "^0.6.0",
 		"contributte/tracy": "^0.5.0",
