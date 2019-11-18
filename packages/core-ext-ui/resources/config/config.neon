@@ -66,6 +66,9 @@ parameters:
 				routes: false
 				session: false
 
+phpdoc:
+	temp: %tempDir%/cache/doctrine.annotations
+
 routing:
 	cache: true
 	debugger: %debug.panels.ui.routes%

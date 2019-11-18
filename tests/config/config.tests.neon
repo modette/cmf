@@ -17,6 +17,3 @@ modette.admin:
 	sign:
 		signInAction: Example
 		signOutAction: Example
-
-phpdoc:
-	temp: %tempDir%/cache/doctrine.annotations

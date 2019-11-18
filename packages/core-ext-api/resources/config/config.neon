@@ -44,6 +44,9 @@ parameters:
 				routes: false
 				openApi: false
 
+phpdoc:
+	temp: %tempDir%/cache/doctrine.annotations
+
 services:
 	middleware.tryCatch:
 		factory: Contributte\Middlewares\TryCatchMiddleware
