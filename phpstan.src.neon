@@ -5,7 +5,6 @@ parameters:
 	ignoreErrors:
 		# Exception rules
 		# Ignore uncatched exceptions defined by parent
-		- '#^Unused @throws Nette\\Application\\AbortException annotation$#'
 		- '#^Unused @throws Symfony\\Component\\Console\\Exception\\LogicException annotation$#'
 		# Uncatched exception which is catched internally - must be listed in annotations for static analysis
 		- '#^Unused \@throws Modette\\Templates\\Themes\\Exception\\NoTemplateFoundException annotation$#'

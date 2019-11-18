@@ -16,7 +16,7 @@
     "contributte/neonizer": "^0.4.0",
     "modette/code-generator": "^1.0.0",
     "ninjify/qa": "^0.10.0",
-    "pepakriz/phpstan-exception-rules": "^0.8.1",
+    "pepakriz/phpstan-exception-rules": "^0.9.0",
     "phpstan/extension-installer": "^1.0.0",
     "phpstan/phpstan": "^0.11.0",
     "phpstan/phpstan-deprecation-rules": "^0.11.0",
