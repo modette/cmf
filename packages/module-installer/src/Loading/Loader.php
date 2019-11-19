@@ -22,7 +22,7 @@ abstract class Loader
 	 * @param mixed[] $parameters
 	 * @return string[]
 	 */
-	public function getConfigFiles(array $parameters): array
+	public function loadConfigFiles(string $rootDir, array $parameters): array
 	{
 		$resolved = [];
 
@@ -42,10 +42,27 @@ abstract class Loader
 				}
 			}
 
-			$resolved[] = $item['file'];
+			$resolved[] = $rootDir . '/' . $item['file'];
 		}
 
 		return $resolved;
+	}
+
+	/**
+	 * @return mixed[]
+	 */
+	public function loadModulesMeta(string $rootDir): array
+	{
+		$meta = [];
+
+		foreach ($this->modulesMeta as $moduleName => $moduleMeta) {
+			$dir = $moduleMeta['dir'];
+			$moduleMeta['dir'] = $dir === '' ? $rootDir : $rootDir . '/' . $dir;
+
+			$meta[$moduleName] = $moduleMeta;
+		}
+
+		return $meta;
 	}
 
 	/**
@@ -59,6 +76,7 @@ abstract class Loader
 
 	/**
 	 * @return mixed[]
+	 * @internal
 	 */
 	public function getModulesMeta(): array
 	{

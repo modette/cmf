@@ -62,7 +62,7 @@ class Configurator
 			'vendorDir' => $this->rootDir . '/vendor',
 			'debugMode' => false,
 			'consoleMode' => CliHelper::isCli(),
-			'modules' => $this->loadModulesMeta(),
+			'modules' => $this->loader->loadModulesMeta($this->rootDir),
 		];
 	}
 
@@ -149,40 +149,9 @@ class Configurator
 		$this->onCompile($this, $compiler);
 	}
 
-	/**
-	 * @return string[]
-	 */
-	private function loadConfigFiles(): array
-	{
-		$files = [];
-
-		foreach ($this->loader->getConfigFiles($this->parameters) as $file) {
-			$files[] = $this->rootDir . '/' . $file;
-		}
-
-		return $files;
-	}
-
-	/**
-	 * @return mixed[]
-	 */
-	private function loadModulesMeta(): array
-	{
-		$meta = [];
-
-		foreach ($this->loader->getModulesMeta() as $moduleName => $moduleMeta) {
-			$dir = $moduleMeta['dir'];
-			$moduleMeta['dir'] = $dir === '' ? $this->rootDir : $this->rootDir . '/' . $dir;
-
-			$meta[$moduleName] = $moduleMeta;
-		}
-
-		return $meta;
-	}
-
 	public function loadContainer(): string
 	{
-		$configFiles = $this->loadConfigFiles();
+		$configFiles = $this->loader->loadConfigFiles($this->rootDir, $this->parameters);
 
 		$this->parameters['productionMode'] = !$this->parameters['debugMode'];
 		$this->parameters['httpMode'] = !$this->parameters['consoleMode'];
