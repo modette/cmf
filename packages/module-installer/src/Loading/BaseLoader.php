@@ -30,7 +30,7 @@ abstract class BaseLoader
 			foreach ($item['parameters'] ?? [] as $parameterName => $parameterValue) {
 				if (!array_key_exists($parameterName, $parameters)) {
 					throw new InvalidStateException(sprintf(
-						'Parameter \'%s\' not available, cannot check config file \'%s\' availability. Be beware of fact that dynamic parameters are not supported.',
+						'Parameter \'%s\' not available, cannot check config file \'%s\' availability. Only parameters added through configurator are available at this stage.',
 						$parameterName,
 						$item['file']
 					));
