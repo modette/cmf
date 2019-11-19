@@ -64,10 +64,6 @@ class Configurator
 			'consoleMode' => CliHelper::isCli(),
 			'modules' => $this->loadModulesMeta(),
 		];
-
-		// Set timezone to UTC
-		date_default_timezone_set('UTC');
-		@ini_set('date.timezone', 'UTC'); // @ - function may be disabled
 	}
 
 	public function isConsoleMode(): bool

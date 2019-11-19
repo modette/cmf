@@ -12,6 +12,7 @@ extensions:
 	parametersPanel: Modette\Core\Parameters\DI\ParametersPanelExtension
 	parametersValidation: Modette\Core\Parameters\DI\ParametersValidationExtension
 	php: Nette\DI\Extensions\PhpExtension
+	time: Modette\Core\Time\DI\TimeExtension
 	tracy: Tracy\Bridges\Nette\TracyExtension(%debugMode%, %consoleMode%)
 	tracy.bluescreens: Contributte\Tracy\DI\TracyBlueScreensExtension
 	monolog: Contributte\Monolog\DI\MonologExtension
