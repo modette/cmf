@@ -13,5 +13,5 @@
 	</rule>
 
 	<!-- Ignore generated file -->
-	<exclude-pattern>src/Boot/ConfigLoader.php</exclude-pattern>
+	<exclude-pattern>src/Boot/Loader.php</exclude-pattern>
 </ruleset>

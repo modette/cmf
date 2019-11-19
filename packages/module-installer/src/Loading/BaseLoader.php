@@ -4,7 +4,7 @@ namespace Modette\ModuleInstaller\Loading;
 
 use Modette\Exceptions\Logic\InvalidStateException;
 
-abstract class Loader
+abstract class BaseLoader
 {
 
 	/** @var mixed[] */

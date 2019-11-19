@@ -11,7 +11,7 @@ final class Bootstrap
 
 	public static function boot(): Configurator
 	{
-		$configurator = new Configurator(dirname(__DIR__, 2), new ConfigLoader());
+		$configurator = new Configurator(dirname(__DIR__, 2), new Loader());
 
 		$configurator->setDebugMode(
 			EnvironmentHelper::isEnvironmentDebugMode() ||

@@ -7,7 +7,7 @@ use Countable;
 use IteratorAggregate;
 use Modette\Core\Boot\Helper\CliHelper;
 use Modette\Core\DI\Container;
-use Modette\ModuleInstaller\Loading\Loader as ModuleLoader;
+use Modette\ModuleInstaller\Loading\BaseLoader as ModuleLoader;
 use Nette\DI\Compiler;
 use Nette\DI\Config\Loader;
 use Nette\DI\ContainerLoader;
