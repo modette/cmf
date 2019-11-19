@@ -53,8 +53,17 @@ class Configurator
 	public function __construct(string $rootDir, ModuleLoader $loader)
 	{
 		$this->rootDir = str_replace('\\', '/', $rootDir);
-		$this->parameters = $this->getDefaultParameters();
 		$this->loader = $loader;
+		$this->parameters = [
+			'rootDir' => $this->rootDir,
+			'appDir' => $this->rootDir . '/src',
+			'logDir' => $this->rootDir . '/var/log',
+			'tempDir' => $this->rootDir . '/var/tmp',
+			'vendorDir' => $this->rootDir . '/vendor',
+			'debugMode' => false,
+			'consoleMode' => CliHelper::isCli(),
+			'modules' => $this->loadModulesMeta(),
+		];
 
 		// Set timezone to UTC
 		date_default_timezone_set('UTC');
@@ -81,22 +90,6 @@ class Configurator
 		Debugger::$strictMode = true;
 		Debugger::enable(!$this->parameters['debugMode'], $this->parameters['logDir']);
 		Bridge::initialize();
-	}
-
-	/**
-	 * @return mixed[]
-	 */
-	private function getDefaultParameters(): array
-	{
-		return [
-			'rootDir' => $this->rootDir,
-			'appDir' => $this->rootDir . '/src',
-			'logDir' => $this->rootDir . '/var/log',
-			'tempDir' => $this->rootDir . '/var/tmp',
-			'vendorDir' => $this->rootDir . '/vendor',
-			'debugMode' => false,
-			'consoleMode' => CliHelper::isCli(),
-		];
 	}
 
 	/**
@@ -197,8 +190,6 @@ class Configurator
 
 		$this->parameters['productionMode'] = !$this->parameters['debugMode'];
 		$this->parameters['httpMode'] = !$this->parameters['consoleMode'];
-
-		$this->parameters['modules'] = $this->loadModulesMeta();
 
 		$loader = new ContainerLoader(
 			$this->parameters['tempDir'] . '/cache/modette.configurator',
