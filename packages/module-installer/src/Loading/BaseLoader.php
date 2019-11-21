@@ -79,31 +79,4 @@ abstract class BaseLoader
 		return $meta;
 	}
 
-	/**
-	 * @return mixed[]
-	 * @internal
-	 */
-	public function getSchema(): array
-	{
-		return $this->schema;
-	}
-
-	/**
-	 * @return bool[]
-	 * @internal
-	 */
-	public function getSwitches(): array
-	{
-		return $this->switches;
-	}
-
-	/**
-	 * @return mixed[]
-	 * @internal
-	 */
-	public function getModulesMeta(): array
-	{
-		return $this->modulesMeta;
-	}
-
 }
