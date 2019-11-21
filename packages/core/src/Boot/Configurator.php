@@ -156,9 +156,6 @@ class Configurator
 
 		$configFiles = $this->loader->loadConfigFiles($this->rootDir);
 
-		$this->parameters['productionMode'] = !$this->parameters['debugMode'];
-		$this->parameters['httpMode'] = !$this->parameters['consoleMode'];
-
 		$loader = new ContainerLoader(
 			$this->parameters['tempDir'] . '/cache/modette.configurator',
 			$this->parameters['debugMode']

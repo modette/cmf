@@ -13,44 +13,10 @@ class ParametersValidationExtension extends CompilerExtension
 	{
 		$parameters = $this->getContainerBuilder()->parameters;
 
-		$this->checkDebugMode($parameters);
-		$this->checkConsoleMode($parameters);
+		$this->checkParameterExistence($parameters, 'debugMode');
+		$this->checkParameterExistence($parameters, 'consoleMode');
 		$this->checkDirectories($parameters);
 		$this->checkModulesMeta($parameters);
-	}
-
-	/**
-	 * @param mixed[] $parameters
-	 */
-	private function checkDebugMode(array $parameters): void
-	{
-		$debugMode = $this->checkParameterExistence($parameters, 'debugMode');
-		$productionMode = $this->checkParameterExistence($parameters, 'productionMode');
-
-		if ($debugMode === $productionMode) {
-			throw new InvalidStateException(sprintf(
-				'Parameters \'%s\' and \'%s\' must be exact opposite, but their values are identical.',
-				'debugMode',
-				'productionMode'
-			));
-		}
-	}
-
-	/**
-	 * @param mixed[] $parameters
-	 */
-	private function checkConsoleMode(array $parameters): void
-	{
-		$consoleMode = $this->checkParameterExistence($parameters, 'consoleMode');
-		$httpMode = $this->checkParameterExistence($parameters, 'httpMode');
-
-		if ($consoleMode === $httpMode) {
-			throw new InvalidStateException(sprintf(
-				'Parameters \'%s\' and \'%s\' must be exact opposite, but their values are identical.',
-				'consoleMode',
-				'httpMode'
-			));
-		}
 	}
 
 	/**
