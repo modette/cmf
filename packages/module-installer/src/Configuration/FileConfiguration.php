@@ -6,7 +6,7 @@ final class FileConfiguration
 {
 
 	public const FILE_OPTION = 'file';
-	public const PARAMETERS_OPTION = 'parameters';
+	public const SWITCHES_OPTION = 'switches';
 	public const PACKAGES_OPTION = 'packages';
 	public const PRIORITY_OPTION = 'priority';
 
@@ -24,8 +24,8 @@ final class FileConfiguration
 	/** @var string */
 	private $file;
 
-	/** @var mixed[] */
-	private $parameters;
+	/** @var bool[] */
+	private $switches;
 
 	/** @var string[] */
 	private $packages;
@@ -39,7 +39,7 @@ final class FileConfiguration
 	public function __construct(array $configuration)
 	{
 		$this->file = $configuration[self::FILE_OPTION];
-		$this->parameters = $configuration[self::PARAMETERS_OPTION];
+		$this->switches = $configuration[self::SWITCHES_OPTION];
 		$this->packages = $configuration[self::PACKAGES_OPTION];
 		$this->priority = $configuration[self::PRIORITY_OPTION];
 	}
@@ -52,9 +52,9 @@ final class FileConfiguration
 	/**
 	 * @return mixed[]
 	 */
-	public function getRequiredParameters(): array
+	public function getSwitches(): array
 	{
-		return $this->parameters;
+		return $this->switches;
 	}
 
 	/**

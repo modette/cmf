@@ -60,3 +60,6 @@ parameters:
 		  path: %currentWorkingDirectory%/packages/module-installer/src/Files/NeonReader.php
 		- message: '#^Parameter \#1 (.+) of static method Composer\\Json\\JsonFile\:\:parseJson\(\) expects string, string\|false given\.$#'
 		  path: %currentWorkingDirectory%/packages/module-installer/src/Resolving/ModuleResolver.php
+		# Cannot happen - used string is always same
+		- message: '#^Parameter \#1 \$str of function substr expects string, string\|false given\.$#'
+		  path: %currentWorkingDirectory%/packages/module-installer/src/Loading/LoaderGenerator.php

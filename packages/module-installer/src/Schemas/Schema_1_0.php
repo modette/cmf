@@ -27,8 +27,8 @@ final class Schema_1_0 implements Schema
 				Expect::string(),
 				Expect::structure([
 					FileConfiguration::FILE_OPTION => Expect::string()->required(),
-					FileConfiguration::PARAMETERS_OPTION => Expect::arrayOf(
-						Expect::anyOf(Expect::array(), Expect::scalar(), Expect::null())
+					FileConfiguration::SWITCHES_OPTION => Expect::arrayOf(
+						Expect::bool()
 					),
 					FileConfiguration::PACKAGES_OPTION => Expect::listOf(
 						Expect::string()
@@ -37,6 +37,9 @@ final class Schema_1_0 implements Schema
 						->default(FileConfiguration::PRIORITY_DEFAULT),
 				])->castTo('array')
 			)),
+			PackageConfiguration::SWITCHES_OPTION => Expect::arrayOf(
+				Expect::bool()
+			),
 			PackageConfiguration::IGNORE_OPTION => Expect::listOf(
 				Expect::string()
 			),

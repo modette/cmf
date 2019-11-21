@@ -11,3 +11,5 @@ parameters:
 		  path: %currentWorkingDirectory%/src/Files/NeonReader.php
 		- message: '#^Parameter \#1 (.+) of static method Composer\\Json\\JsonFile\:\:parseJson\(\) expects string, string\|false given\.$#'
 		  path: %currentWorkingDirectory%/src/Resolving/ModuleResolver.php
+		- message: '#^Parameter \#1 \$str of function substr expects string, string\|false given\.$#'
+		  path: %currentWorkingDirectory%/src/Loading/LoaderGenerator.php

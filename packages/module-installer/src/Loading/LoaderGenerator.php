@@ -85,6 +85,14 @@ final class LoaderGenerator
 
 		$modulesMeta = [];
 
+		$switchesByPackage = [];
+
+		foreach ($packageConfigurations as $packageConfiguration) {
+			$switchesByPackage[] = $packageConfiguration->getSwitches();
+		}
+
+		$switches = array_merge(...$switchesByPackage);
+
 		foreach ($packageConfigurations as $packageConfiguration) {
 			$package = $packageConfiguration->getPackage();
 			$packageName = $package->getName();
@@ -92,7 +100,7 @@ final class LoaderGenerator
 
 			if ($packageName !== '__root__') {
 				$modulesMeta[$package->getName()] = [
-					'dir' => $packageDirRelative,
+					BaseLoader::META_ITEM_DIR => $packageDirRelative,
 				];
 			}
 
@@ -105,17 +113,27 @@ final class LoaderGenerator
 				}
 
 				$item = [
-					'file' => $this->pathResolver->buildPathFromParts([
+					BaseLoader::SCHEMA_ITEM_FILE => $this->pathResolver->buildPathFromParts([
 						$packageDirRelative,
 						$packageConfiguration->getSchemaPath(),
 						$fileConfiguration->getFile(),
 					]),
 				];
 
-				$parameters = $fileConfiguration->getRequiredParameters();
+				$itemSwitches = $fileConfiguration->getSwitches();
 
-				if ($parameters !== []) {
-					$item['parameters'] = $parameters;
+				foreach ($itemSwitches as $itemSwitchName => $itemSwitchValue) {
+					if (!isset($switches[$itemSwitchName])) {
+						throw new InvalidArgumentException(sprintf(
+							'Configuration file switch \'%s\' is not defined in \'%s\'.',
+							$itemSwitchName,
+							PackageConfiguration::SWITCHES_OPTION
+						));
+					}
+				}
+
+				if ($itemSwitches !== []) {
+					$item[BaseLoader::SCHEMA_ITEM_SWITCHES] = $itemSwitches;
 				}
 
 				$itemsByPriority[$fileConfiguration->getPriority()][] = $item;
@@ -140,7 +158,7 @@ final class LoaderGenerator
 			$loader = new $fqn();
 			assert($loader instanceof BaseLoader);
 
-			if ($loader->getSchema() === $schema && $loader->getModulesMeta() === $modulesMeta) {
+			if ($loader->getSchema() === $schema && $loader->getModulesMeta() === $modulesMeta && $loader->getSwitches() === $switches) {
 				return;
 			}
 		}
@@ -151,7 +169,7 @@ final class LoaderGenerator
 		$file = new PhpFile();
 		$file->setStrictTypes();
 
-		$alias = $classString === 'BaseLoader' ? 'Loader' : null;
+		$alias = $classString === substr(strrchr(BaseLoader::class, '\\'), 1) ? 'Loader' : null;
 		$namespace = $file->addNamespace($namespaceString)
 			->addUse(BaseLoader::class, $alias);
 
@@ -163,6 +181,10 @@ final class LoaderGenerator
 		$class->addProperty('schema', $schema)
 			->setVisibility(ClassType::VISIBILITY_PROTECTED)
 			->setComment('@var mixed[]');
+
+		$class->addProperty('switches', $switches)
+			->setVisibility(ClassType::VISIBILITY_PROTECTED)
+			->setComment('@var bool[]');
 
 		$class->addProperty('modulesMeta', $modulesMeta)
 			->setVisibility(ClassType::VISIBILITY_PROTECTED)

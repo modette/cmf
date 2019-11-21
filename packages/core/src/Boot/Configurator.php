@@ -151,7 +151,10 @@ class Configurator
 
 	public function loadContainer(): string
 	{
-		$configFiles = $this->loader->loadConfigFiles($this->rootDir, $this->parameters);
+		$this->loader->configureSwitch('consoleMode', $this->parameters['consoleMode']);
+		$this->loader->configureSwitch('debugMode', $this->parameters['debugMode']);
+
+		$configFiles = $this->loader->loadConfigFiles($this->rootDir);
 
 		$this->parameters['productionMode'] = !$this->parameters['debugMode'];
 		$this->parameters['httpMode'] = !$this->parameters['consoleMode'];

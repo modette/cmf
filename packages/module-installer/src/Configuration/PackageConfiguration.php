@@ -10,6 +10,7 @@ final class PackageConfiguration
 	public const VERSION_OPTION = 'version';
 	public const LOADER_OPTION = 'loader';
 	public const FILES_OPTION = 'files';
+	public const SWITCHES_OPTION = 'switches';
 	public const IGNORE_OPTION = 'ignore';
 	public const SIMULATED_MODULES_OPTION = 'simulated-modules';
 
@@ -27,6 +28,9 @@ final class PackageConfiguration
 
 	/** @var FileConfiguration[] */
 	private $files;
+
+	/** @var bool[] */
+	private $switches;
 
 	/** @var string[] */
 	private $ignoredPackages;
@@ -47,6 +51,7 @@ final class PackageConfiguration
 		$this->schemaFile = $schemaFile;
 		$this->version = $configuration[self::VERSION_OPTION];
 		$this->files = $this->normalizeFiles($configuration[self::FILES_OPTION]);
+		$this->switches = $configuration[self::SWITCHES_OPTION];
 		$this->loader = $configuration[self::LOADER_OPTION] !== null ? new LoaderConfiguration($configuration[self::LOADER_OPTION]) : null;
 		$this->ignoredPackages = $configuration[self::IGNORE_OPTION];
 		$this->simulatedModules = $this->normalizeSimulatedModules($configuration[self::SIMULATED_MODULES_OPTION]);
@@ -82,6 +87,14 @@ final class PackageConfiguration
 	}
 
 	/**
+	 * @return bool[]
+	 */
+	public function getSwitches(): array
+	{
+		return $this->switches;
+	}
+
+	/**
 	 * @return string[]
 	 */
 	public function getIgnoredPackages(): array
@@ -114,7 +127,7 @@ final class PackageConfiguration
 			if (is_string($file)) {
 				$file = [
 					FileConfiguration::FILE_OPTION => $file,
-					FileConfiguration::PARAMETERS_OPTION => [],
+					FileConfiguration::SWITCHES_OPTION => [],
 					FileConfiguration::PACKAGES_OPTION => [],
 					FileConfiguration::PRIORITY_OPTION => FileConfiguration::PRIORITY_DEFAULT,
 				];

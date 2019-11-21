@@ -2,13 +2,22 @@
 
 namespace Modette\ModuleInstaller\Loading;
 
-use Modette\Exceptions\Logic\InvalidStateException;
+use Modette\Exceptions\Logic\InvalidArgumentException;
+use Modette\ModuleInstaller\Configuration\PackageConfiguration;
+use Modette\ModuleInstaller\Plugin;
 
 abstract class BaseLoader
 {
 
+	public const SCHEMA_ITEM_FILE = 'file';
+	public const SCHEMA_ITEM_SWITCHES = 'switches';
+	public const META_ITEM_DIR = 'dir';
+
 	/** @var mixed[] */
 	protected $schema = [];
+
+	/** @var bool[] */
+	protected $switches = [];
 
 	/** @var mixed[] */
 	protected $modulesMeta = [];
@@ -19,33 +28,38 @@ abstract class BaseLoader
 	}
 
 	/**
-	 * @param mixed[] $parameters
 	 * @return string[]
 	 */
-	public function loadConfigFiles(string $rootDir, array $parameters): array
+	public function loadConfigFiles(string $rootDir): array
 	{
 		$resolved = [];
 
 		foreach ($this->schema as $item) {
-			foreach ($item['parameters'] ?? [] as $parameterName => $parameterValue) {
-				if (!array_key_exists($parameterName, $parameters)) {
-					throw new InvalidStateException(sprintf(
-						'Parameter \'%s\' not available, cannot check config file \'%s\' availability. Only parameters added through configurator are available at this stage.',
-						$parameterName,
-						$item['file']
-					));
-				}
-
-				// One of parameters does not match, config file not included
-				if ($parameterValue !== $parameters[$parameterName]) {
+			foreach ($item[self::SCHEMA_ITEM_SWITCHES] ?? [] as $switchName => $switchValue) {
+				// One of switches values does not match, config file not included
+				if ($switchValue !== $this->switches[$switchName]) {
 					continue 2;
 				}
 			}
 
-			$resolved[] = $rootDir . '/' . $item['file'];
+			$resolved[] = $rootDir . '/' . $item[self::SCHEMA_ITEM_FILE];
 		}
 
 		return $resolved;
+	}
+
+	public function configureSwitch(string $switch, bool $value): void
+	{
+		if (!isset($this->switches[$switch])) {
+			throw new InvalidArgumentException(sprintf(
+				'Switch \'%s\' is not defined by any of loaded \'%s\' in \'%s\' section.',
+				$switch,
+				Plugin::DEFAULT_FILE_NAME,
+				PackageConfiguration::SWITCHES_OPTION
+			));
+		}
+
+		$this->switches[$switch] = $value;
 	}
 
 	/**
@@ -56,8 +70,8 @@ abstract class BaseLoader
 		$meta = [];
 
 		foreach ($this->modulesMeta as $moduleName => $moduleMeta) {
-			$dir = $moduleMeta['dir'];
-			$moduleMeta['dir'] = $dir === '' ? $rootDir : $rootDir . '/' . $dir;
+			$dir = $moduleMeta[self::META_ITEM_DIR];
+			$moduleMeta[self::META_ITEM_DIR] = $dir === '' ? $rootDir : $rootDir . '/' . $dir;
 
 			$meta[$moduleName] = $moduleMeta;
 		}
@@ -72,6 +86,15 @@ abstract class BaseLoader
 	public function getSchema(): array
 	{
 		return $this->schema;
+	}
+
+	/**
+	 * @return bool[]
+	 * @internal
+	 */
+	public function getSwitches(): array
+	{
+		return $this->switches;
 	}
 
 	/**
