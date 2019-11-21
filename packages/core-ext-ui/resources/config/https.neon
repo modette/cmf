@@ -1,0 +1,5 @@
+http:
+	cookieSecure: true
+
+session:
+	cookieSecure: true

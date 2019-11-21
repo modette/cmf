@@ -2,3 +2,6 @@ version: 1
 
 files:
 	- resources/config/config.neon
+
+switches:
+	https: false

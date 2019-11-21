@@ -1,4 +1,7 @@
 version: 1
 
 files:
-	- resources/config/config.neon
+	- resources/config/main.neon
+	- file: resources/config/https.neon
+	  switches:
+	  	https: true
