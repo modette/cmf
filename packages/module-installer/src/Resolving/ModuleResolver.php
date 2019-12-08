@@ -5,6 +5,7 @@ namespace Modette\ModuleInstaller\Resolving;
 use Composer\Json\JsonFile;
 use Composer\Package\Link;
 use Composer\Package\Loader\ArrayLoader;
+use Composer\Package\Loader\LoaderInterface;
 use Composer\Package\Loader\ValidatingArrayLoader;
 use Composer\Package\PackageInterface;
 use Composer\Repository\WritableRepositoryInterface;
@@ -45,37 +46,20 @@ final class ModuleResolver
 	 */
 	public function getResolvedConfigurations(): array
 	{
+		$packageLoader = new ValidatingArrayLoader(new ArrayLoader());
+
 		/** @var PackageInterface[] $packages */
 		$packages = $this->repository->getCanonicalPackages();
-		$packages = array_merge($packages, $this->getSimulatedPackages());
+		$packages[] = $this->rootPackageConfiguration->getPackage();
 
-		/** @var Module[] $modules */
-		$modules = [];
+		$modules = $this->getModulesFromPackages($packages, $packageLoader);
 
-		/** @var string[] $ignored */
-		$ignored = [];
-
-		foreach ($packages as $package) {
-			if (!$this->isApplicable($package)) {
-				if ($package instanceof SimulatedPackage) {
-					throw new InvalidArgumentException(sprintf(
-						'Cannot set "%s" as a "%s" simulated module. Given package does not have "%s" file.',
-						$package->getName(),
-						$package->getParentName(),
-						Plugin::DEFAULT_FILE_NAME
-					));
-				}
-
-				continue;
-			}
-
-			$modules[$package->getName()] = $module = new Module($this->validator->validateConfiguration($package, Plugin::DEFAULT_FILE_NAME));
-			$ignored = array_merge($ignored, $module->getConfiguration()->getIgnoredPackages());
-		}
-
-		$ignored = array_merge($ignored, $this->rootPackageConfiguration->getIgnoredPackages());
+		/** @var string[] $ignoredByModule */
+		$ignoredByModule = [];
 
 		foreach ($modules as $module) {
+			$ignoredByModule[] = $module->getConfiguration()->getIgnoredPackages();
+
 			$module->setDependents(
 				$this->packagesToModules(
 					$this->flatten($this->getDependents($module->getConfiguration()->getPackage()->getName(), $packages)),
@@ -84,6 +68,14 @@ final class ModuleResolver
 			);
 		}
 
+		/** @var string[] $ignored */
+		$ignored = array_merge(...$ignoredByModule);
+
+		// TODO
+		//		modules are not sorted properly when simulated packages are used
+		//		main package uses all deps of simulated packages - it may cause issues?
+		//		probably problem with uasort - it should be used only to compare simple values, while modules have dependencies
+		//		each module have own dependencies and uasort don't count with it
 		uasort($modules, static function (Module $m1, Module $m2) {
 			$d1 = $m1->getDependents();
 			$n1 = $m1->getConfiguration()->getPackage()->getName();
@@ -114,9 +106,43 @@ final class ModuleResolver
 			$packageConfigurations[] = $module->getConfiguration();
 		}
 
-		$packageConfigurations[] = $this->rootPackageConfiguration;
-
 		return $packageConfigurations;
+	}
+
+	/**
+	 * @param PackageInterface[] $packages
+	 * @return Module[]
+	 */
+	private function getModulesFromPackages(array $packages, LoaderInterface $packageLoader): array
+	{
+		$modules = [];
+		$modulesBySubpackage = [];
+		$rootPackage = $this->rootPackageConfiguration->getPackage();
+
+		foreach ($packages as $package) {
+			if (!$this->isApplicable($package)) {
+				if ($package instanceof SimulatedPackage) {
+					throw new InvalidArgumentException(sprintf(
+						'Cannot set "%s" as a "%s" simulated module. Given package does not have "%s" file.',
+						$package->getName(),
+						$package->getParentName(),
+						Plugin::DEFAULT_FILE_NAME
+					));
+				}
+
+				continue;
+			}
+
+			$packageConfiguration = $package === $rootPackage
+				? $this->rootPackageConfiguration
+				: $this->validator->validateConfiguration($package, Plugin::DEFAULT_FILE_NAME);
+
+			$modulesBySubpackage[] = $this->getModulesFromPackages($this->getSimulatedPackages($packageConfiguration, $packageLoader), $packageLoader);
+
+			$modules[$package->getName()] = new Module($packageConfiguration);
+		}
+
+		return array_merge($modules, ...$modulesBySubpackage);
 	}
 
 	/**
@@ -124,17 +150,16 @@ final class ModuleResolver
 	 *
 	 * @return SimulatedPackage[]
 	 */
-	public function getSimulatedPackages(): array
+	private function getSimulatedPackages(PackageConfiguration $packageConfiguration, LoaderInterface $packageLoader): array
 	{
-		$loader = new ValidatingArrayLoader(new ArrayLoader());
-
-		$parentPackage = $this->rootPackageConfiguration->getPackage();
+		$parentPackage = $packageConfiguration->getPackage();
 		$parentPackageName = $parentPackage->getName();
 		$parentFullPath = $this->pathResolver->getAbsolutePath($parentPackage);
+		$schemaPath = $packageConfiguration->getSchemaPath();
 
 		$packages = [];
 
-		foreach ($this->rootPackageConfiguration->getSimulatedModules() as $module) {
+		foreach ($packageConfiguration->getSimulatedModules() as $module) {
 			$name = $module->getName();
 
 			// Package exists, simulation not needed
@@ -146,7 +171,7 @@ final class ModuleResolver
 
 			$directoryPath = $this->pathResolver->buildPathFromParts([
 				$parentFullPath,
-				$this->rootPackageConfiguration->getSchemaPath(),
+				$schemaPath,
 				$path,
 			]);
 			$composerFilePath = $this->pathResolver->buildPathFromParts([
@@ -170,7 +195,7 @@ final class ModuleResolver
 
 			$config = JsonFile::parseJson(file_get_contents($composerFilePath), $composerFilePath) + ['version' => '999.999.999'];
 
-			$package = $loader->load($config, SimulatedPackage::class);
+			$package = $packageLoader->load($config, SimulatedPackage::class);
 			assert($package instanceof SimulatedPackage);
 			$packageName = $package->getName();
 
@@ -192,15 +217,15 @@ final class ModuleResolver
 	}
 
 	/**
-	 * Filter out packages with no modette.neon and root package (which is handled separately)
+	 * Filter out packages with no modette.neon (root package is always applicable)
 	 */
 	private function isApplicable(PackageInterface $package): bool
 	{
 		static $cache = [];
 		$name = $package->getName();
 		return $cache[$name]
-			?? $cache[$name] = (file_exists($this->pathResolver->getSchemaFileFullName($package, Plugin::DEFAULT_FILE_NAME))
-				&& $package !== $this->rootPackageConfiguration->getPackage());
+			?? $cache[$name] = ($package === $this->rootPackageConfiguration->getPackage()
+					|| file_exists($this->pathResolver->getSchemaFileFullName($package, Plugin::DEFAULT_FILE_NAME)));
 	}
 
 	private function getPackageFromLink(Link $link): ?PackageInterface
