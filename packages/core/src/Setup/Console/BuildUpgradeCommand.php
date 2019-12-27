@@ -39,7 +39,7 @@ class BuildUpgradeCommand extends Command
 		$this->setDescription('Update application requirements');
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output): ?int
+	protected function execute(InputInterface $input, OutputInterface $output): int
 	{
 		$style = new SymfonyStyle($input, $output);
 		$workers = $this->managerAccessor->get()->getWorkers();

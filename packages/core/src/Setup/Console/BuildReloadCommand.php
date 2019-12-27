@@ -40,7 +40,7 @@ class BuildReloadCommand extends Command
 		$this->setDescription('Rebuild application requirements from initial state');
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output): ?int
+	protected function execute(InputInterface $input, OutputInterface $output): int
 	{
 		if (!$this->developmentServer) {
 			throw new InvalidStateException('Cannot execute reload command on production server. Make sure that your server is configured as development server.');
