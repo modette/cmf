@@ -3,6 +3,7 @@
 namespace Modette\Core\Boot;
 
 use ArrayAccess;
+use Composer\Autoload\ClassLoader;
 use Countable;
 use IteratorAggregate;
 use Modette\Core\Boot\Helper\CliHelper;
@@ -14,6 +15,7 @@ use Nette\DI\ContainerLoader;
 use Nette\DI\Extensions\ExtensionsExtension;
 use Nette\Schema\Helpers as ConfigHelpers;
 use Nette\SmartObject;
+use ReflectionClass;
 use stdClass;
 use Tracy\Bridges\Nette\Bridge;
 use Tracy\Debugger;
@@ -165,7 +167,13 @@ class Configurator
 			function (Compiler $compiler) use ($configFiles): void {
 				$this->generateContainer($compiler, $configFiles);
 			},
-			[$this->parameters, array_keys($this->dynamicParameters), $configFiles, PHP_VERSION_ID - PHP_RELEASE_VERSION]
+			[
+				$this->parameters,
+				array_keys($this->dynamicParameters),
+				$configFiles,
+				PHP_VERSION_ID - PHP_RELEASE_VERSION,
+				class_exists(ClassLoader::class) ? filemtime((new ReflectionClass(ClassLoader::class))->getFilename()) : null,
+			]
 		);
 
 		return $class;
